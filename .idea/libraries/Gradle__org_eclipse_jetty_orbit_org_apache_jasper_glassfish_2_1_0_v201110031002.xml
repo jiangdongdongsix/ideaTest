@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.eclipse.jetty.orbit:org.apache.jasper.glassfish:2.1.0.v201110031002">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.orbit/org.apache.jasper.glassfish/2.1.0.v201110031002/d46a9228e8c5a842129b6c356767aadc577583c3/org.apache.jasper.glassfish-2.1.0.v201110031002.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty.orbit/org.apache.jasper.glassfish/2.1.0.v201110031002/a8dbb397ce23ae09592c2dfce02cade24c0dae97/org.apache.jasper.glassfish-2.1.0.v201110031002-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

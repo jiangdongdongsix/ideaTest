@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.googlecode.log4jdbc:log4jdbc:1.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.log4jdbc/log4jdbc/1.2/ba3acb0b14ab0c132de306336c60cb2f086d57a0/log4jdbc-1.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.googlecode.log4jdbc/log4jdbc/1.2/3d15013ac6898c8efc312ac4523e3d22758cc3a7/log4jdbc-1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

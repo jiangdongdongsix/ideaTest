@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springside:springside-core:4.2.2.GA">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.m2/repository/org/springside/springside-core/4.2.2.GA/springside-core-4.2.2.GA.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.m2/repository/org/springside/springside-core/4.2.2.GA/springside-core-4.2.2.GA-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
