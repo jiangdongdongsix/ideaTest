@@ -60,6 +60,7 @@ public class QueueInfo {
      * */
     private String queueEndTime;
 
+
     public long getId() {
         return id;
     }
@@ -139,7 +140,5 @@ public class QueueInfo {
     public void setQueueEndTime(String queueEndTime) {
         this.queueEndTime = queueEndTime;
     }
-
-
 
 }
