@@ -53,8 +53,8 @@
           <element id="library" level="project" name="Gradle: org.aspectj:aspectjweaver:1.7.4" />
           <element id="library" level="project" name="Gradle: org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:1.0.0.Final" />
           <element id="library" level="project" name="Gradle: org.apache.tomcat:tomcat-jdbc:7.0.52" />
-          <element id="library" level="project" name="Gradle: org.javassist:javassist:3.18.1-GA" />
           <element id="library" level="project" name="Gradle: mysql:mysql-connector-java:5.1.22" />
+          <element id="library" level="project" name="Gradle: org.javassist:javassist:3.18.1-GA" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-orm:3.1.4.RELEASE" />
           <element id="library" level="project" name="Gradle: opensymphony:sitemesh:2.4.2" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:3.1.4.RELEASE" />

@@ -8,18 +8,8 @@ public class TableNumber extends IdEntity{
 
     private String name;
     private TableType tableType;
-    private QueueInfo queueInfo;
 
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @JoinColumn(name = "TABLE_TYPE_ID")
+    @JoinColumn(name = "table_type_id")
     @ManyToOne
     public TableType getTableType() {
         return tableType;
@@ -29,12 +19,12 @@ public class TableNumber extends IdEntity{
         this.tableType = tableType;
     }
 
-    @OneToOne(mappedBy = "tableNumber")
-    public QueueInfo getQueueInfo() {
-        return queueInfo;
+    public String getName() {
+        return name;
     }
 
-    public void setQueueInfo(QueueInfo queueInfo) {
-        this.queueInfo = queueInfo;
+    public void setName(String name) {
+        this.name = name;
     }
+
 }

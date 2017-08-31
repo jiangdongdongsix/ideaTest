@@ -1,6 +1,5 @@
 package com.iqes.entity;
 
-import javax.persistence.Id;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -73,7 +72,6 @@ public class QueueInfo extends IdEntity{
         this.queueState = queueState;
     }
 
-
     public String getCustomerTel() {
         return customerTel;
     }
@@ -82,44 +80,15 @@ public class QueueInfo extends IdEntity{
         this.customerTel = customerTel;
     }
 
-
     public Integer getEatNumber() {
         return eatNumber;
-    }
-
-
-    public String getExtractFlag() {
-        return extractFlag;
-    }
-
-    public void setExtractFlag(String extractFlag) {
-        this.extractFlag = extractFlag;
-    }
-
-
-    public String getQueueStartTime() {
-        return queueStartTime;
-    }
-
-    public void setQueueStartTime(String queueStartTime) {
-        this.queueStartTime = queueStartTime;
-    }
-
-
-    public String getQueueEndTime() {
-        return queueEndTime;
-    }
-
-    public void setQueueEndTime(String queueEndTime) {
-        this.queueEndTime = queueEndTime;
     }
 
     public void setEatNumber(Integer eatNumber) {
         this.eatNumber = eatNumber;
     }
 
-
-    @JoinColumn(name = "TABLE_NUMBER_ID",unique = true)
+    @JoinColumn(name = "table_number_id")
     @OneToOne
     public TableNumber getTableNumber() {
         return tableNumber;
@@ -129,7 +98,15 @@ public class QueueInfo extends IdEntity{
         this.tableNumber = tableNumber;
     }
 
-    @JoinColumn(name = "TABLE_TYPE_ID")
+    public String getExtractFlag() {
+        return extractFlag;
+    }
+
+    public void setExtractFlag(String extractFlag) {
+        this.extractFlag = extractFlag;
+    }
+
+    @JoinColumn(name = "table_type_id")
     @ManyToOne
     public TableType getTableType() {
         return tableType;
@@ -137,5 +114,21 @@ public class QueueInfo extends IdEntity{
 
     public void setTableType(TableType tableType) {
         this.tableType = tableType;
+    }
+
+    public String getQueueStartTime() {
+        return queueStartTime;
+    }
+
+    public void setQueueStartTime(String queueStartTime) {
+        this.queueStartTime = queueStartTime;
+    }
+
+    public String getQueueEndTime() {
+        return queueEndTime;
+    }
+
+    public void setQueueEndTime(String queueEndTime) {
+        this.queueEndTime = queueEndTime;
     }
 }
