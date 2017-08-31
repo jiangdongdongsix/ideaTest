@@ -1,7 +1,6 @@
 package com.iqes.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  *排队管理队列实体表
@@ -28,12 +27,12 @@ public class QueueInfo extends IdEntity{
      *
      *用餐人数
      * */
-    private String eatNumber;
+    private Integer eatNumber;
     /**
      *
      *座位号
      * */
-    private String seatNumber;
+    private TableNumber tableNumber;
     /**
      *
      *是否被叫号标志
@@ -41,9 +40,9 @@ public class QueueInfo extends IdEntity{
     private String extractFlag;
     /**
      *
-     *桌型id
+     *桌型
      * */
-    private String tableTypeId;
+    private TableType tableType;
     /**
      *
      *排队开始时间
@@ -55,6 +54,7 @@ public class QueueInfo extends IdEntity{
      * */
     private String queueEndTime;
 
+    @Column(name = "CUSTOMER_NAME")
     public String getCustomerName() {
         return customerName;
     }
@@ -63,6 +63,7 @@ public class QueueInfo extends IdEntity{
         this.customerName = customerName;
     }
 
+    @Column(name = "QUEUE_STATE")
     public String getQueueState() {
         return queueState;
     }
@@ -71,6 +72,7 @@ public class QueueInfo extends IdEntity{
         this.queueState = queueState;
     }
 
+    @Column(name = "CUSTOMER_TEL")
     public String getCustomerTel() {
         return customerTel;
     }
@@ -79,22 +81,12 @@ public class QueueInfo extends IdEntity{
         this.customerTel = customerTel;
     }
 
-    public String getEatNumber() {
+    @Column(name = "EAT_NUMBER")
+    public Integer getEatNumber() {
         return eatNumber;
     }
 
-    public void setEatNumber(String eatNumber) {
-        this.eatNumber = eatNumber;
-    }
-
-    public String getSeatNumber() {
-        return seatNumber;
-    }
-
-    public void setSeatNumber(String seatNumber) {
-        this.seatNumber = seatNumber;
-    }
-
+    @Column(name = "EXTRACT_FLAG")
     public String getExtractFlag() {
         return extractFlag;
     }
@@ -103,14 +95,7 @@ public class QueueInfo extends IdEntity{
         this.extractFlag = extractFlag;
     }
 
-    public String getTableTypeId() {
-        return tableTypeId;
-    }
-
-    public void setTableTypeId(String tableTypeId) {
-        this.tableTypeId = tableTypeId;
-    }
-
+    @Column(name = "QUEUE_START_TIME")
     public String getQueueStartTime() {
         return queueStartTime;
     }
@@ -119,6 +104,7 @@ public class QueueInfo extends IdEntity{
         this.queueStartTime = queueStartTime;
     }
 
+    @Column(name = "QUEUE_END_TIME")
     public String getQueueEndTime() {
         return queueEndTime;
     }
@@ -127,4 +113,30 @@ public class QueueInfo extends IdEntity{
         this.queueEndTime = queueEndTime;
     }
 
+    public void setEatNumber(Integer eatNumber) {
+        this.eatNumber = eatNumber;
+    }
+
+
+    @JoinColumn(name = "TABLE_NUMBER_ID",unique = true)
+    @OneToOne
+    @Column(name = "TABLE_NUMBER")
+    public TableNumber getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(TableNumber tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+
+    @JoinColumn(name = "TABLE_TYPE_ID")
+    @ManyToOne
+    @Column(name = "TABLE_TYPE")
+    public TableType getTableType() {
+        return tableType;
+    }
+
+    public void setTableType(TableType tableType) {
+        this.tableType = tableType;
+    }
 }
