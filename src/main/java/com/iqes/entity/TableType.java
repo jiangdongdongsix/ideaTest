@@ -40,7 +40,6 @@ public class TableType extends IdEntity{
         this.queueInfo = queueInfo;
     }
 
-    @Column(name = "EAT_NUMBER")
     public Integer getEatNumber() {
         return eatNumber;
     }
@@ -49,7 +48,6 @@ public class TableType extends IdEntity{
         this.eatNumber = eatNumber;
     }
 
-    @Column(name = "EAT_TIME")
     public Integer getEatTime() {
         return eatTime;
     }
