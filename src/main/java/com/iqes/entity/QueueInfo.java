@@ -7,12 +7,7 @@ import javax.persistence.*;
  * */
 @Entity
 @Table(name = "queue_info")
-public class QueueInfo {
-    /**
-     *
-     *主键
-     * */
-    private long id;
+public class QueueInfo extends IdEntity{
     /**
      *
      *客户名称
@@ -58,14 +53,6 @@ public class QueueInfo {
      *排队结束时间
      * */
     private String queueEndTime;
-
-    @GeneratedValue
-    @Id
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) { this.id = id; }
 
     @Column(name = "CUSTOMER_NAME")
     public String getCustomerName() {
