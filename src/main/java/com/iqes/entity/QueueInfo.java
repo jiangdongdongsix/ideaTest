@@ -71,7 +71,6 @@ public class QueueInfo {
 
     public void setId(long id) { this.id = id; }
 
-    @Column(name = "CUSTOMER_NAME")
     public String getCustomerName() {
         return customerName;
     }
@@ -80,7 +79,6 @@ public class QueueInfo {
         this.customerName = customerName;
     }
 
-    @Column(name = "QUEUE_STATE")
     public String getQueueState() {
         return queueState;
     }
@@ -89,7 +87,7 @@ public class QueueInfo {
         this.queueState = queueState;
     }
 
-    @Column(name = "CUSTOMER_TEL")
+
     public String getCustomerTel() {
         return customerTel;
     }
@@ -98,12 +96,12 @@ public class QueueInfo {
         this.customerTel = customerTel;
     }
 
-    @Column(name = "EAT_NUMBER")
+
     public Integer getEatNumber() {
         return eatNumber;
     }
 
-    @Column(name = "EXTRACT_FLAG")
+
     public String getExtractFlag() {
         return extractFlag;
     }
@@ -112,7 +110,7 @@ public class QueueInfo {
         this.extractFlag = extractFlag;
     }
 
-    @Column(name = "QUEUE_START_TIME")
+
     public String getQueueStartTime() {
         return queueStartTime;
     }
@@ -121,7 +119,7 @@ public class QueueInfo {
         this.queueStartTime = queueStartTime;
     }
 
-    @Column(name = "QUEUE_END_TIME")
+
     public String getQueueEndTime() {
         return queueEndTime;
     }
@@ -137,7 +135,6 @@ public class QueueInfo {
 
     @JoinColumn(name = "TABLE_NUMBER_ID",unique = true)
     @OneToOne
-    @Column(name = "TABLE_NUMBER")
     public TableNumber getTableNumber() {
         return tableNumber;
     }
@@ -148,7 +145,6 @@ public class QueueInfo {
 
     @JoinColumn(name = "TABLE_TYPE_ID")
     @ManyToOne
-    @Column(name = "TABLE_TYPE")
     public TableType getTableType() {
         return tableType;
     }
