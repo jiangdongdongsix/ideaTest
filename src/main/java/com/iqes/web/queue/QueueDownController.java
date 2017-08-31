@@ -6,4 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "queue")
 @Controller
 public class QueueDownController {
+
+
 }
