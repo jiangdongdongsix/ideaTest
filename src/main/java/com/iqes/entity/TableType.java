@@ -19,15 +19,6 @@ public class TableType extends IdEntity{
      */
     private Integer eatTime;
 
-    /**
-     *
-     * 排队顾客信息
-     */
-
-    /**
-     *
-     * 桌号
-     */
 
     public Integer getEatNumber() {
         return eatNumber;
