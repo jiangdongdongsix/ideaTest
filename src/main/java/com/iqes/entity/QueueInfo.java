@@ -1,6 +1,10 @@
 package com.iqes.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  *排队管理队列实体表
