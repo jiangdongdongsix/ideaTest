@@ -4,23 +4,12 @@ import javax.persistence.*;
 
 @Table(name = "TABLE_NUMBER")
 @Entity
-public class TableNumber {
+public class TableNumber extends IdEntity{
 
-    private Integer id;
     private String name;
     private TableType tableType;
     private QueueInfo queueInfo;
 
-
-    @GeneratedValue
-    @Id
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

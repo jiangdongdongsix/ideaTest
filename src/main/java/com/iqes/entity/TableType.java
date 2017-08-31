@@ -8,12 +8,8 @@ import javax.persistence.*;
 
 @Table(name = "TABLE_TYPE")
 @Entity
-public class TableType {
+public class TableType extends IdEntity{
 
-    /**
-     * 类型id
-     */
-    private Integer id;
     /**
      * 用餐人数
      */
@@ -42,16 +38,6 @@ public class TableType {
 
     public void setQueueInfo(QueueInfo queueInfo) {
         this.queueInfo = queueInfo;
-    }
-
-    @GeneratedValue
-    @Id
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     @Column(name = "EAT_NUMBER")
