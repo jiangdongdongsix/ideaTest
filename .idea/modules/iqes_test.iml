@@ -93,10 +93,10 @@
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.orbit:org.apache.jasper.glassfish:2.1.0.v201110031002" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.orbit:org.apache.taglibs.standard.glassfish:1.2.0.v201112081803" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.orbit:javax.servlet.jsp.jstl:1.2.0.v201105211821" level="project" />
-    <orderEntry type="library" name="Gradle: org.eclipse.jetty.orbit:javax.servlet.jsp:2.1.0.v201105211820" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.apache.tomcat:tomcat-juli:7.0.52" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: ch.qos.logback:logback-core:1.1.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.jetty.orbit:javax.servlet.jsp:2.1.0.v201105211820" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.orbit:javax.servlet:2.5.0.v201103041518" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: ch.qos.logback:logback-core:1.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.orbit:javax.el:2.1.0.v201105211819" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.orbit:com.sun.el:1.0.0.v201105211818" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty.orbit:org.eclipse.jdt.core:3.7.1" level="project" />

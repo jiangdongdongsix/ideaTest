@@ -1,7 +1,5 @@
 package com.iqes.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -58,7 +56,6 @@ public class QueueInfo extends IdEntity{
      * */
     private String queueEndTime;
 
-    @Column(name = "CUSTOMER_NAME")
     public String getCustomerName() {
         return customerName;
     }
@@ -67,7 +64,6 @@ public class QueueInfo extends IdEntity{
         this.customerName = customerName;
     }
 
-    @Column(name = "QUEUE_STATE")
     public String getQueueState() {
         return queueState;
     }
@@ -76,7 +72,6 @@ public class QueueInfo extends IdEntity{
         this.queueState = queueState;
     }
 
-    @Column(name = "CUSTOMER_TEL")
     public String getCustomerTel() {
         return customerTel;
     }
@@ -85,46 +80,16 @@ public class QueueInfo extends IdEntity{
         this.customerTel = customerTel;
     }
 
-    @Column(name = "EAT_NUMBER")
     public Integer getEatNumber() {
         return eatNumber;
-    }
-
-    @Column(name = "EXTRACT_FLAG")
-    public String getExtractFlag() {
-        return extractFlag;
-    }
-
-    public void setExtractFlag(String extractFlag) {
-        this.extractFlag = extractFlag;
-    }
-
-    @Column(name = "QUEUE_START_TIME")
-    public String getQueueStartTime() {
-        return queueStartTime;
-    }
-
-    public void setQueueStartTime(String queueStartTime) {
-        this.queueStartTime = queueStartTime;
-    }
-
-    @Column(name = "QUEUE_END_TIME")
-    public String getQueueEndTime() {
-        return queueEndTime;
-    }
-
-    public void setQueueEndTime(String queueEndTime) {
-        this.queueEndTime = queueEndTime;
     }
 
     public void setEatNumber(Integer eatNumber) {
         this.eatNumber = eatNumber;
     }
 
-
-    @JoinColumn(name = "TABLE_NUMBER_ID",unique = true)
+    @JoinColumn(name = "table_number_id")
     @OneToOne
-    @Column(name = "TABLE_NUMBER")
     public TableNumber getTableNumber() {
         return tableNumber;
     }
@@ -133,14 +98,37 @@ public class QueueInfo extends IdEntity{
         this.tableNumber = tableNumber;
     }
 
-    @JoinColumn(name = "TABLE_TYPE_ID")
+    public String getExtractFlag() {
+        return extractFlag;
+    }
+
+    public void setExtractFlag(String extractFlag) {
+        this.extractFlag = extractFlag;
+    }
+
+    @JoinColumn(name = "table_type_id")
     @ManyToOne
-    @Column(name = "TABLE_TYPE")
     public TableType getTableType() {
         return tableType;
     }
 
     public void setTableType(TableType tableType) {
         this.tableType = tableType;
+    }
+
+    public String getQueueStartTime() {
+        return queueStartTime;
+    }
+
+    public void setQueueStartTime(String queueStartTime) {
+        this.queueStartTime = queueStartTime;
+    }
+
+    public String getQueueEndTime() {
+        return queueEndTime;
+    }
+
+    public void setQueueEndTime(String queueEndTime) {
+        this.queueEndTime = queueEndTime;
     }
 }
