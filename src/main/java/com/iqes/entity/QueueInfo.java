@@ -10,6 +10,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "queue_info")
 public class QueueInfo extends IdEntity{
+
+    private static final long serialVersionUID = 1L;
     /**
      *
      *客户名称
@@ -55,6 +57,21 @@ public class QueueInfo extends IdEntity{
      *排队结束时间
      * */
     private String queueEndTime;
+    /**
+     *
+     *排队号
+     * */
+    private String queueId;
+    /**
+     *
+     *抽号次数
+     * */
+    private Integer extractCount;
+    /**
+     *
+     *叫号次数
+     * */
+    private Integer callCount;
 
     public String getCustomerName() {
         return customerName;
@@ -130,5 +147,48 @@ public class QueueInfo extends IdEntity{
 
     public void setQueueEndTime(String queueEndTime) {
         this.queueEndTime = queueEndTime;
+    }
+
+    public String getQueueId() {
+        return queueId;
+    }
+
+    public void setQueueId(String queueId) {
+        this.queueId = queueId;
+    }
+
+    public Integer getExtractCount() {
+        return extractCount;
+    }
+
+    public void setExtractCount(Integer extractCount) {
+        this.extractCount = extractCount;
+    }
+
+    public Integer getCallCount() {
+        return callCount;
+    }
+
+    public void setCallCount(Integer callCount) {
+        this.callCount = callCount;
+    }
+
+    @Override
+    public String toString() {
+        return "QueueInfo{" +
+                "customerName='" + customerName + '\'' +
+                ", queueState='" + queueState + '\'' +
+                ", customerTel='" + customerTel + '\'' +
+                ", eatNumber=" + eatNumber +
+                ", tableNumber=" + tableNumber +
+                ", extractFlag='" + extractFlag + '\'' +
+                ", tableType=" + tableType +
+                ", queueStartTime='" + queueStartTime + '\'' +
+                ", queueEndTime='" + queueEndTime + '\'' +
+                ", queueId='" + queueId + '\'' +
+                ", extractCount=" + extractCount +
+                ", callCount=" + callCount +
+                ", id=" + id +
+                '}';
     }
 }
