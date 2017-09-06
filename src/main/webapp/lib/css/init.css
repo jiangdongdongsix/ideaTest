@@ -1,0 +1,10 @@
+@charset "utf-8";
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, ul, ol, li, dl, dd, input, button, textarea, fieldset, legend, figure, menu, th, td, pre{margin:0;padding:0;}
+body{font-size: 12px;font-family: "Arial", "Microsoft YaHei";color: #666;}
+h1, h2, h3, h4, h5, h6{font-weight: normal;font-size: inherit;}
+a{color: #999;text-decoration: none;outline: none;}
+img{border: none;}
+ul, ol,li{list-style: none;}
+i, em{font-style: normal;}
+table{border-collapse: collapse;}
+td,th{padding:0}
