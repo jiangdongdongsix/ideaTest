@@ -12,10 +12,17 @@ public class QueueQueryService {
     @Autowired
     private QueueQueryDao queueQueryDao;
 
-    public long save(QueueInfo queueInfo) throws  Exception{
+    public long save(QueueInfo queueInfo) throws Exception {
         QueueInfo queueInfoVo = queueQueryDao.save(queueInfo);
         return queueInfoVo.getId();
     }
 
+    public void update(QueueInfo queueInfo) throws Exception {
+        QueueInfo queueInfoVo = queueQueryDao.saveAndFlush(queueInfo);
+    }
+
+    public int getWaitCountById(long id,long tableTypeId) throws Exception{
+        return  queueQueryDao.getWaitCountById(id,tableTypeId);
+    }
 
 }

@@ -1,0 +1,21 @@
+.main {width: 400px;margin: 0 auto; position: relative;}
+.toolbar {line-height: 60px}
+.toolbar .title{float: left;font-size: 30px;}
+.toolbar .time{float: right;}
+.centerInfo {width: 400px;margin: 35px auto;}
+.centerInfo div {margin: 15px 0;width: 400px;}
+.centerInfo div p {font-size: 16px}
+.centerInfo input[type="button"]{font-size: 30px;text-align: center;width: 400px;}
+.footer {width: 400px;margin: 0 auto;}
+.footer {text-align: center;}
+.banner { position: absolute; overflow: auto; text-align: center;}
+.banner li { list-style: none; }
+.banner ul li { float: left; }
+#b04 { width: 400px; position: relative;}
+#b04 .dots { position: absolute; left: 0; right: 0; bottom: 20px;}
+#b04 .dots li { display: inline-block; width: 10px; height: 10px; margin: 0 4px; text-indent: -999em; border: 2px solid #fff; border-radius: 6px; cursor: pointer; opacity: .4; -webkit-transition: background .5s, opacity .5s;
+    -moz-transition: background .5s, opacity .5s; transition: background .5s, opacity .5s;}
+#b04 .dots li.active {background: #fff;opacity: 1;}
+#b04 .arrow { position: absolute; top: 130px;}
+#b04 #al { left: 12px;}
+#b04 #ar { right: 12px;}
