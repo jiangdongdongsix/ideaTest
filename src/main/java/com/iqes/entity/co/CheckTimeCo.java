@@ -3,7 +3,8 @@ package com.iqes.entity.co;
 public class CheckTimeCo {
 
     private static final long serialVersionUID = 1L;
-    private Integer id;
+
+    private long id;
 
     private Integer eatNumber;
 
@@ -14,11 +15,11 @@ public class CheckTimeCo {
         return serialVersionUID;
     }
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
