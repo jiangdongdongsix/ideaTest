@@ -26,8 +26,10 @@
 				/login = authc
 				/logout = logout
 				/static/** = anon
+				/lib/** = anon
 				/api/** = anon
 				/register/** = anon
+				/queue/** = anon
 				/admin/** = roles[admin]
 				/** = user
 			</value>
