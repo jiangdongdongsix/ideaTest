@@ -17,5 +17,9 @@ public class TableService {
       return tableDao.getTableType(eatNum);
     }
 
+    public Integer getTableCountByType(long tableTypeId){
+        return tableDao.getTableCountByType(tableTypeId);
+    }
+
 
 }

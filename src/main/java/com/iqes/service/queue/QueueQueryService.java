@@ -21,7 +21,7 @@ public class QueueQueryService {
         QueueInfo queueInfoVo = queueQueryDao.saveAndFlush(queueInfo);
     }
 
-    public int getWaitCountById(long id,long tableTypeId) throws Exception{
+    public long getWaitCountById(long id,long tableTypeId) throws Exception{
         return  queueQueryDao.getWaitCountById(id,tableTypeId);
     }
 
