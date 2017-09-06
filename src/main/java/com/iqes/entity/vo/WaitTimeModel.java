@@ -8,7 +8,7 @@ public class WaitTimeModel {
     /**
      * 排队号
      * */
-    private String queueId;
+    private long queueId;
     /**
      * 选择的桌型
      * */
@@ -16,17 +16,17 @@ public class WaitTimeModel {
     /**
      * 等候的人数
      * */
-    private Integer waitPopulation;
+    private long waitPopulation;
     /**
      * 预估等候时间
      * */
-    private String waitTime;
+    private long waitTime;
 
-    public String getQueueId() {
+    public long getQueueId() {
         return queueId;
     }
 
-    public void setQueueId(String queueId) {
+    public void setQueueId(long queueId) {
         this.queueId = queueId;
     }
 
@@ -38,19 +38,19 @@ public class WaitTimeModel {
         this.tableType = tableType;
     }
 
-    public Integer getWaitPopulation() {
+    public long getWaitPopulation() {
         return waitPopulation;
     }
 
-    public void setWaitPopulation(Integer waitPopulation) {
+    public void setWaitPopulation(long waitPopulation) {
         this.waitPopulation = waitPopulation;
     }
 
-    public String getWaitTime() {
+    public long getWaitTime() {
         return waitTime;
     }
 
-    public void setWaitTime(String waitTime) {
+    public void setWaitTime(long waitTime) {
         this.waitTime = waitTime;
     }
 }

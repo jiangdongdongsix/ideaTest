@@ -11,6 +11,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface QueueQueryDao extends JpaRepository<QueueInfo,Long> {
 
     @Query(value = "select count(id) from queue_info as q where q.table_type_id = ?2 and q.id<?1",nativeQuery = true)
-    int getWaitCountById(Long id,Long tableTypeId);
+    long getWaitCountById(Long id,Long tableTypeId);
 
 }
