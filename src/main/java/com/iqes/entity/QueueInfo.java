@@ -39,6 +39,12 @@ public class QueueInfo extends IdEntity{
     private TableNumber tableNumber;
     /**
      *
+     *座位号
+     * 接收前台的座位号
+     * */
+    private String seatNum;
+    /**
+     *
      *是否被叫号标志
      * */
     private String extractFlag;
@@ -143,6 +149,14 @@ public class QueueInfo extends IdEntity{
 
     public String getQueueEndTime() {
         return queueEndTime;
+    }
+
+    public String getSeatNum() {
+        return seatNum;
+    }
+
+    public void setSeatNum(String seatNum) {
+        this.seatNum = seatNum;
     }
 
     public void setQueueEndTime(String queueEndTime) {
