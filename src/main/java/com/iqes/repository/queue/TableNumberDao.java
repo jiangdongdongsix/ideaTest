@@ -8,7 +8,7 @@ import com.iqes.entity.TableNumber;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-public interface TableNumberDao extends CrudRepository<TableNumber, Integer> {
+public interface TableNumberDao extends CrudRepository<TableNumber, Long> {
 
     @Query("select t from TableNumber t where t.name=?1")
     TableNumber getByTableName(String tablename);
