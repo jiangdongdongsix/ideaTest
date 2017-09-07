@@ -25,6 +25,10 @@ public class TableType extends IdEntity{
      * 用餐时间
      */
     private Integer eatTime;
+    /**
+     * 餐桌描述
+     */
+    private String describe;
 
     public String getTableTypeName() {
         return tableTypeName;
@@ -56,5 +60,24 @@ public class TableType extends IdEntity{
 
     public void setEatTime(Integer eatTime) {
         this.eatTime = eatTime;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    @Override
+    public String toString() {
+        return "TableType{" +
+                "tableTypeName='" + tableTypeName + '\'' +
+                ", eatMinNumber=" + eatMinNumber +
+                ", eatMaxNumber=" + eatMaxNumber +
+                ", eatTime=" + eatTime +
+                ", describe='" + describe + '\'' +
+                '}';
     }
 }

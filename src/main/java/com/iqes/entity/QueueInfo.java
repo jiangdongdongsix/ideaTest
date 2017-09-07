@@ -79,6 +79,11 @@ public class QueueInfo extends IdEntity{
      * */
     private Integer callCount;
 
+    /**
+     * 是否选坐标志
+     */
+    private Boolean seatFlag;
+
     public String getCustomerName() {
         return customerName;
     }
@@ -187,6 +192,14 @@ public class QueueInfo extends IdEntity{
         this.callCount = callCount;
     }
 
+    public Boolean getSeatFlag() {
+        return seatFlag;
+    }
+
+    public void setSeatFlag(Boolean seatFlag) {
+        this.seatFlag = seatFlag;
+    }
+
     @Override
     public String toString() {
         return "QueueInfo{" +
@@ -195,6 +208,7 @@ public class QueueInfo extends IdEntity{
                 ", customerTel='" + customerTel + '\'' +
                 ", eatNumber=" + eatNumber +
                 ", tableNumber=" + tableNumber +
+                ", seatNum='" + seatNum + '\'' +
                 ", extractFlag='" + extractFlag + '\'' +
                 ", tableType=" + tableType +
                 ", queueStartTime='" + queueStartTime + '\'' +
@@ -202,6 +216,7 @@ public class QueueInfo extends IdEntity{
                 ", queueId='" + queueId + '\'' +
                 ", extractCount=" + extractCount +
                 ", callCount=" + callCount +
+                ", seatFlag=" + seatFlag +
                 ", id=" + id +
                 '}';
     }
