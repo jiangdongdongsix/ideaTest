@@ -45,4 +45,16 @@ public class QueueQueryService {
     public long nochooseCountById(Long id,Long tableTypeId){
         return queueQueryDao.nochooseCountById(id,tableTypeId);
     }
+
+    //根据排队id和桌型id来获取排队人数（整个队形）
+    public long getWaitCount(Long tableTypeId){
+        return queueQueryDao.getWaitCount(tableTypeId);
+    }
+
+    //根据桌型id来获取选坐排队人数（整个队形）
+    public long chooseSeatCountByTableTypeId(Long tableTypeId){
+        return queueQueryDao.chooseSeatCountByTableTypeId(tableTypeId);
+    }
+
+
 }

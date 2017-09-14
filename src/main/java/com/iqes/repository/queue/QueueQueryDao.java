@@ -23,6 +23,14 @@ public interface QueueQueryDao extends JpaRepository<QueueInfo,Long> {
     @Query(value = "select count(id) from queue_info as q where q.table_type_id = ?2 and q.id<?1",nativeQuery = true)
     long getWaitCountById(Long id,Long tableTypeId);
 
+    //根据排队id和桌型id来获取排队人数（整个队形）
+    @Query(value = "select count(id) from queue_info as q where q.table_type_id = ?1",nativeQuery = true)
+    long getWaitCount(Long tableTypeId);
+
+    //根据桌型id来获取选坐排队人数（整个队形）
+    @Query(value = "select count(id) from queue_info as q where q.table_type_id = ?1 and q.seat_flag = true ",nativeQuery = true)
+    long chooseSeatCountByTableTypeId(Long tableTypeId);
+
     //根据排队id和桌型id来获取选坐排队人数
     @Query(value = "select count(id) from queue_info as q where q.table_type_id = ?2 and q.id<?1 and q.seat_flag = true ",nativeQuery = true)
     long chooseSeatCountById(Long id,Long tableTypeId);
