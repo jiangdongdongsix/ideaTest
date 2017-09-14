@@ -66,22 +66,65 @@ public class QueueHistory extends IdEntity{
      *
      *排队号
      * */
-    private String queueId;
+    private Long queueId;
     /**
      *
      *抽号次数
      * */
     private Integer extractCount;
+
     /**
      *
      *叫号次数
      * */
+
     private Integer callCount;
     /**
      * 是否选坐标志
      */
     private Boolean seatFlag;
 
+    /**
+     *第一次抽号的时间
+     */
+    private String firstExtractTime;
+
+    public QueueHistory(){
+    }
+
+    public QueueHistory(QueueInfo queueInfo){
+        this.callCount=queueInfo.getCallCount();
+        this.createTime=queueInfo.getQueueEndTime();
+        this.customerName=queueInfo.getCustomerName();
+        this.customerTel=queueInfo.getCustomerTel();
+        this.eatNumber=queueInfo.getEatNumber();
+        this.extractCount=queueInfo.getExtractCount();
+        this.queueId=queueInfo.getId();
+        this.queueStartTime=queueInfo.getQueueStartTime();
+        this.queueState=queueInfo.getQueueState();
+        this.extractFlag=queueInfo.getExtractFlag();
+        this.seatFlag=queueInfo.getSeatFlag();
+        this.tableNumber=queueInfo.getTableNumber();
+        this.tableType=queueInfo.getTableType();
+        this.seatNum=queueInfo.getSeatNum();
+    }
+
+
+    public Long getQueueId() {
+        return queueId;
+    }
+
+    public void setQueueId(Long queueId) {
+        this.queueId = queueId;
+    }
+
+    public String getFirstExtractTime() {
+        return firstExtractTime;
+    }
+
+    public void setFirstExtractTime(String firstExtractTime) {
+        this.firstExtractTime = firstExtractTime;
+    }
 
     public String getCustomerName() {
         return customerName;
@@ -173,14 +216,6 @@ public class QueueHistory extends IdEntity{
 
     public void setQueueEndTime(String queueEndTime) {
         this.queueEndTime = queueEndTime;
-    }
-
-    public String getQueueId() {
-        return queueId;
-    }
-
-    public void setQueueId(String queueId) {
-        this.queueId = queueId;
     }
 
     public Integer getExtractCount() {
