@@ -79,7 +79,7 @@ public class QueueUpController {
      * @return String
      */
     @ResponseBody
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/virtualQueue", method = RequestMethod.POST)
     public String virtualQueue(QueueInfo queueInfo){
         JSONObject jsonObject = new JSONObject();
         try{
@@ -237,10 +237,12 @@ public class QueueUpController {
         WaitTimeModel waitTimeModel = new WaitTimeModel();
 
         //设定的每桌用餐时间，单位默认是ms
-        long eachTableTime = 10 * 60 * 1000;
+        long eachTableTime = 0L;
         //接收排队等待时间
         long waitTime = 0L;
         try{
+            eachTableTime =  tableService.findEatTimeById(tableTypeId);
+            eachTableTime = eachTableTime * 60 * 1000;
             //根据桌型id获得排队人数
             long eatCountById= queueQueryService.getWaitCountById(queueId,tableTypeId);
             long chooseCount = queueQueryService.chooseSeatCountById(queueId,tableTypeId);
