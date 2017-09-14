@@ -20,6 +20,7 @@ public class TimeFormatTool {
 
     /**
      * 传入一个时间字符串与系统当前时间做比较
+     * 单位：毫秒
      * @param date
      * @return long
      * @throws Exception

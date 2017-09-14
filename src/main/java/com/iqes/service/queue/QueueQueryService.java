@@ -25,4 +25,26 @@ public class QueueQueryService {
         return  queueQueryDao.getWaitCountById(id,tableTypeId);
     }
 
+    public void updateStateAndTel(long id,String tel,String state){
+        queueQueryDao.updateStateAndTel(id,tel,state);
+    }
+
+    public QueueInfo findById(long id) throws Exception{
+        return  queueQueryDao.findOne(id);
+    }
+
+    public void delete(long id) throws Exception{
+         queueQueryDao.delete(id);
+    }
+    //根据排队id和桌型id来获取选坐排队人数
+    public long chooseSeatCountById(Long id,Long tableTypeId){
+        return  queueQueryDao.chooseSeatCountById(id,tableTypeId);
+
+    }
+
+    //未选坐的排队人数
+    public long nochooseCountById(Long id,Long tableTypeId){
+        return queueQueryDao.nochooseCountById(id,tableTypeId);
+    }
+
 }

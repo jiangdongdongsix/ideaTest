@@ -1,4 +1,7 @@
 package com.iqes.entity.vo;
+
+import com.iqes.entity.TableType;
+
 /**
  * 预约排队 返回等候时间和人数
  * */
@@ -8,11 +11,11 @@ public class WaitTimeModel {
     /**
      * 排队号
      * */
-    private long queueId;
+    private Long queueId;
     /**
      * 选择的桌型
      * */
-    private String tableType;
+    private TableType tableType;
     /**
      * 等候的人数
      * */
@@ -30,11 +33,15 @@ public class WaitTimeModel {
         this.queueId = queueId;
     }
 
-    public String getTableType() {
+    public void setQueueId(Long queueId) {
+        this.queueId = queueId;
+    }
+
+    public TableType getTableType() {
         return tableType;
     }
 
-    public void setTableType(String tableType) {
+    public void setTableType(TableType tableType) {
         this.tableType = tableType;
     }
 
