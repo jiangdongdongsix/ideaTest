@@ -13,17 +13,17 @@ import java.util.List;
 public class TableService {
 
     @Autowired
-    private TableTypeDao tableDao;
+    private TableTypeDao tableTypeDao;
     @Autowired
     private TableNumberDao tableNumberDao;
 
 
     public List<TableType> getTableTypeByEatNum(Integer eatNum) throws Exception{
-        return tableDao.getTableType(eatNum);
+        return tableTypeDao.getTableType(eatNum);
     }
 
     public Integer getTableCountByType(long tableTypeId) throws Exception{
-        return tableDao.getTableCountByType(tableTypeId);
+        return tableTypeDao.getTableCountByType(tableTypeId);
     }
 
 
@@ -34,6 +34,16 @@ public class TableService {
     //根据桌型id获得
     public List<TableNumber> findByTableTypeId(long id) throws Exception{
         return tableNumberDao.findByTableTypeId(id);
+    }
+
+    //根据桌型id获得该桌型的没桌用餐时间
+    public long findEatTimeById(long id){
+        return tableTypeDao.findEatTimeById(id);
+    }
+
+    //获取所有桌型
+    public List<TableType> findAll(){
+        return tableTypeDao.findAll();
     }
 
 
