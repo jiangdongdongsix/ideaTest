@@ -31,7 +31,7 @@ public class ExtractNumberService {
 
     public QueueInfo extractNumber(String tablename){
 
-        TableNumber tNumber=tableNumberDao.findByName(tablename);
+        TableNumber tNumber=tableNumberDao.findTableNumberByName(tablename);
 
         if (tNumber==null){
             return null;
