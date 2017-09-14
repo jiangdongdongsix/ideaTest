@@ -3,11 +3,12 @@ package com.iqes.repository.queue;
 import com.iqes.entity.QueueInfo;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface QueueManagerDao extends CrudRepository<QueueInfo, Integer> {
+public interface QueueManagerDao extends PagingAndSortingRepository<QueueInfo, Long> {
 
     //获取同桌类型的排队顾客
     @Query("select q from QueueInfo q where q.tableType=(select t.tableType from TableNumber t where t.name=?1) order by q.id")
