@@ -17,7 +17,7 @@ public class QueueDownController {
 
     @RequestMapping(value = "extractNumber",method = RequestMethod.GET)
     public QueueInfo extractNumber(@RequestParam("tableName")String tableName){
-        return extractNumberService.ExtractNumber(tableName);
+        return extractNumberService.extractNumber(tableName);
     }
 
     @RequestMapping(value = "queryNumber",method = RequestMethod.GET)
