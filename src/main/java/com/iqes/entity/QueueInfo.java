@@ -20,6 +20,10 @@ public class QueueInfo extends IdEntity{
     /**
      *
      *排队状态
+     * 0：虚拟排队
+     * 1：正式入队
+     * 2：入场就餐
+     * 3：过号删除
      * */
     private String queueState;
     /**
@@ -83,6 +87,19 @@ public class QueueInfo extends IdEntity{
      * 是否选坐标志
      */
     private Boolean seatFlag;
+
+    /**
+     *第一次抽号的时间
+     */
+    private String firstExtractTime;
+
+    public String getFirstExtractTime() {
+        return firstExtractTime;
+    }
+
+    public void setFirstExtractTime(String firstExtractTime) {
+        this.firstExtractTime = firstExtractTime;
+    }
 
     public String getCustomerName() {
         return customerName;
