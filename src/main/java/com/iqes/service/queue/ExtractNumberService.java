@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
-import java.sql.Time;
 import java.util.List;
 
 @Service
@@ -76,25 +75,26 @@ public class ExtractNumberService {
     private QueueInfo patternThree(List<QueueInfo> queueInfos, ConfigInfo configInfo, TableNumber tNumber,QueueInfo queueInfo) throws Exception {
 
         for (QueueInfo q : queueInfos) {
-            //这里是按时长保留的方法块
-            if ("0".equals(q.getExtractFlag())) {
-                q.setExtractFlag("1");
-                q.setExtractCount(q.getExtractCount() + 1);
-                if (q.getExtractCount() == 1) {
-                    q.setFirstExtractTime(TimeFormatTool.getCurrentTime());
-                }
-                if (q.getTableNumber() == null) {
-                    q.setTableNumber(tNumber);
-                }
-                queueInfo=q;
-                break;
-            } else {
-                Long diffTime = TimeFormatTool.diffTime(q.getFirstExtractTime());
-                if (configInfo.getReserveTime() < diffTime/60000) {
-                    deleteNumber(q);
+            if ((!q.getSeatFlag()) || (tNumber.getId() == (q.getTableNumber().getId()))) {
+                if ("0".equals(q.getExtractFlag())) {
+                    q.setExtractFlag("1");
+                    q.setExtractCount(q.getExtractCount() + 1);
+                    if (q.getExtractCount() == 1) {
+                        q.setFirstExtractTime(TimeFormatTool.getCurrentTime());
+                    }
+                    if (q.getTableNumber() == null) {
+                        q.setTableNumber(tNumber);
+                    }
+                    queueInfo = q;
+                    break;
                 } else {
-                    q.setExtractFlag("0");
-                    queueManagerDao.save(q);
+                    Long diffTime = TimeFormatTool.diffTime(q.getFirstExtractTime());
+                    if (configInfo.getReserveTime() < diffTime / 60000) {
+                        deleteNumber(q);
+                    } else {
+                        q.setExtractFlag("0");
+                        queueManagerDao.save(q);
+                    }
                 }
             }
         }
@@ -103,28 +103,27 @@ public class ExtractNumberService {
 
     //按次数保留的模式
     private QueueInfo patternTwo(List<QueueInfo> queueInfos, ConfigInfo configInfo, TableNumber tNumber,QueueInfo queueInfo) {
-       int exchangeFlag=0;
+      // int exchangeFlag=0;
         for (QueueInfo q : queueInfos) {
-            if (q.getExtractCount() < configInfo.getExtractCount()) {
-                //判断抽号标志
-                if ("0".equals(q.getExtractFlag())) {
-                    q.setExtractFlag("1");
-                    q.setExtractCount(q.getExtractCount() + 1);
-                    if (q.getTableNumber() == null) {
-                        q.setTableNumber(tNumber);
-                    }
-                    if (exchangeFlag == 1) {
-                        exchangeNumbers(q);
+            if ((!q.getSeatFlag()) || (tNumber.getId() == (q.getTableNumber().getId()))) {
+                if (q.getExtractCount() < configInfo.getExtractCount()) {
+                    //判断抽号标志
+                    if ("0".equals(q.getExtractFlag())) {
+                        q.setExtractFlag("1");
+                        q.setExtractCount(q.getExtractCount() + 1);
+                        if (q.getTableNumber() == null) {
+                            q.setTableNumber(tNumber);
+                        }
+                        queueManagerDao.save(q);
+                        queueInfo = q;
+                        break;
                     } else {
+                        q.setExtractFlag("0");
                         queueManagerDao.save(q);
                     }
-                    queueInfo=q;
-                    break;
                 } else {
-                    exchangeFlag = 1;
+                    deleteNumber(q);
                 }
-            } else {
-                deleteNumber(q);
             }
         }
         return queueInfo;
@@ -160,19 +159,21 @@ public class ExtractNumberService {
     }
 
     //排队号的交换
-    private void exchangeNumbers(QueueInfo q){
-
-        QueueInfo temp=queueManagerDao.getByIdIs(q.getId()-1);
-        temp.setExtractFlag("0");
-        temp.setCallCount(0);
-
-        Long id=temp.getId();
-        temp.setId(q.getId());
-        q.setId(id);
-
-        queueManagerDao.save(q);
-        queueManagerDao.save(temp);
-    }
+//
+//    public void exchangeNumbers(QueueInfo q){
+//
+//        QueueInfo temp=queueManagerDao.getById(q.getId()-1);
+//        temp.setExtractFlag("0");
+//        temp.setCallCount(0);
+//
+//
+//        Long id=temp.getId();
+//        temp.setId(q.getId());
+//        q.setId(id);
+//
+//        queueManagerDao.save(temp);
+//        queueManagerDao.save(q);
+//    }
 
     //分页查询
     public Page<QueueInfo> pageQuery(int pageNo, int pageSize, final String tableTypeName){

@@ -8,6 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public interface QueueManagerDao extends PagingAndSortingRepository<QueueInfo, Long>,JpaSpecificationExecutor<QueueInfo> {
 
@@ -23,5 +24,5 @@ public interface QueueManagerDao extends PagingAndSortingRepository<QueueInfo, L
     List<QueueInfo> getArrivingNumbers();
 
     //通过id获取queueInfo对象
-    QueueInfo getByIdIs(Long id);
+    QueueInfo getById(Long id);
 }
