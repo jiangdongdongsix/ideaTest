@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Entity
 public class TableNumber extends IdEntity{
 
+    //name
     private String name;
     private TableType tableType;
 
