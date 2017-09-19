@@ -33,5 +33,4 @@ public class LoginController {
 		model.addAttribute(FormAuthenticationFilter.DEFAULT_USERNAME_PARAM, userName);
 		return "account/login";
 	}
-
 }
