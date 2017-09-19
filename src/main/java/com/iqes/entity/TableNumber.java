@@ -29,24 +29,17 @@ public class TableNumber extends IdEntity{
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        if (obj!=null&&obj.getClass()==this.getClass()) {
-            TableNumber tableNumber = (TableNumber) obj;
+        TableNumber that = (TableNumber) o;
 
-            if (tableNumber.getName()==null||name==null) {
-                return false;
-            }else {
-                return tableNumber.getName().equalsIgnoreCase(name);
-            }
-        }
-        return false;
+        return getName().equals(that.getName());
     }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = (int) (31 * hash +  id);
-        hash = 31 * hash + (null == name ? 0 : name.hashCode());
-        return hash;
+        return getName().hashCode();
     }
 }
