@@ -28,4 +28,25 @@ public class TableNumber extends IdEntity{
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj!=null&&obj.getClass()==this.getClass()) {
+            TableNumber tableNumber = (TableNumber) obj;
+
+            if (tableNumber.getName()==null||name==null) {
+                return false;
+            }else {
+                return tableNumber.getName().equalsIgnoreCase(name);
+            }
+        }
+        return false;
+    }
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = (int) (31 * hash +  id);
+        hash = 31 * hash + (null == name ? 0 : name.hashCode());
+        return hash;
+    }
 }
