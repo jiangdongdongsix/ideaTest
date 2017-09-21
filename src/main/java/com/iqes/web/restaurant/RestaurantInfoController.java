@@ -16,12 +16,12 @@ public class RestaurantInfoController {
     @Autowired
     private RestaurantInfoService restaurantInfoService;
 
-    @RequestMapping(value = "save",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public void save(@RequestParam(value = "restaurantInfo")RestaurantInfo restaurantInfo){
         restaurantInfoService.saveOne(restaurantInfo);
     }
 
-    @RequestMapping(value = "find",method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String find(){
 
         JSONObject jsonObject=new JSONObject();

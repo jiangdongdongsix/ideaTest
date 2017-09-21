@@ -20,7 +20,7 @@ public class QueueDownController {
     @Autowired
     private QueryNumberService queryNumberService;
 
-    @RequestMapping(value = "extractNumber",method = RequestMethod.GET)
+    @RequestMapping(value = "arrivingCustomer",method = RequestMethod.GET)
     public String extractNumber(@RequestParam("tableName")String tableName)  {
 
         JSONObject jsonObject=new JSONObject();

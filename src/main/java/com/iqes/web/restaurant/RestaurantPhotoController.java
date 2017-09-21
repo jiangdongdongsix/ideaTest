@@ -18,12 +18,12 @@ public class RestaurantPhotoController {
     @Autowired
     private RestaurantPhotoService restaurantPhotoService;
 
-    @RequestMapping(value = "save",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public void save(@RequestParam("restaurantPhoto")RestaurantPhoto restaurantPhoto){
         restaurantPhotoService.saveOne(restaurantPhoto);
     }
 
-    @RequestMapping(value = "findAll",method = RequestMethod.GET)
+    @RequestMapping(value = "Photos",method = RequestMethod.GET)
     public String findAll(){
 
         JSONObject jsonObject=new JSONObject();
@@ -35,7 +35,7 @@ public class RestaurantPhotoController {
         return jsonObject.toJSONString();
     }
 
-    @RequestMapping(value = "delete",method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     public void delete(@RequestParam("id") Long id){
         restaurantPhotoService.deleteOne(id);
     }

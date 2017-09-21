@@ -16,12 +16,12 @@ public class TableNumberController {
     @Autowired
     private TableNumberService tableNumberService;
 
-    @RequestMapping(value = "save",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public void save(@RequestParam("tableNumber")TableNumber tableNumber){
         tableNumberService.saveOne(tableNumber);
     }
 
-    @RequestMapping(value = "findOne",method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String findOne(@RequestParam("id") Long id){
 
         JSONObject jsonObject=new JSONObject();
@@ -32,7 +32,7 @@ public class TableNumberController {
         return jsonObject.toJSONString();
     }
 
-    @RequestMapping(value = "delete",method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     public void deleteOne(@RequestParam("id")Long id){
         tableNumberService.deleteOne(id);
     }
