@@ -75,7 +75,7 @@ public class ExtractNumberService {
     private QueueInfo patternThree(List<QueueInfo> queueInfos, ConfigInfo configInfo, TableNumber tNumber,QueueInfo queueInfo) throws Exception {
 
         for (QueueInfo q : queueInfos) {
-            if ((!q.getSeatFlag()) || (tNumber.getId() == (q.getTableNumber().getId()))) {
+            if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                 if ("0".equals(q.getExtractFlag())) {
                     q.setExtractFlag("1");
                     q.setExtractCount(q.getExtractCount() + 1);
@@ -105,7 +105,7 @@ public class ExtractNumberService {
     private QueueInfo patternTwo(List<QueueInfo> queueInfos, ConfigInfo configInfo, TableNumber tNumber,QueueInfo queueInfo) {
       // int exchangeFlag=0;
         for (QueueInfo q : queueInfos) {
-            if ((!q.getSeatFlag()) || (tNumber.getId() == (q.getTableNumber().getId()))) {
+            if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                 if (q.getExtractCount() < configInfo.getExtractCount()) {
                     //判断抽号标志
                     if ("0".equals(q.getExtractFlag())) {
@@ -132,7 +132,7 @@ public class ExtractNumberService {
     //过号即删的模式
     private QueueInfo patternOne(List<QueueInfo> queueInfos,ConfigInfo configInfo,TableNumber tNumber,QueueInfo queueInfo) {
         for (QueueInfo q : queueInfos) {
-            if ((!q.getSeatFlag()) || (tNumber.getId() == (q.getTableNumber().getId()))) {
+            if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                     if ("0".equals(q.getExtractFlag())) {
                         q.setExtractFlag("1");
                         q.setExtractCount(q.getExtractCount() + 1);

@@ -13,7 +13,7 @@ public class ConfigInfoService {
     @Autowired
     private ConfigInfoDao configInfoDao;
 
-    public ConfigInfo findOne(Long aLong){
+    public ConfigInfo findOne(){
         return  configInfoDao.findOne((long) 1);
     }
 
