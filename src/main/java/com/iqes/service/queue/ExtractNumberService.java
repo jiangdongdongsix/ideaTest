@@ -1,8 +1,6 @@
 package com.iqes.service.queue;
 
-/**
- * 抽号service
- */
+
 
 import com.iqes.entity.*;
 import com.iqes.repository.queue.QueueHistoryDao;
@@ -21,6 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.criteria.*;
 import java.util.List;
 
+/**
+ * 抽号service
+ * @author huqili.tp
+ *
+ */
 @Service
 @Transactional
 public class ExtractNumberService {
@@ -199,5 +202,6 @@ public class ExtractNumberService {
 
         return page;
     }
+
 
 }

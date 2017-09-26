@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping(value = "restaurant/configInfo")
+@RequestMapping(value = "/restaurant/configInfo")
 public class ConfigInfoController {
 
     @Autowired
     private ConfigInfoService configInfoService;
 
-    @RequestMapping(value = "save",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public void save(@RequestParam(value = "configInfo")ConfigInfo configInfo){
         configInfoService.saveOne(configInfo);
     }
 
-    @RequestMapping(value = "find",method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String find(){
 
         JSONObject jsonObject=new JSONObject();

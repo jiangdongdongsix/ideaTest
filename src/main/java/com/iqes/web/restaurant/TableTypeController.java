@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping(value = "restaurant/tableType")
+@RequestMapping(value = "/restaurant/tableType")
 public class TableTypeController {
 
     @Autowired
     private TableTypeService tableTypeService;
 
-    @RequestMapping(value = "save",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public void save(@RequestParam("tableType")TableType tableType){
         tableTypeService.saveOne(tableType);
     }
 
-    @RequestMapping(value = "findOne",method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String findOne(@RequestParam("id") Long id){
 
         JSONObject jsonObject=new JSONObject();
@@ -32,7 +32,7 @@ public class TableTypeController {
         return jsonObject.toJSONString();
     }
 
-    @RequestMapping(value = "delete",method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     public void deleteOne(@RequestParam("id")Long id){
         tableTypeService.deleteOne(id);
     }
