@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping(value = "restaurant/admin")
+@RequestMapping(value = "/restaurant/admin")
 public class AdminController {
 
     @Autowired
     private AdminService adminService;
 
-    @RequestMapping(value = "login",method = RequestMethod.GET)
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String login(@RequestParam("account") String account, @RequestParam("password") String password){
 
         Admin admin=adminService.checkAccount(account,password);

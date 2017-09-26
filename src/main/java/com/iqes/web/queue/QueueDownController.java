@@ -10,8 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * 抽号服务和叫号服务
+ *
+ * @author huqili.tp
+ */
 @Controller
-@RequestMapping(value = "queue")
+@RequestMapping(value = "/queue")
 public class QueueDownController {
 
     @Autowired
@@ -20,7 +25,15 @@ public class QueueDownController {
     @Autowired
     private QueryNumberService queryNumberService;
 
-    @RequestMapping(value = "arrivingCustomer",method = RequestMethod.GET)
+    /**
+     *
+     * 抽号服务
+     * 输入空桌名字，返回排在最前面的排队号
+     * @param tableName
+     * @return String
+     */
+
+    @RequestMapping(value = "/arrivingCustomer",method = RequestMethod.GET)
     public String extractNumber(@RequestParam("tableName")String tableName)  {
 
         JSONObject jsonObject=new JSONObject();
@@ -42,7 +55,13 @@ public class QueueDownController {
         return jsonObject.toJSONString();
     }
 
-    @RequestMapping(value = "queryNumber",method = RequestMethod.GET)
+
+    /**
+     * 叫号查询
+     * 主要是给直立机使用，采用轮询机制
+     * @return
+     */
+    @RequestMapping(value = "/queryNumber",method = RequestMethod.GET)
     public String queryNumber() {
 
         JSONObject jsonObject = new JSONObject();

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "restaurant/restaurantPhoto")
+@RequestMapping(value = "/restaurant/restaurantPhoto")
 public class RestaurantPhotoController {
 
     @Autowired
@@ -23,7 +23,7 @@ public class RestaurantPhotoController {
         restaurantPhotoService.saveOne(restaurantPhoto);
     }
 
-    @RequestMapping(value = "Photos",method = RequestMethod.GET)
+    @RequestMapping(value = "/Photos",method = RequestMethod.GET)
     public String findAll(){
 
         JSONObject jsonObject=new JSONObject();

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping(value = "restaurant/tableNumber")
+@RequestMapping(value = "/restaurant/tableNumber")
 public class TableNumberController {
 
     @Autowired
