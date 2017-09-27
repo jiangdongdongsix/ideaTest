@@ -100,12 +100,6 @@ public class QueueUpController {
         return  jsonObject.toJSONString();
     }
 
-//    @ResponseBody
-//    @RequestMapping(value = "/virtualqueue", method = RequestMethod.POST)
-//    public String virtualQueue(@RequestBody Request queueInfo){
-//        System.out.println("queueInfo="+queueInfo.getCustomerName());
-//        return "hello";
-//    }
 
     /**
      * 更新虚拟排队信息
