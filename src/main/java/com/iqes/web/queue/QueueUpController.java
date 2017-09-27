@@ -1,10 +1,7 @@
 package com.iqes.web.queue;
 
 import com.alibaba.fastjson.JSONObject;
-import com.iqes.entity.QueueHistory;
-import com.iqes.entity.QueueInfo;
-import com.iqes.entity.TableNumber;
-import com.iqes.entity.TableType;
+import com.iqes.entity.*;
 import com.iqes.entity.co.CalculateTimeVO;
 import com.iqes.entity.co.CheckTimeCo;
 import com.iqes.entity.vo.WaitTimeModel;
@@ -17,11 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,7 +80,8 @@ public class QueueUpController {
      */
     @ResponseBody
     @RequestMapping(value = "/virtualqueue", method = RequestMethod.POST)
-    public String virtualQueue(QueueInfo queueInfo){
+    public String virtualQueue(@RequestBody QueueInfo queueInfo){
+        System.out.println(queueInfo);
         System.out.println("以连接诶");
         JSONObject jsonObject = new JSONObject();
         try{
@@ -103,6 +100,13 @@ public class QueueUpController {
         return  jsonObject.toJSONString();
     }
 
+//    @ResponseBody
+//    @RequestMapping(value = "/virtualqueue", method = RequestMethod.POST)
+//    public String virtualQueue(@RequestBody Request queueInfo){
+//        System.out.println("queueInfo="+queueInfo.getCustomerName());
+//        return "hello";
+//    }
+
     /**
      * 更新虚拟排队信息
      * @param queueInfo
@@ -110,8 +114,8 @@ public class QueueUpController {
      */
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(QueueInfo queueInfo){
-        System.out.println(queueInfo);
+    public String update(@RequestBody QueueInfo queueInfo){
+        System.out.println("==========="+queueInfo);
         JSONObject jsonObject = new JSONObject();
         List<TableType> tableTypeList = null;
         try{
