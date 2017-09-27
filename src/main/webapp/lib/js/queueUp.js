@@ -11,7 +11,7 @@ $(".keyborardRight").click(function () {
     var tel = $("#telNumber").val();
     $.ajax({
         type:"GET",
-        url: ctx + "queue/confirmQueue?queueId="+id +"&tel="+tel,
+        url: ctx + "queue/confirmqueue?queueId="+id +"&tel="+tel,
         success:function(data){
             console.log(data);
             alert("排队成功");
