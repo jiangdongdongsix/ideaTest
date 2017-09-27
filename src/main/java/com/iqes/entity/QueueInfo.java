@@ -1,5 +1,7 @@
 package com.iqes.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
