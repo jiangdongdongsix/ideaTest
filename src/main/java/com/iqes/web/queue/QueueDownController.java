@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 抽号服务和叫号服务
@@ -33,6 +34,7 @@ public class QueueDownController {
      * @return String
      */
 
+    @ResponseBody
     @RequestMapping(value = "/arrivingCustomer",method = RequestMethod.GET)
     public String extractNumber(@RequestParam("tableName")String tableName)  {
 
@@ -61,6 +63,7 @@ public class QueueDownController {
      * 主要是给直立机使用，采用轮询机制
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/queryNumber",method = RequestMethod.GET)
     public String queryNumber() {
 
