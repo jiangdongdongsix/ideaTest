@@ -54,6 +54,7 @@ public class QueueUpController {
     public String backQueueHome(){
         return "queue/queueHome";
     }
+
     /**
      * 返回直立机主页面
      * @return String
@@ -74,14 +75,17 @@ public class QueueUpController {
         model.addAttribute("queueId",queueId);
         return "queue/queueUp";
     }
+
+
     /**
      * 添加一条虚拟排队的记录
      * @param queueInfo
      * @return String
      */
     @ResponseBody
-    @RequestMapping(value = "/virtualQueue", method = RequestMethod.POST)
+    @RequestMapping(value = "/virtualqueue", method = RequestMethod.POST)
     public String virtualQueue(QueueInfo queueInfo){
+        System.out.println("以连接诶");
         JSONObject jsonObject = new JSONObject();
         try{
             queueInfo.setQueueStartTime(TimeFormatTool.getCurrentTime());
@@ -151,7 +155,7 @@ public class QueueUpController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/confirmQueue", method = RequestMethod.GET)
+    @RequestMapping(value = "/confirmqueue", method = RequestMethod.GET)
     public String getTime(@RequestParam(value = "queueId", defaultValue = "0")long queueId,
                           @RequestParam(value = "tel", defaultValue = "")String tel){
         JSONObject jsonObject = new JSONObject();
@@ -193,7 +197,7 @@ public class QueueUpController {
      * @return String
      */
     @ResponseBody
-    @RequestMapping(value = "/PersonalQueueInfo", method = RequestMethod.GET)
+    @RequestMapping(value = "/personalqueueinfo", method = RequestMethod.GET)
     public String checkPersonalQueueInfo(@RequestParam(value = "queueNumber", defaultValue = "0")String queueNumber) {
         JSONObject jsonObject = new JSONObject();
         long queueId = 0L;
@@ -224,7 +228,7 @@ public class QueueUpController {
      * 查看所有排队
      * @return
      */
-    @RequestMapping(value = "/AllQueueInfo",method = RequestMethod.GET)
+    @RequestMapping(value = "/allqueueinfo",method = RequestMethod.GET)
     public String checkAllQueueInfo(){
         List<WaitTimeModel> waitTimeModelList = new ArrayList<WaitTimeModel>();
         JSONObject jsonObject = new JSONObject();
