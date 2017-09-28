@@ -93,6 +93,10 @@ public class QueueDownController {
      */
     @RequestMapping(method = RequestMethod.DELETE)
     public void deleteNumber(@RequestParam("qid")Long qid){
-        extractNumberService.deleteNumberById(qid);
+        try {
+            extractNumberService.deleteNumberById(qid);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
