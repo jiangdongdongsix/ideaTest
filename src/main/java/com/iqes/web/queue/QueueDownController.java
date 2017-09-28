@@ -89,10 +89,10 @@ public class QueueDownController {
 
     /**
      * 删除排队顾客记录，添加到历史记录表里
-     * @param queueInfo
+     * @param qid
      */
     @RequestMapping(method = RequestMethod.DELETE)
-    public void deleteNumber(@RequestParam("queueInfo")QueueInfo queueInfo){
-        extractNumberService.deleteNumber(queueInfo);
+    public void deleteNumber(@RequestParam("qid")Long qid){
+        extractNumberService.deleteNumberById(qid);
     }
 }

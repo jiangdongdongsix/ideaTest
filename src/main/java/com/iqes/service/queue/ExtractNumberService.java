@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * 抽号service
@@ -153,12 +154,18 @@ public class ExtractNumberService {
     }
 
     //删除排队号的方法，需更新endTime,存入历史记录表，排队表中删除
-    public void deleteNumber(QueueInfo q){
+    private void deleteNumber(QueueInfo q){
         q.setQueueEndTime(TimeFormatTool.getCurrentTime());
         q.setQueueState("3");
         QueueHistory qH=new QueueHistory(q);
         queueHistoryDao.save(qH);
         queueManagerDao.delete(q);
+    }
+
+    //验证成功后删除排队信息
+    public void deleteNumberById(Long queueInfoid){
+        QueueInfo queueInfo=queueManagerDao.getById(queueInfoid);
+        deleteNumber(queueInfo);
     }
 
     //排队号的交换
@@ -202,6 +209,7 @@ public class ExtractNumberService {
 
         return page;
     }
+
 
 
 }
