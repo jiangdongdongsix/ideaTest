@@ -157,6 +157,7 @@ public class ExtractNumberService {
     private void deleteNumber(QueueInfo q){
         q.setQueueEndTime(TimeFormatTool.getCurrentTime());
         q.setQueueState("3");
+        q.setId(null);
         QueueHistory qH=new QueueHistory(q);
         queueHistoryDao.save(qH);
         queueManagerDao.delete(q);
