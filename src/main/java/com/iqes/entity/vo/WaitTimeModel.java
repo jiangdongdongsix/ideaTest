@@ -25,12 +25,13 @@ public class WaitTimeModel {
      * */
     private long waitTime;
 
-    public long getQueueId() {
-        return queueId;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setQueueId(long queueId) {
-        this.queueId = queueId;
+    public Long getQueueId() {
+        return queueId;
     }
 
     public void setQueueId(Long queueId) {
