@@ -5,6 +5,7 @@ import com.iqes.entity.*;
 import com.iqes.entity.co.CalculateTimeVO;
 import com.iqes.entity.co.CheckTimeCo;
 import com.iqes.entity.vo.WaitTimeModel;
+import com.iqes.service.queue.ExtractNumberService;
 import com.iqes.service.queue.QueueHistoryService;
 import com.iqes.service.queue.QueueQueryService;
 import com.iqes.service.queue.TableService;
@@ -40,6 +41,8 @@ public class QueueUpController {
     private TableService tableService;
     @Autowired
     private QueueHistoryService queueHistoryService;
+    @Autowired
+    private ExtractNumberService extractNumberService;
 
 
     /**
@@ -125,8 +128,9 @@ public class QueueUpController {
             queueInfo.setTableType(tableTypeList.get(0));
             queueInfo.setQueueState("0");
             queueInfo.setExtractFlag("0");
-            queueInfo.setCallCount(0);
             queueInfo.setExtractCount(0);
+            queueInfo.setCallCount(0);
+
             queueInfo.setQueueStartTime(TimeFormatTool.getCurrentTime());
             //更新排队
             queueQueryService.update(queueInfo);
@@ -212,6 +216,7 @@ public class QueueUpController {
             QueueInfo queueInfo = queueQueryService.findById(queueId);
             WaitTimeModel waitTimeModel = calculateWaitTime(queueId, queueInfo.getTableType().getId(), queueInfo.getSeatFlag());
             waitTimeModel.setTableType(queueInfo.getTableType());
+
             jsonObject.put("Version", "1.0");
             jsonObject.put("ErrorCode", "0");
             jsonObject.put("ErrorMessage", "");
@@ -291,10 +296,10 @@ public class QueueUpController {
             }
 
             //减去最后一近顾客就餐距离当前的差
-            if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < 600000){
+            if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < eachTableTime){
                 waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());
             }else{
-                waitTime = waitTime - 600000;
+                waitTime = waitTime - eachTableTime;
             }
             //将单位换算成分钟
             waitTime = waitTime /(1000 *60);
@@ -336,10 +341,10 @@ public class QueueUpController {
                 }
 
                 //减去最后一近顾客就餐距离当前的差
-                if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < 600000){
+                if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < eachTableTime){
                     waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());
                 }else{
-                    waitTime = waitTime - 600000;
+                    waitTime = waitTime - eachTableTime;
                 }
                 //将单位换算成分钟
                 waitTime = waitTime /(1000 *60);
