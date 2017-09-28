@@ -356,9 +356,5 @@ public class QueueUpController {
         }
         return waitTimeModel;
     }
-
-
-
-
-
+    
 }
