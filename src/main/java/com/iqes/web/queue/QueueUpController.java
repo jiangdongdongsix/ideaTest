@@ -124,6 +124,9 @@ public class QueueUpController {
             }
             queueInfo.setTableType(tableTypeList.get(0));
             queueInfo.setQueueState("0");
+            queueInfo.setExtractFlag("0");
+            queueInfo.setCallCount(0);
+            queueInfo.setExtractCount(0);
             queueInfo.setQueueStartTime(TimeFormatTool.getCurrentTime());
             //更新排队
             queueQueryService.update(queueInfo);
