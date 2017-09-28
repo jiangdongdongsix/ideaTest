@@ -224,8 +224,9 @@ public class QueueUpController {
 
     /**
      * 查看所有排队
-     * @return
+     * @return String
      */
+    @ResponseBody
     @RequestMapping(value = "/allqueueinfo",method = RequestMethod.GET)
     public String checkAllQueueInfo(){
         List<WaitTimeModel> waitTimeModelList = new ArrayList<WaitTimeModel>();
@@ -233,20 +234,24 @@ public class QueueUpController {
        try{
            List<TableType> tableTypeList = tableService.findAll();
            for(TableType tableType:tableTypeList){
-               WaitTimeModel waitTimeModel = calculateALLQueueWaitTime(tableType.getId());
+               WaitTimeModel waitTimeModel = new WaitTimeModel();
+               waitTimeModel = calculateALLQueueWaitTime(tableType.getId());
+               waitTimeModel.setTableType(tableType);
                waitTimeModelList.add(waitTimeModel);
            }
            jsonObject.put("Version", "1.0");
            jsonObject.put("ErrorCode", "0");
            jsonObject.put("ErrorMessage", "");
            jsonObject.put("queueInfo", waitTimeModelList);
+           System.out.println(jsonObject.toJSONString());
+
        }catch (Exception e){
            jsonObject.put("Version", "1.0");
            jsonObject.put("ErrorCode", "1");
            jsonObject.put("ErrorMessage", e.getMessage());
            e.printStackTrace();
        }
-        return jsonObject.toJSONString();
+        return jsonObject.toString();
     }
 
     /**
@@ -311,18 +316,21 @@ public class QueueUpController {
             //根据桌型id获得排队人数
             long eatCountById= queueQueryService.getWaitCount(tableTypeId);
             long chooseCount = queueQueryService.chooseSeatCountByTableTypeId(tableTypeId);
-            //根据桌型id拿出该桌型下桌子的数量
-            Integer seatCount = tableService.getTableCountByType(tableTypeId);
-            System.out.println(seatCount);
-            waitTime = chooseCount*eachTableTime +(eatCountById -chooseCount)*eachTableTime/seatCount;
-            //减去最后一近顾客就餐距离当前的差
-            if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < 600000){
-                waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());
-            }else{
-                waitTime = waitTime - 600000;
+            if(eatCountById > 0){
+                //根据桌型id拿出该桌型下桌子的数量
+                Integer seatCount = tableService.getTableCountByType(tableTypeId);
+                System.out.println(seatCount);
+                waitTime = chooseCount*eachTableTime +(eatCountById -chooseCount)*eachTableTime/seatCount;
+                //减去最后一近顾客就餐距离当前的差
+                if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < 600000){
+                    waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());
+                }else{
+                    waitTime = waitTime - 600000;
+                }
+                //将单位换算成分钟
+                waitTime = waitTime /(1000 *60);
             }
-            //将单位换算成分钟
-            waitTime = waitTime /(1000 *60);
+
             waitTimeModel.setWaitTime(waitTime);
             waitTimeModel.setWaitPopulation(eatCountById);
         }catch (Exception e){
