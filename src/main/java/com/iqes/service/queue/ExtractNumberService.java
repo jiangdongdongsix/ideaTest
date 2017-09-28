@@ -153,7 +153,7 @@ public class ExtractNumberService {
     }
 
     //删除排队号的方法，需更新endTime,存入历史记录表，排队表中删除
-    private void deleteNumber(QueueInfo q){
+    public void deleteNumber(QueueInfo q){
         q.setQueueEndTime(TimeFormatTool.getCurrentTime());
         q.setQueueState("3");
         QueueHistory qH=new QueueHistory(q);

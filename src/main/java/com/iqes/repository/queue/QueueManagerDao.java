@@ -1,6 +1,7 @@
 package com.iqes.repository.queue;
 
 import com.iqes.entity.QueueInfo;
+import com.iqes.entity.TableType;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -22,6 +23,10 @@ public interface QueueManagerDao extends PagingAndSortingRepository<QueueInfo, L
     //获取有抽号标志的排队顾客
     @Query("select q from QueueInfo q where q.extractFlag='1'")
     List<QueueInfo> getArrivingNumbers();
+
+    //根据抽号标志和桌类型返回
+    @Query("select q from QueueInfo q where q.extractFlag='1' and q.tableType.id=?1")
+    List<QueueInfo> getByExtractFlagAndAndTableType(Long tableTypeId);
 
     //通过id获取queueInfo对象
     QueueInfo getById(Long id);
