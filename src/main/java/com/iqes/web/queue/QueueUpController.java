@@ -130,6 +130,7 @@ public class QueueUpController {
             queueInfo.setExtractFlag("0");
             queueInfo.setExtractCount(0);
             queueInfo.setCallCount(0);
+
             queueInfo.setQueueStartTime(TimeFormatTool.getCurrentTime());
             //更新排队
             queueQueryService.update(queueInfo);
