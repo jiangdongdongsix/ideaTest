@@ -32,4 +32,9 @@ public class QueryNumberService {
         }
         return queueInfo;
     }
+
+    public List<QueueInfo> getArrivingNumberByTableType(Long id){
+        List<QueueInfo> queueInfos=queueManagerDao.getByExtractFlagAndAndTableType(id);
+        return queueInfos;
+    }
 }

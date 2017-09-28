@@ -85,4 +85,14 @@ public class QueueDownController {
         }
             return jsonObject.toJSONString();
     }
+
+
+    /**
+     * 删除排队顾客记录，添加到历史记录表里
+     * @param qid
+     */
+    @RequestMapping(method = RequestMethod.DELETE)
+    public void deleteNumber(@RequestParam("qid")Long qid){
+        extractNumberService.deleteNumberById(qid);
+    }
 }

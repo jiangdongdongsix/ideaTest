@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * 抽号service
@@ -161,6 +162,12 @@ public class ExtractNumberService {
         queueManagerDao.delete(q);
     }
 
+    //验证成功后删除排队信息
+    public void deleteNumberById(Long queueInfoid){
+        QueueInfo queueInfo=queueManagerDao.getById(queueInfoid);
+        deleteNumber(queueInfo);
+    }
+
     //排队号的交换
 //
 //    public void exchangeNumbers(QueueInfo q){
@@ -202,6 +209,7 @@ public class ExtractNumberService {
 
         return page;
     }
+
 
 
 }
