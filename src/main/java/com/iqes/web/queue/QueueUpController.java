@@ -187,14 +187,25 @@ public class QueueUpController {
      * 取消排队
      * @param queueId
      */
+    @ResponseBody
     @RequestMapping(value = "/cancel", method = RequestMethod.GET)
-   public void cancel(@RequestParam(value = "queueId", defaultValue = "0")long queueId){
+   public String cancel(@RequestParam(value = "queueId", defaultValue = "0")long queueId){
+        JSONObject jsonObject = new JSONObject();
         try{
             queueQueryService.delete(queueId);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","0");
+            jsonObject.put("ErrorMessage","");
+            jsonObject.put("Msg","取消成功");
         }catch (Exception e){
             e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","0");
+            jsonObject.put("ErrorMessage","");
+            jsonObject.put("Msg","取消失败");
         }
 
+        return jsonObject.toJSONString();
    }
 
     /**
