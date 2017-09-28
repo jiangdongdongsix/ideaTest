@@ -162,6 +162,7 @@ public class QueueUpController {
             QueueInfo queueInfo = queueQueryService.findById(queueId);
             WaitTimeModel waitTimeModel = calculateWaitTime(queueId,queueInfo.getTableType().getId(),queueInfo.getSeatFlag());
             waitTimeModel.setTableType(queueInfo.getTableType());
+            waitTimeModel.setQueueId(queueId);
             jsonObject.put("Version","1.0");
             jsonObject.put("ErrorCode","0");
             jsonObject.put("ErrorMessage","");
@@ -272,16 +273,20 @@ public class QueueUpController {
             long chooseCount = queueQueryService.chooseSeatCountById(queueId,tableTypeId);
             //根据桌型id拿出该桌型下桌子的数量
             Integer seatCount = tableService.getTableCountByType(tableTypeId);
-
-            System.out.println(seatCount);
-            //判断顾客是否选坐
-            if(seatFlag){
-                //选座时间计算
-                waitTime = (chooseCount+1)*eachTableTime +(eatCountById -chooseCount)*eachTableTime/seatCount;
+            if(seatCount >0){
+                //判断顾客是否选坐
+                if(seatFlag){
+                    //选座时间计算
+                    waitTime = (chooseCount+1)*eachTableTime +(eatCountById -chooseCount)*eachTableTime/seatCount;
+                }else{
+                    //未选座时间计算
+                    waitTime = chooseCount*eachTableTime +(eatCountById -chooseCount +1)*eachTableTime/seatCount;
+                }
             }else{
-                //未选座时间计算
-                waitTime = chooseCount*eachTableTime +(eatCountById -chooseCount +1)*eachTableTime/seatCount;
+                //  待处理
+                waitTime = eatCountById * eachTableTime;
             }
+
             //减去最后一近顾客就餐距离当前的差
             if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < 600000){
                 waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());
@@ -320,7 +325,13 @@ public class QueueUpController {
                 //根据桌型id拿出该桌型下桌子的数量
                 Integer seatCount = tableService.getTableCountByType(tableTypeId);
                 System.out.println(seatCount);
-                waitTime = chooseCount*eachTableTime +(eatCountById -chooseCount)*eachTableTime/seatCount;
+                if(seatCount >0){
+                    waitTime = chooseCount*eachTableTime +(eatCountById -chooseCount)*eachTableTime/seatCount;
+                }else{
+                    //  待处理
+                    waitTime = eatCountById * eachTableTime;
+                }
+
                 //减去最后一近顾客就餐距离当前的差
                 if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < 600000){
                     waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());

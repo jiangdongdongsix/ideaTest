@@ -25,7 +25,6 @@ public class WaitTimeModel {
      * */
     private long waitTime;
 
-
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
