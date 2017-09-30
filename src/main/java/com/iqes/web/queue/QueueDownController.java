@@ -86,17 +86,21 @@ public class QueueDownController {
             return jsonObject.toJSONString();
     }
 
-
     /**
      * 删除排队顾客记录，添加到历史记录表里
      * @param qid
      */
+    @ResponseBody
     @RequestMapping(method = RequestMethod.DELETE)
-    public void deleteNumber(@RequestParam("qid")Long qid){
+    public String deleteNumber(@RequestParam("qid")Long qid){
+        JSONObject jsonObject = new JSONObject();
+        String respond = null;
         try {
-            extractNumberService.deleteNumberById(qid);
+            respond = extractNumberService.deleteNumberById(qid);
         }catch (Exception e){
             e.printStackTrace();
         }
+        jsonObject.put("Msg",respond);
+        return jsonObject.toJSONString()    ;
     }
 }

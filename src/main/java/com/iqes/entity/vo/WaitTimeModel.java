@@ -24,6 +24,10 @@ public class WaitTimeModel {
      * 预估等候时间
      * */
     private long waitTime;
+    /**
+     * 是否抽号标志
+     * */
+    private String extractFlag;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -59,5 +63,13 @@ public class WaitTimeModel {
 
     public void setWaitTime(long waitTime) {
         this.waitTime = waitTime;
+    }
+
+    public String getExtractFlag() {
+        return extractFlag;
+    }
+
+    public void setExtractFlag(String extractFlag) {
+        this.extractFlag = extractFlag;
     }
 }

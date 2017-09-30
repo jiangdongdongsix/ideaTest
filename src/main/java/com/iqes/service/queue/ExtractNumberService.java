@@ -82,6 +82,7 @@ public class ExtractNumberService {
             if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                 if ("0".equals(q.getExtractFlag())) {
                     q.setExtractFlag("1");
+                    q.setExFlag(true);
                     q.setExtractCount(q.getExtractCount() + 1);
                     if (q.getExtractCount() == 1) {
                         q.setFirstExtractTime(TimeFormatTool.getCurrentTime());
@@ -114,6 +115,7 @@ public class ExtractNumberService {
                     //判断抽号标志
                     if ("0".equals(q.getExtractFlag())) {
                         q.setExtractFlag("1");
+                        q.setExFlag(true);
                         q.setExtractCount(q.getExtractCount() + 1);
                         if (q.getTableNumber() == null) {
                             q.setTableNumber(tNumber);
@@ -139,6 +141,7 @@ public class ExtractNumberService {
             if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                     if ("0".equals(q.getExtractFlag())) {
                         q.setExtractFlag("1");
+                        q.setExFlag(true);
                         q.setExtractCount(q.getExtractCount() + 1);
                         if (q.getTableNumber() == null) {
                             q.setTableNumber(tNumber);
@@ -155,6 +158,7 @@ public class ExtractNumberService {
 
     //删除排队号的方法，需更新endTime,存入历史记录表，排队表中删除
     private void deleteNumber(QueueInfo q){
+        System.out.println("111111"+TimeFormatTool.getCurrentTime());
         q.setQueueEndTime(TimeFormatTool.getCurrentTime());
         q.setQueueState("3");
         QueueHistory qH=new QueueHistory(q);
@@ -163,9 +167,18 @@ public class ExtractNumberService {
     }
 
     //验证成功后删除排队信息
-    public void deleteNumberById(Long queueInfoid){
+    public String deleteNumberById(Long queueInfoid){
+        String res = "";
         QueueInfo queueInfo=queueManagerDao.getById(queueInfoid);
-        deleteNumber(queueInfo);
+        if(null!= queueInfo)
+        {
+            deleteNumber(queueInfo);
+            res="删除成功";
+        }else{
+            res="该号码已删除";
+        }
+        return res;
+
     }
 
     //排队号的交换
