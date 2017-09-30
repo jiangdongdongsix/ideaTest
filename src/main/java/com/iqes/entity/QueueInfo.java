@@ -94,6 +94,10 @@ public class QueueInfo extends IdEntity{
      *第一次抽号的时间
      */
     private String firstExtractTime;
+    /**
+     *抽号标志
+     */
+    private Boolean exFlag;
 
     public String getFirstExtractTime() {
         return firstExtractTime;
@@ -219,6 +223,15 @@ public class QueueInfo extends IdEntity{
         this.seatFlag = seatFlag;
     }
 
+
+    public Boolean getExFlag() {
+        return exFlag;
+    }
+
+    public void setExFlag(Boolean exFlag) {
+        this.exFlag = exFlag;
+    }
+
     @Override
     public String toString() {
         return "QueueInfo{" +
@@ -236,7 +249,8 @@ public class QueueInfo extends IdEntity{
                 ", extractCount=" + extractCount +
                 ", callCount=" + callCount +
                 ", seatFlag=" + seatFlag +
-                ", id=" + id +
+                ", firstExtractTime='" + firstExtractTime + '\'' +
+                ", exFlag=" + exFlag +
                 '}';
     }
 }

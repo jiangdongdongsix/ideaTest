@@ -26,6 +26,7 @@ public class TimeFormatTool {
      * @throws Exception
      */
     public static Long diffTime(String date) throws Exception{
+        System.out.println("date="+ date);
         long diffTime = System.currentTimeMillis() - SIM.parse(date).getTime();
         if(diffTime < 0){
             return 0L;
