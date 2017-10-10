@@ -19,8 +19,17 @@ public class TableTypeService {
         tableTypeDao.save(tableType);
     }
 
-    public void deleteOne(Long id){
-        tableTypeDao.delete(id);
+    public String deleteOne(Long id){
+
+        TableType tableType=tableTypeDao.findOne(id);
+        String msg="删除成功";
+
+        if (tableType!=null){
+            tableTypeDao.delete(id);
+        }else{
+            msg= "删除失败!";
+        }
+        return msg;
     }
 
     public TableType findById(Long id){

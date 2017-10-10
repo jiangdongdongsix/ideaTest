@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(value = "/restaurant/tableNumber")
@@ -21,19 +22,32 @@ public class TableNumberController {
         tableNumberService.saveOne(tableNumber);
     }
 
+    @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public String findOne(@RequestParam("id") Long id){
 
         JSONObject jsonObject=new JSONObject();
         TableNumber tableNumber=tableNumberService.findById(id);
 
-        jsonObject.put("tableNumber",tableNumber);
+        if (tableNumber!=null){
+            jsonObject.put("tableNumber",tableNumber);
+            jsonObject.put("msg","查找成功");
+        }else{
+            jsonObject.put("msg","查无此桌");
+        }
+
 
         return jsonObject.toJSONString();
     }
 
+    @ResponseBody
     @RequestMapping(method = RequestMethod.DELETE)
-    public void deleteOne(@RequestParam("id")Long id){
-        tableNumberService.deleteOne(id);
+    public String deleteOne(@RequestParam("id")Long id){
+        JSONObject jsonObject=new JSONObject();
+        String msg=tableNumberService.deleteOne(id);
+
+        jsonObject.put("msg",msg);
+
+        return  jsonObject.toJSONString();
     }
 }
