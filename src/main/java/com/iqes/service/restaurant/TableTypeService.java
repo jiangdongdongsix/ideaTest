@@ -2,6 +2,7 @@ package com.iqes.service.restaurant;
 
 import com.iqes.entity.TableType;
 import com.iqes.repository.restaurant.TableTypeDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Transactional
 public class TableTypeService {
 
+    @Autowired
     private TableTypeDao tableTypeDao;
 
     public void saveOne(TableType tableType){
