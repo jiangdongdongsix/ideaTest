@@ -7,6 +7,7 @@ import com.iqes.repository.queue.QueueHistoryDao;
 import com.iqes.repository.queue.QueueManagerDao;
 import com.iqes.repository.restaurant.ConfigInfoDao;
 import com.iqes.repository.restaurant.TableNumberDao;
+import com.iqes.repository.restaurant.TableTypeDao;
 import com.iqes.utils.TimeFormatTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,6 +42,8 @@ public class ExtractNumberService {
     @Autowired
     private QueueHistoryDao queueHistoryDao;
 
+    @Autowired
+    private TableTypeDao tableTypeDao;
     /**
      * @param tablename
      * @return 排队号
@@ -60,16 +63,30 @@ public class ExtractNumberService {
         //获取配置信息
         ConfigInfo configInfo = configInfoDao.findOne((long) 1);
         //获取同类型的排队号
-        List<QueueInfo> queueInfos = queueManagerDao.getSameTypeNumbers(tablename);
+        List<QueueInfo> queueInfos = queueManagerDao.getSameTypeNumbersByTableTypeId(tNumber.getTableType().getId());
         //获取一个传递变量
         QueueInfo queueInfo = new QueueInfo();
+
+        //判断是否邻桌取号
+        if (configInfo.getNextTableExtractFlag()){
+            if (queueInfos.size()==0){
+                List<Long>  talbeTypeIds=tableTypeDao.getByEatMaxNumberLessThan(tNumber.getTableType().getEatMaxNumber());
+                for (Long id:talbeTypeIds){
+                    List<QueueInfo> queueInfos1=queueManagerDao.getSameTypeNumbersByTableTypeId(id);
+                    if (queueInfos1.size()>0){
+                        queueInfos=queueInfos1;
+                        break;
+                    }
+                }
+            }
+        }
 
         //按模式进行抽号
         if (configInfo.getReservePattern()==1) {
             queueInfo=patternOne(queueInfos,configInfo,tNumber,queueInfo);
         }else if (configInfo.getReservePattern()==2){
             queueInfo=patternTwo(queueInfos,configInfo,tNumber,queueInfo);
-        }else {
+        }else if (configInfo.getReservePattern()==3){
             queueInfo=patternThree(queueInfos,configInfo,tNumber,queueInfo);
         }
         return queueInfo;
@@ -223,7 +240,5 @@ public class ExtractNumberService {
 
         return page;
     }
-
-
 
 }

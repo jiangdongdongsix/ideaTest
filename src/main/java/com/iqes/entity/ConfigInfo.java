@@ -14,6 +14,17 @@ public class ConfigInfo extends IdEntity {
 
     private Integer reserveTime;
 
+    //邻桌取号，例如8人桌可以取6人桌，4人桌里的排队号
+    private Boolean nextTableExtractFlag;
+
+    public Boolean getNextTableExtractFlag() {
+        return nextTableExtractFlag;
+    }
+
+    public void setNextTableExtractFlag(Boolean nextTableExtractFlag) {
+        this.nextTableExtractFlag = nextTableExtractFlag;
+    }
+
     public Integer getReserveTime() {
         return reserveTime;
     }

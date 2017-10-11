@@ -22,4 +22,7 @@ public interface TableTypeDao extends PagingAndSortingRepository<TableType, Long
 
       @Query(value = "select eat_time from table_type where id = ?1",nativeQuery = true)
       long findEatTimeById(long id);
+
+      @Query(value = "select id from TableType t where t.eatMaxNumber<?1 order by id desc ")
+      List<Long> getByEatMaxNumberLessThan(Integer eatMaxNumber );
 }
