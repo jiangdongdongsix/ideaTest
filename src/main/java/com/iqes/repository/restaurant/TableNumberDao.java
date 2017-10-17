@@ -20,6 +20,7 @@ public interface TableNumberDao extends CrudRepository<TableNumber, Long> {
 
     List<TableNumber> findTableNumbersByTableType(TableType tableType);
 
+    @Override
     @Query("select t from TableNumber t")
     List<TableNumber> findAll();
 
