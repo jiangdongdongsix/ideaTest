@@ -248,6 +248,8 @@ public class ExtractNumberService {
 
         Sort sort=new Sort(order);
 
+        //默认是存0页开始的
+        pageNo=pageNo-1;
         PageRequest pageable = new PageRequest(pageNo, pageSize,sort);
 
         //通常使用 Specification 的匿名内部类

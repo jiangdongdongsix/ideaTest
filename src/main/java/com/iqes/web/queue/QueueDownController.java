@@ -5,11 +5,14 @@ import com.iqes.entity.QueueInfo;
 import com.iqes.service.queue.ExtractNumberService;
 import com.iqes.service.queue.QueryNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 抽号服务和叫号服务
@@ -103,5 +106,33 @@ public class QueueDownController {
         }
         jsonObject.put("Msg",respond);
         return jsonObject.toJSONString()    ;
+    }
+
+    /**
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param tableTypeName
+     * @return 返回一个page对象
+     */
+    @ResponseBody
+    @RequestMapping(value = "pageOfQueueNumber",method = RequestMethod.GET)
+    public String getPageOfNumber(@RequestParam ("pageNo") int pageNo,@RequestParam("pageSize") int pageSize,@RequestParam("tableTypeName") String tableTypeName){
+
+        JSONObject jsonObject=new JSONObject();
+
+        try {
+            Page<QueueInfo> queueInfoList=extractNumberService.pageQuery(pageNo,pageSize,tableTypeName);
+            jsonObject.put("page",queueInfoList);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+            jsonObject.put("ErrorMessage", "");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
+        }
+        return jsonObject.toJSONString();
     }
 }
