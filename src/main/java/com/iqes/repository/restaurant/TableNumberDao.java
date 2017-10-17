@@ -24,6 +24,10 @@ public interface TableNumberDao extends CrudRepository<TableNumber, Long> {
     @Query("select t from TableNumber t")
     List<TableNumber> findAll();
 
-    //根据桌型id获得
+    /**
+     *
+     * @param id
+     * @return
+     */
     List<TableNumber> findByTableTypeId(long id);
 }
