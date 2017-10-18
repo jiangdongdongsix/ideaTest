@@ -92,6 +92,7 @@ public class QueueDownController {
      */
     @ResponseBody
     @RequestMapping(method = RequestMethod.DELETE)
+
     public String deleteNumber(@RequestParam("qid")Long qid){
         JSONObject jsonObject = new JSONObject();
         String respond = null;
