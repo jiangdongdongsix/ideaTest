@@ -7,6 +7,7 @@ import com.iqes.repository.queue.QueueHistoryDao;
 import com.iqes.repository.queue.QueueManagerDao;
 import com.iqes.repository.restaurant.ConfigInfoDao;
 import com.iqes.repository.restaurant.TableNumberDao;
+import com.iqes.repository.restaurant.TableTypeDao;
 import com.iqes.utils.TimeFormatTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +27,7 @@ import java.util.Queue;
  *
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class ExtractNumberService {
 
     @Autowired
@@ -41,13 +42,21 @@ public class ExtractNumberService {
     @Autowired
     private QueueHistoryDao queueHistoryDao;
 
+    @Autowired
+    private TableTypeDao tableTypeDao;
+
+    private static final Integer PATTERN_ONE=1;
+
+    private static final Integer PATTERN_TWO=2;
+
+    private static final Integer PATTERN_THREE=3;
     /**
      * @param tablename
      * @return 排队号
      * 抽号的时候主要分为三种模式抽号
-     * 1.过号即删，不做保留；
-     * 2.按次数保留，每次叫号都会保留次数，当次数超过某一值时，删除；
-     * 3.按时间保留，第一次叫号的时候会记录一个时间，以后再叫号的时候会和这个时间做比较，大于某一值时，删除；
+     * 模式1.过号即删，不做保留；
+     * 模式2.按次数保留，每次叫号都会保留次数，当次数超过某一值时，删除；
+     * 模式3.按时间保留，第一次叫号的时候会记录一个时间，以后再叫号的时候会和这个时间做比较，大于某一值时，删除；
      */
 
     public QueueInfo extractNumber(String tablename) throws Exception {
@@ -60,22 +69,44 @@ public class ExtractNumberService {
         //获取配置信息
         ConfigInfo configInfo = configInfoDao.findOne((long) 1);
         //获取同类型的排队号
-        List<QueueInfo> queueInfos = queueManagerDao.getSameTypeNumbers(tablename);
+        List<QueueInfo> queueInfos = queueManagerDao.getSameTypeNumbersByTableTypeId(tNumber.getTableType().getId());
         //获取一个传递变量
         QueueInfo queueInfo = new QueueInfo();
 
+        //判断是否邻桌取号
+        if (configInfo.getNextTableExtractFlag()){
+            if (queueInfos.size()==0){
+                List<Long>  talbeTypeIds=tableTypeDao.getByEatMaxNumberLessThan(tNumber.getTableType().getEatMaxNumber());
+                for (Long id:talbeTypeIds){
+                    List<QueueInfo> queueInfos1=queueManagerDao.getSameTypeNumbersByTableTypeId(id);
+                    if (queueInfos1.size()>0){
+                        queueInfos=queueInfos1;
+                        break;
+                    }
+                }
+            }
+        }
+
         //按模式进行抽号
-        if (configInfo.getReservePattern()==1) {
+        if (PATTERN_ONE.equals(configInfo.getReservePattern())) {
             queueInfo=patternOne(queueInfos,configInfo,tNumber,queueInfo);
-        }else if (configInfo.getReservePattern()==2){
+        }else if (PATTERN_TWO.equals(configInfo.getReservePattern())){
             queueInfo=patternTwo(queueInfos,configInfo,tNumber,queueInfo);
-        }else {
+        }else if (PATTERN_THREE.equals(configInfo.getReservePattern())){
             queueInfo=patternThree(queueInfos,configInfo,tNumber,queueInfo);
         }
         return queueInfo;
     }
 
-    //按时间保留的模式
+    /**
+     *
+     * @param queueInfos
+     * @param configInfo
+     * @param tNumber
+     * @param queueInfo
+     * @return
+     * @throws Exception
+     */
     private QueueInfo patternThree(List<QueueInfo> queueInfos, ConfigInfo configInfo, TableNumber tNumber,QueueInfo queueInfo) throws Exception {
 
         for (QueueInfo q : queueInfos) {
@@ -106,7 +137,14 @@ public class ExtractNumberService {
         return queueInfo;
     }
 
-    //按次数保留的模式
+    /**
+     *
+     * @param queueInfos
+     * @param configInfo
+     * @param tNumber
+     * @param queueInfo
+     * @return
+     */
     private QueueInfo patternTwo(List<QueueInfo> queueInfos, ConfigInfo configInfo, TableNumber tNumber,QueueInfo queueInfo) {
       // int exchangeFlag=0;
         for (QueueInfo q : queueInfos) {
@@ -135,7 +173,14 @@ public class ExtractNumberService {
         return queueInfo;
     }
 
-    //过号即删的模式
+    /**
+     *
+     * @param queueInfos
+     * @param configInfo
+     * @param tNumber
+     * @param queueInfo
+     * @return
+     */
     private QueueInfo patternOne(List<QueueInfo> queueInfos,ConfigInfo configInfo,TableNumber tNumber,QueueInfo queueInfo) {
         for (QueueInfo q : queueInfos) {
             if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
@@ -156,7 +201,10 @@ public class ExtractNumberService {
         return queueInfo;
     }
 
-    //删除排队号的方法，需更新endTime,存入历史记录表，排队表中删除
+    /**
+     *
+     * @param q
+     */
     private void deleteNumber(QueueInfo q){
         System.out.println("111111"+TimeFormatTool.getCurrentTime());
         q.setQueueEndTime(TimeFormatTool.getCurrentTime());
@@ -167,7 +215,11 @@ public class ExtractNumberService {
         queueManagerDao.delete(q);
     }
 
-    //验证成功后删除排队信息
+    /**
+     *
+     * @param queueInfoid
+     * @return
+     */
     public String deleteNumberById(Long queueInfoid){
         String res = "";
         QueueInfo queueInfo=queueManagerDao.getById(queueInfoid);
@@ -182,30 +234,22 @@ public class ExtractNumberService {
 
     }
 
-    //排队号的交换
-//
-//    public void exchangeNumbers(QueueInfo q){
-//
-//        QueueInfo temp=queueManagerDao.getById(q.getId()-1);
-//        temp.setExtractFlag("0");
-//        temp.setCallCount(0);
-//
-//
-//        Long id=temp.getId();
-//        temp.setId(q.getId());
-//        q.setId(id);
-//
-//        queueManagerDao.save(temp);
-//        queueManagerDao.save(q);
-//    }
 
-    //分页查询
+    /**
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param tableTypeName
+     * @return
+     */
     public Page<QueueInfo> pageQuery(int pageNo, int pageSize, final String tableTypeName){
 
         Sort.Order order=new Sort.Order(Sort.Direction.ASC,"id");
 
         Sort sort=new Sort(order);
 
+        //默认是存0页开始的
+        pageNo=pageNo-1;
         PageRequest pageable = new PageRequest(pageNo, pageSize,sort);
 
         //通常使用 Specification 的匿名内部类
@@ -223,7 +267,5 @@ public class ExtractNumberService {
 
         return page;
     }
-
-
 
 }

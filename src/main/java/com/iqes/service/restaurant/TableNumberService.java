@@ -20,8 +20,16 @@ public class TableNumberService {
         tableNumberDao.save(tableNumber);
     }
 
-    public void deleteOne(Long id){
-        tableNumberDao.delete(id);
+    public String deleteOne(Long id){
+        TableNumber tableNumber=tableNumberDao.findOne(id);
+        String msg="删除成功";
+
+        if (tableNumber!=null) {
+            tableNumberDao.delete(id);
+        }else{
+            msg="删除失败";
+        }
+        return msg;
     }
 
     public TableNumber findById(Long id){

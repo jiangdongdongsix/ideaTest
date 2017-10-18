@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface RestaurantPhotoDao extends CrudRepository<RestaurantPhoto,Long> {
 
+    @Override
     @Query("select rp from RestaurantPhoto rp")
     List<RestaurantPhoto> findAll();
 }
