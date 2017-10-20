@@ -23,6 +23,8 @@
 		<property name="successUrl" value="/" />
 		<property name="filterChainDefinitions">
 			<value>
+				/upload/** = anon
+				/test = anon
 				/login = authc
 				/logout = logout
 				/static/** = anon
@@ -31,6 +33,7 @@
 				/api/** = anon
 				/register/** = anon
 				/queue/** = anon
+				/restaurant/** = anon
 				/admin/** = roles[admin]
 				/** = user
 			</value>
