@@ -7,14 +7,18 @@ import javax.persistence.Table;
 @Table(name = "config_info")
 public class ConfigInfo extends IdEntity {
 
-    // 保留模式，1：不保留，过号作废；2：按次数保留，次数一过作废；3：按时间保留，时间一过，作废。
+    /**
+     * 保留模式，1：不保留，过号作废；2：按次数保留，次数一过作废；3：按时间保留，时间一过，作废。
+     */
     private Integer reservePattern;
 
     private Integer extractCount;
 
     private Integer reserveTime;
 
-    //邻桌取号，例如8人桌可以取6人桌，4人桌里的排队号
+    /**
+     * 邻桌取号，例如8人桌可以取6人桌，4人桌里的排队号
+     */
     private Boolean nextTableExtractFlag;
 
     public Boolean getNextTableExtractFlag() {

@@ -6,9 +6,15 @@ import javax.persistence.*;
 @Entity
 public class TableNumber extends IdEntity{
 
-    //name
+    /**
+     * name
+     */
     private String name;
     private TableType tableType;
+    /**
+     * 桌子所在区域
+     */
+    private String area;
 
     @JoinColumn(name = "table_type_id")
     @ManyToOne
@@ -26,6 +32,14 @@ public class TableNumber extends IdEntity{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     @Override

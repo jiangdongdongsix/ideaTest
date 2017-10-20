@@ -135,4 +135,9 @@ public class QueueDownController {
         }
         return jsonObject.toJSONString();
     }
+
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
+    public String testController(){
+        return "/testAPI";
+    }
 }
