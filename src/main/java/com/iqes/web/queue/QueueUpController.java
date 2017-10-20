@@ -2,26 +2,18 @@ package com.iqes.web.queue;
 
 import com.alibaba.fastjson.JSONObject;
 import com.iqes.entity.*;
-import com.iqes.entity.co.CalculateTimeVO;
-import com.iqes.entity.co.CheckTimeCo;
 import com.iqes.entity.vo.WaitTimeModel;
 import com.iqes.service.queue.ExtractNumberService;
 import com.iqes.service.queue.QueueHistoryService;
 import com.iqes.service.queue.QueueQueryService;
 import com.iqes.service.queue.TableService;
 import com.iqes.utils.TimeFormatTool;
-import org.omg.CORBA.PRIVATE_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -111,7 +103,7 @@ public class QueueUpController {
      */
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(@RequestBody QueueInfo queueInfo){
+        public String update(@RequestBody QueueInfo queueInfo){
         System.out.println("==========="+queueInfo);
         JSONObject jsonObject = new JSONObject();
         List<TableType> tableTypeList = null;

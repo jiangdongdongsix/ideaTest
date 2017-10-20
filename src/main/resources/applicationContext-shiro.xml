@@ -27,6 +27,7 @@
 				/logout = logout
 				/static/** = anon
 				/lib/** = anon
+				/shop/** = anon
 				/api/** = anon
 				/register/** = anon
 				/queue/** = anon
