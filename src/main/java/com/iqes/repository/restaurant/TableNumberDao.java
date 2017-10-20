@@ -6,12 +6,13 @@ package com.iqes.repository.restaurant;
 
 import com.iqes.entity.TableNumber;
 import com.iqes.entity.TableType;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface TableNumberDao extends CrudRepository<TableNumber, Long> {
+public interface TableNumberDao extends PagingAndSortingRepository<TableNumber, Long>, JpaSpecificationExecutor<TableNumber> {
 
     @Query("select t from TableNumber t where t.name=?1")
     TableNumber getByTableName(String tablename);
@@ -30,4 +31,5 @@ public interface TableNumberDao extends CrudRepository<TableNumber, Long> {
      * @return
      */
     List<TableNumber> findByTableTypeId(long id);
+
 }

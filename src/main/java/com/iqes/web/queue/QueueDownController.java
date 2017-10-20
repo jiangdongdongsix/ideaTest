@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 抽号服务和叫号服务
@@ -72,14 +73,14 @@ public class QueueDownController {
 
         JSONObject jsonObject = new JSONObject();
 
-        QueueInfo queueInfo = null;
+        Map<String,List<QueueInfo>> listMap=null;
 
         try {
-            queueInfo = queryNumberService.queryNumber();
+            listMap = queryNumberService.getArrivingNumberByTableType();
             jsonObject.put("Version", "1.0");
             jsonObject.put("ErrorCode", "0");
             jsonObject.put("ErrorMessage", "");
-            jsonObject.put("queryNumber", queueInfo);
+            jsonObject.put(" listMap",  listMap);
         } catch (Exception e) {
             e.printStackTrace();
             jsonObject.put("Version", "1.0");
@@ -90,7 +91,7 @@ public class QueueDownController {
     }
 
     /**
-     * 删除排队顾客记录，添加到历史记录表里
+     * 删除排队顾客记录 ，添加到历史记录表里
      * @param qid
      */
     @ResponseBody
@@ -116,8 +117,8 @@ public class QueueDownController {
      * @return 返回一个page对象
      */
     @ResponseBody
-    @RequestMapping(value = "pageOfQueueNumber",method = RequestMethod.GET)
-    public String getPageOfNumber(@RequestParam ("pageNo") int pageNo,@RequestParam("pageSize") int pageSize,@RequestParam("tableTypeName") String tableTypeName){
+    @RequestMapping(value = "/page/queueNumbers/tableTypeName",method = RequestMethod.GET)
+    public String getPageOfNumber(@RequestParam ("pageNo") int pageNo ,@RequestParam("pageSize") int pageSize,@RequestParam("tableTypeName") String tableTypeName){
 
         JSONObject jsonObject=new JSONObject();
 
@@ -135,6 +136,8 @@ public class QueueDownController {
         }
         return jsonObject.toJSONString();
     }
+
+
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
     public String testController(){

@@ -2,20 +2,29 @@ package com.iqes.service.queue;
 
 /**
  * 叫号查询的service
+ * @author  huqili
  */
 
 import com.iqes.entity.QueueInfo;
+import com.iqes.entity.TableType;
 import com.iqes.repository.queue.QueueManagerDao;
+import com.iqes.repository.restaurant.TableTypeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class QueryNumberService {
 
     @Autowired
     private QueueManagerDao queueManagerDao;
+
+    @Autowired
+    private TableTypeDao tableTypeDao;
 
     public QueueInfo queryNumber(){
         List<QueueInfo> queueInfos=queueManagerDao.getArrivingNumbers();
@@ -33,8 +42,17 @@ public class QueryNumberService {
         return queueInfo;
     }
 
-    public List<QueueInfo> getArrivingNumberByTableType(Long id){
-        List<QueueInfo> queueInfos=queueManagerDao.getByExtractFlagAndAndTableType(id);
-        return queueInfos;
+    public  Map<String,List<QueueInfo>> getArrivingNumberByTableType(){
+
+        List<Long> tableTypeIds=tableTypeDao.getAllTableTypeId();
+        List<QueueInfo> queueInfoList=null;
+        Map<String,List<QueueInfo>> listMap=new HashMap<String, List<QueueInfo>>(10);
+
+        for (Long id:tableTypeIds){
+            queueInfoList=queueManagerDao.getByExtractFlagAndAndTableType(id);
+            String name="tableType"+"_"+id;
+            listMap.put(name,queueInfoList);
+        }
+        return listMap;
     }
 }
