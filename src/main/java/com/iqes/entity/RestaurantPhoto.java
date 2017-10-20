@@ -5,13 +5,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * @author 54312
+ */
+
 @Entity
 @Table(name = "restaurant_photo")
 public class RestaurantPhoto extends  IdEntity{
 
     private String url;
     private String describe;
-    private RestaurantInfo restaurantInfo;
 
     public String getUrl() {
         return url;
@@ -29,13 +32,4 @@ public class RestaurantPhoto extends  IdEntity{
         this.describe = describe;
     }
 
-    @JoinColumn(name = "restaurant_id")
-    @ManyToOne
-    public RestaurantInfo getRestaurantInfo() {
-        return restaurantInfo;
-    }
-
-    public void setRestaurantInfo(RestaurantInfo restaurantInfo) {
-        this.restaurantInfo = restaurantInfo;
-    }
 }
