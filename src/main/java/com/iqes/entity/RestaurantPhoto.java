@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class RestaurantPhoto extends  IdEntity{
 
     private String url;
-    private String describe;
+    private String displayArea;
 
     public String getUrl() {
         return url;
@@ -24,12 +24,11 @@ public class RestaurantPhoto extends  IdEntity{
         this.url = url;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDisplayArea() {
+        return displayArea;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setDisplayArea(String displayArea) {
+        this.displayArea = displayArea;
     }
-
 }

@@ -5,7 +5,6 @@ package com.iqes.service.restaurant;
  */
 
 import com.iqes.entity.Menu;
-import com.iqes.entity.TableNumber;
 import com.iqes.repository.restaurant.MenuDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -45,13 +45,13 @@ public class RestaurantPhotoController {
 
 
     @RequestMapping(method = RequestMethod.POST)
-    public String upload(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request){
+    public String upload(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request,@RequestParam("displayArea") String displayArea){
 
 
         JSONObject jsonObject=new JSONObject();
 
         try{
-            restaurantPhotoService.saveOne(file,request);
+            restaurantPhotoService.saveOne(file,request,displayArea);
             jsonObject.put("Version", "1.0");
             jsonObject.put("ErrorCode", "0");
             jsonObject.put("ErrorMessage", "");

@@ -22,7 +22,7 @@ public class RestaurantPhotoService {
     @Autowired
     private RestaurantPhotoDao restaurantPhotoDao;
 
-    public void saveOne(MultipartFile file, HttpServletRequest request){
+    public void saveOne(MultipartFile file, HttpServletRequest request,String displayArea){
         String localPath = request.getSession().getServletContext().getRealPath("/upload");
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
@@ -38,7 +38,8 @@ public class RestaurantPhotoService {
             e.printStackTrace();
         }
         RestaurantPhoto photo=new RestaurantPhoto();
-        photo.setUrl("/iqes/upload/"+fileName);
+        photo.setUrl("/iqesTT/upload/"+fileName);
+        photo.setDisplayArea(displayArea);
         restaurantPhotoDao.save(photo);
     }
 
