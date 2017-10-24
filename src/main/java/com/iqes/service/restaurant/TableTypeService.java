@@ -1,5 +1,9 @@
 package com.iqes.service.restaurant;
 
+/**
+ * @author huqili
+ */
+
 import com.iqes.entity.TableType;
 import com.iqes.repository.restaurant.TableTypeDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +42,17 @@ public class TableTypeService {
 
     public List<TableType> findAll(){
       return tableTypeDao.findAll();
+    }
+
+    public String updateEatTime(Long id,Integer eatTime){
+        String msg="更新失败";
+        TableType tableType=tableTypeDao.findOne(id);
+
+        if (tableType!=null) {
+            tableType.setEatTime(eatTime);
+            tableTypeDao.save(tableType);
+            msg="更新用餐时间成功";
+        }
+        return msg;
     }
 }

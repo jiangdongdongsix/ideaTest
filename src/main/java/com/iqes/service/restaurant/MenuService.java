@@ -51,4 +51,16 @@ public class MenuService {
 
         return page;
     }
+
+    public String updateAvailableState(Long id,String available){
+        String msg="更新失败";
+        Menu menu=menuDao.findOne(id);
+
+        if (menu!=null){
+            menu.setAvailable(available);
+            menuDao.save(menu);
+            msg="更新成功";
+        }
+        return msg;
+    }
 }

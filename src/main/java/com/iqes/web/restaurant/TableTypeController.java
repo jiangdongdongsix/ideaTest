@@ -1,15 +1,18 @@
 package com.iqes.web.restaurant;
 
+/**
+ * @author huqili
+ */
+
 import com.alibaba.fastjson.JSONObject;
-import com.iqes.entity.TableNumber;
 import com.iqes.entity.TableType;
 import com.iqes.service.restaurant.TableTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 
 @Controller
 @RequestMapping(value = "/restaurant/tableType")
@@ -70,6 +73,25 @@ public class TableTypeController {
         try {
             tableTypes=tableTypeService.findAll();
             jsonObject.put("tableTypes",tableTypes);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+            jsonObject.put("ErrorMessage", "");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/eatTime",method = RequestMethod.POST)
+    public String updateEatTime(@RequestParam(value = "tableTypeId")Long tableTypeId,@RequestParam(value = "eatTime")Integer eatTime){
+        JSONObject jsonObject=new JSONObject();
+        try {
+            String msg=tableTypeService.updateEatTime(tableTypeId,eatTime);
+            jsonObject.put("msg",msg);
             jsonObject.put("Version", "1.0");
             jsonObject.put("ErrorCode", "0");
             jsonObject.put("ErrorMessage", "");
