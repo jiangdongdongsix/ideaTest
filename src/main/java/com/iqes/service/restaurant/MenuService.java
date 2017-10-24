@@ -5,8 +5,12 @@ package com.iqes.service.restaurant;
  */
 
 import com.iqes.entity.Menu;
+import com.iqes.entity.TableNumber;
 import com.iqes.repository.restaurant.MenuDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,5 +28,27 @@ public class MenuService {
             menuDao.save(menu);
         }
 
+    }
+
+    public Menu findOne(Long id){
+        Menu menu=menuDao.findOne(id);
+        return menu;
+    }
+
+    public void deleteOne(Long id){
+        menuDao.delete(id);
+    }
+
+    public Page<Menu> pageQueryOfMenu(int pageNo,int pageSize){
+        /**
+         * 获取排序sort
+         */
+        Sort.Order order=new Sort.Order(Sort.Direction.ASC,"id");
+        Sort sort=new Sort(order);
+
+        PageRequest pageable = new PageRequest(pageNo-1, pageSize,sort);
+        Page<Menu> page = menuDao.findAll(pageable);
+
+        return page;
     }
 }

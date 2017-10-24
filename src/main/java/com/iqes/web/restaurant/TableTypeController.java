@@ -1,11 +1,15 @@
 package com.iqes.web.restaurant;
 
 import com.alibaba.fastjson.JSONObject;
+import com.iqes.entity.TableNumber;
 import com.iqes.entity.TableType;
 import com.iqes.service.restaurant.TableTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/restaurant/tableType")
@@ -54,6 +58,27 @@ public class TableTypeController {
 
         jsonObject.put("msg",msg);
 
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/all",method = RequestMethod.GET)
+    public String findAll(){
+        JSONObject jsonObject=new JSONObject();
+        List<TableType> tableTypes;
+
+        try {
+            tableTypes=tableTypeService.findAll();
+            jsonObject.put("tableTypes",tableTypes);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+            jsonObject.put("ErrorMessage", "");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
+        }
         return jsonObject.toJSONString();
     }
 }

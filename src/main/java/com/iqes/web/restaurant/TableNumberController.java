@@ -1,5 +1,9 @@
 package com.iqes.web.restaurant;
 
+/**
+ * @author huqili
+ */
+
 import com.alibaba.fastjson.JSONObject;
 import com.iqes.entity.TableNumber;
 import com.iqes.service.restaurant.TableNumberService;
@@ -18,9 +22,26 @@ public class TableNumberController {
     @Autowired
     private TableNumberService tableNumberService;
 
+    @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public void save(@RequestParam("tableNumber")TableNumber tableNumber){
-        tableNumberService.saveOne(tableNumber);
+    public String save(@RequestParam("tableNumber")TableNumber tableNumber){
+
+
+        JSONObject jsonObject=new JSONObject();
+
+        try {
+            tableNumberService.saveOne(tableNumber);
+            jsonObject.put("tableNumber",tableNumber);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+            jsonObject.put("ErrorMessage", "");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
+        }
+        return jsonObject.toJSONString();
     }
 
     @ResponseBody
@@ -53,7 +74,7 @@ public class TableNumberController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/page/tableNumbers")
+    @RequestMapping(value = "/page")
     public String getPageOfAllTableNumbers(@RequestParam(value = "pageNo")int pageNo,@RequestParam(value = "pageSize")int pageSize){
 
         JSONObject jsonObject=new JSONObject();
@@ -74,7 +95,7 @@ public class TableNumberController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/page/tableNumbers/area")
+    @RequestMapping(value = "/page/area")
     public String getPageOfAllTableNumbersByarea(@RequestParam(value = "pageNo")int pageNo,@RequestParam(value = "pageSize")int pageSize,@RequestParam(value = "area")String area){
 
         JSONObject jsonObject=new JSONObject();
@@ -95,7 +116,7 @@ public class TableNumberController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/page/tableNumbers/tableTypeName")
+    @RequestMapping(value = "/page/tableTypeName")
     public String getPageOfAllTableNumbersByTabbleTypeName(@RequestParam(value = "pageNo")int pageNo,@RequestParam(value = "pageSize")int pageSize,@RequestParam(value = "tableTypeName")String tableTypeName){
 
         JSONObject jsonObject=new JSONObject();

@@ -19,6 +19,21 @@ public class Menu extends IdEntity{
 
     private String photoUrl;
 
+    /**
+     * 该字段表明菜品是否可售，可能由于售罄或其他问题而导致菜品不可售
+     * 0：不可售
+     * 1：可售
+     */
+    private String available;
+
+    public String getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(String available) {
+        this.available = available;
+    }
+
     public String getMenuName() {
         return menuName;
     }
