@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @RequestMapping(value = "/restaurant/tableNumber")
 public class TableNumberController {
@@ -132,6 +134,22 @@ public class TableNumberController {
             jsonObject.put("ErrorCode", "1");
             jsonObject.put("ErrorMessage", e.getMessage());
             e.printStackTrace();
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/tableNumbers",method = RequestMethod.GET)
+    public String findAll(){
+
+        JSONObject jsonObject=new JSONObject();
+        List<TableNumber> tableNumberList=tableNumberService.findAll();
+
+        if (tableNumberList!=null){
+            jsonObject.put("tableNumber",tableNumberList);
+            jsonObject.put("msg","查找成功");
+        }else{
+            jsonObject.put("msg","empty！！");
         }
         return jsonObject.toJSONString();
     }

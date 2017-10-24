@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class MenuService {
@@ -51,15 +53,20 @@ public class MenuService {
         return page;
     }
 
-    public String updateAvailableState(Long id,String available){
+    public String updateAvailableState(Long id,String availability){
         String msg="更新失败";
         Menu menu=menuDao.findOne(id);
 
         if (menu!=null){
-            menu.setAvailable(available);
+            menu.setAvailable(availability);
             menuDao.save(menu);
             msg="更新成功";
         }
         return msg;
+    }
+
+    public List<Menu> getAllMenu(){
+        List<Menu> menus=menuDao.findAll();
+        return menus;
     }
 }
