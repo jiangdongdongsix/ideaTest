@@ -131,4 +131,14 @@ public class TableNumberService {
         Page<TableNumber> page = tableNumberDao.findAll(specification, pageable);
         return page;
     }
+
+    public String updateTbleState(Long id,String state){
+        String msg="查无此桌";
+        TableNumber tableNumber=tableNumberDao.findOne(id);
+        if (tableNumber!=null){
+            tableNumber.setState(state);
+            msg="修改成功";
+        }
+        return msg;
+    }
 }

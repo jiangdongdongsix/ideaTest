@@ -7,6 +7,7 @@ package com.iqes.web.restaurant;
 import com.alibaba.fastjson.JSONObject;
 import com.iqes.entity.TableNumber;
 import com.iqes.service.restaurant.TableNumberService;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -150,6 +151,26 @@ public class TableNumberController {
             jsonObject.put("msg","查找成功");
         }else{
             jsonObject.put("msg","empty！！");
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/state",method = RequestMethod.PATCH)
+    public String updateTableState(@RequestParam(value = "id")Long id,@RequestParam("state")String state){
+
+        JSONObject jsonObject=new JSONObject();
+        try {
+            String msg=tableNumberService.updateTbleState(id,state);
+            jsonObject.put("msg",msg);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+            jsonObject.put("ErrorMessage", "");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
         }
         return jsonObject.toJSONString();
     }

@@ -16,6 +16,19 @@ public class TableNumber extends IdEntity{
      */
     private String area;
 
+    /**
+     * 桌子的状态 就餐中还是空桌
+     */
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     @JoinColumn(name = "table_type_id")
     @ManyToOne
     public TableType getTableType() {
