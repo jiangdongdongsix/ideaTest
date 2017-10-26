@@ -143,4 +143,56 @@ public class QueueDownController {
     public String testController(){
         return "/testAPI";
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/shareTable",method = RequestMethod.PATCH)
+    public String shareTable(@RequestParam(value = "tableId")Long tableId,@RequestParam(value = "queueInfoIds")Long[] queueInfoIds){
+
+        System.out.println("0000000000000");
+        System.out.println(tableId);
+        System.out.println(queueInfoIds);
+        JSONObject jsonObject=new JSONObject();
+
+        try {
+            if (tableId==null||queueInfoIds==null){
+                throw  new RuntimeException("传输内容为空！");
+            }
+            extractNumberService.shareTable(tableId,queueInfoIds);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+            jsonObject.put("ErrorMessage", "");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
+        }
+
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/groupTable",method = RequestMethod.PATCH)
+    public String shareTable(@RequestParam(value = "tableIds")Long[] tableIds,@RequestParam(value = "queueInfoId")Long queueInfoId){
+        JSONObject jsonObject=new JSONObject();
+
+        try {
+            if (tableIds==null||queueInfoId==null){
+                throw  new RuntimeException("传输内容为空！");
+            }
+            extractNumberService.groupTable(tableIds,queueInfoId);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+            jsonObject.put("ErrorMessage", "");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
+        }
+
+        return jsonObject.toJSONString();
+    }
+
+
 }

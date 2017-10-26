@@ -221,14 +221,12 @@ public class ExtractNumberService {
      * @return
      */
     public String deleteNumberById(Long queueInfoid){
-        String res = "";
+        String res = "该号码已删除";
         QueueInfo queueInfo=queueManagerDao.getById(queueInfoid);
         if(null!= queueInfo)
         {
             deleteNumber(queueInfo);
             res="删除成功";
-        }else{
-            res="该号码已删除";
         }
         return res;
 
@@ -266,6 +264,43 @@ public class ExtractNumberService {
         Page<QueueInfo> page = queueManagerDao.findAll(specification, pageable);
 
         return page;
+    }
+
+    /**
+     *
+     * 多个排队号拼一个桌
+     * @param tableId
+     * @param queueInfoIds
+     */
+    public void shareTable(Long tableId,Long[] queueInfoIds){
+
+        TableNumber tableNumber=tableNumberDao.findOne(tableId);
+        for (Long id:queueInfoIds){
+            QueueInfo queueInfo=queueManagerDao.findOne(id);
+            queueInfo.setTableNumber(tableNumber);
+            queueInfo.setExtractFlag("1");
+            queueManagerDao.save(queueInfo);
+        }
+        tableNumber.setState("1");
+        tableNumberDao.save(tableNumber);
+    }
+
+    /**
+     * 多个桌子给一个号
+     * @param tableIds
+     * @param queueInfoId
+     */
+    public void groupTable(Long[] tableIds,Long queueInfoId){
+        QueueInfo queueInfo=queueManagerDao.findOne(queueInfoId);
+        for(Long tableId:tableIds){
+            TableNumber tableNumer=tableNumberDao.findOne(tableId);
+            if (tableNumer.getState()!="0"){
+                tableNumer.setState("0");
+            }
+            tableNumberDao.save(tableNumer);
+        }
+        queueInfo.setTableNumber(tableNumberDao.findOne(tableIds[0]));
+        queueManagerDao.save(queueInfo);
     }
 
 }
