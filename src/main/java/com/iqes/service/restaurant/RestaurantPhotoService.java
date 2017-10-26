@@ -38,7 +38,7 @@ public class RestaurantPhotoService {
             e.printStackTrace();
         }
         RestaurantPhoto photo=new RestaurantPhoto();
-        photo.setUrl("/iqesTT/upload/"+fileName);
+        photo.setUrl(request.getServletContext().getContextPath()+"/upload/"+fileName);
         photo.setDisplayArea(displayArea);
         restaurantPhotoDao.save(photo);
     }
