@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.util.List;
 
 /**
  * @author 54312
@@ -38,7 +39,11 @@ public class SeatingChartService {
         seatingChartDao.save(chart);
     }
 
-    public SeatingChart find(){
-        return seatingChartDao.findOne((long)1);
+    public SeatingChart findOne(Long chartId){
+        return seatingChartDao.findOne(chartId);
+    }
+
+    public List<SeatingChart> findAll(){
+        return seatingChartDao.findAll();
     }
 }
