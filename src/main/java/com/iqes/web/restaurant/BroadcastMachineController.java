@@ -1,0 +1,57 @@
+package com.iqes.web.restaurant;
+
+import com.alibaba.fastjson.JSONObject;
+import com.iqes.entity.BroadcastMachine;
+import com.iqes.service.restaurant.BroadcastMachineService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+/**
+ * @author 54312
+ */
+@Controller
+@RequestMapping(value = "/restaurant/broadcastMachine")
+public class BroadcastMachineController {
+
+    @Autowired
+    private BroadcastMachineService broadcastMachineService;
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.POST)
+    public String saveBroadcast(@RequestBody BroadcastMachine broadcastMachine){
+        JSONObject jsonObject=new JSONObject();
+
+        try {
+            broadcastMachineService.save(broadcastMachine);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","0");
+            jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET)
+    public String findBroadcast(){
+
+        JSONObject jsonObject=new JSONObject();
+        try {
+            BroadcastMachine broadcastMachine=broadcastMachineService.find();
+            jsonObject.put("broadcastMachine",broadcastMachine);
+            jsonObject.put("Vesison","1.0");
+        }catch (Exception e){
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
+}
