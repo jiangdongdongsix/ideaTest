@@ -1,6 +1,6 @@
 package com.iqes.service.restaurant;
 
-import com.iqes.entity.QueueInfo;
+import com.iqes.entity.RestaurantArea;
 import com.iqes.entity.TableNumber;
 import com.iqes.entity.TableType;
 import com.iqes.repository.restaurant.TableNumberDao;
@@ -14,6 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
 import java.util.List;
+
+/**
+ * @author 54312
+ *
+ */
 
 @Service
 @Transactional
@@ -140,5 +145,9 @@ public class TableNumberService {
             msg="修改成功";
         }
         return msg;
+    }
+
+    public Integer findTableNumbersByArea(RestaurantArea area){
+        return tableNumberDao.getByStateAndRestaurantArea(area.getId());
     }
 }

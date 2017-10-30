@@ -11,15 +11,29 @@ public class TableNumber extends IdEntity{
      */
     private String name;
     private TableType tableType;
-    /**
-     * 桌子所在区域
-     */
-    private String area;
 
     /**
      * 桌子的状态 就餐中还是空桌
+     * 0:空桌
+     * 1：就餐中
      */
     private String state;
+
+    /**
+     *
+     * 桌子的区域
+     */
+    private RestaurantArea restaurantArea;
+
+    @JoinColumn(name = "area_id")
+    @ManyToOne
+    public RestaurantArea getRestaurantArea() {
+        return restaurantArea;
+    }
+
+    public void setRestaurantArea(RestaurantArea restaurantArea) {
+        this.restaurantArea = restaurantArea;
+    }
 
     public String getState() {
         return state;
@@ -45,14 +59,6 @@ public class TableNumber extends IdEntity{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
     }
 
     @Override

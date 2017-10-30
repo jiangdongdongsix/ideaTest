@@ -3,6 +3,9 @@ package com.iqes.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * @author 54312
+ */
 @Entity
 @Table(name = "restaurant_info")
 public class RestaurantInfo extends IdEntity {

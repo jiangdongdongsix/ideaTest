@@ -39,7 +39,7 @@ public class MenuController {
         if(!dir.exists()) {
             dir.mkdir();
         }
-        menu.setPhotoUrl("/iqes/menuPhotos/"+fileName);
+        menu.setPhotoUrl(request.getServletContext().getContextPath()+"/menuPhotos/"+fileName);
         menu.setAvailable("0");
         try{
             try {
