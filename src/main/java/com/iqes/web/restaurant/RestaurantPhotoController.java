@@ -63,6 +63,7 @@ public class RestaurantPhotoController {
     @RequestMapping(method = RequestMethod.POST)
     public String upload(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request,@RequestParam("displayArea") String displayArea){
 
+        System.out.println("门店图片上传！！！");
         System.out.println(request.getServletContext().getContextPath());
 
         JSONObject jsonObject=new JSONObject();
@@ -124,4 +125,24 @@ public class RestaurantPhotoController {
 //        restaurantPhotoService.saveOne(restaurantPhoto);
 //        return "redirect:/restaurant/restaurantPhoto/testFind";
 //    }
+
+    @ResponseBody
+    @RequestMapping(value = "/displayArea")
+    public String getPhotoByDisplayArea(@RequestParam(value = "displayArea")String displayArea){
+        JSONObject jsonObject=new JSONObject();
+        List<RestaurantPhoto> restaurantPhotoList;
+        try {
+            restaurantPhotoList=restaurantPhotoService.getPhotosByArea(displayArea);
+            jsonObject.put("restaurantPhotos",restaurantPhotoList);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+            jsonObject.put("ErrorMessage", "");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
+        }
+        return jsonObject.toJSONString();
+    }
 }

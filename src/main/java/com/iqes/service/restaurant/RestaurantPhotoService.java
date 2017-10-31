@@ -50,4 +50,15 @@ public class RestaurantPhotoService {
     public void deleteOne(Long id){
         restaurantPhotoDao.delete(id);
     }
+
+    public List<RestaurantPhoto> getPhotosByArea(String displayArea){
+        final String allArea="0";
+        List<RestaurantPhoto> restaurantPhotoList;
+        if (allArea.equals(displayArea)){
+            restaurantPhotoList = restaurantPhotoDao.findAll();
+        }else {
+            restaurantPhotoList = restaurantPhotoDao.getByDisplayArea(displayArea);
+        }
+        return  restaurantPhotoList;
+    }
 }
