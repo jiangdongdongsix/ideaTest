@@ -5,7 +5,9 @@ package com.iqes.service.restaurant;
  */
 
 import com.iqes.entity.TableType;
+import com.iqes.repository.restaurant.TableNumberDao;
 import com.iqes.repository.restaurant.TableTypeDao;
+import com.iqes.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,21 +21,29 @@ public class TableTypeService {
     @Autowired
     private TableTypeDao tableTypeDao;
 
+    @Autowired
+    private TableNumberDao tableNumberDao;
+
     public void saveOne(TableType tableType){
         tableTypeDao.save(tableType);
     }
 
-    public String deleteOne(Long id){
+    public void deleteOne(Long id){
 
         TableType tableType=tableTypeDao.findOne(id);
-        String msg="删除成功";
 
-        if (tableType!=null){
-            tableTypeDao.delete(id);
+        if (tableType==null){
+            throw new ServiceException("没有此桌类型。");
         }else{
-            msg= "删除失败!";
+            Integer tableNumbers=tableNumberDao.getNumbersByTableType(id);
+            System.out.println(tableNumbers);
+            if (tableNumbers!=0){
+                throw new ServiceException("有与此桌型绑定的桌子");
+            }else{
+                tableTypeDao.delete(id);
+            }
+
         }
-        return msg;
     }
 
     public TableType findById(Long id){

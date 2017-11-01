@@ -55,12 +55,20 @@ public class TableTypeController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.DELETE)
     public String deleteOne(@RequestParam("id")Long id){
-        String msg=tableTypeService.deleteOne(id);
+
 
         JSONObject jsonObject=new JSONObject();
 
-        jsonObject.put("msg",msg);
-
+        try {
+            tableTypeService.deleteOne(id);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+         }catch (Exception e){
+           jsonObject.put("Version", "1.0");
+           jsonObject.put("ErrorCode", "1");
+           jsonObject.put("ErrorMessage", e.getMessage());
+           e.printStackTrace();
+      }
         return jsonObject.toJSONString();
     }
 

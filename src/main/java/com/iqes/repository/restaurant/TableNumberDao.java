@@ -34,6 +34,14 @@ public interface TableNumberDao extends PagingAndSortingRepository<TableNumber, 
     List<TableNumber> findByTableTypeId(long id);
 
     @Query(value = "select count(id) FROM table_number as t WHERE t.state='0' AND t.area_id=?1",nativeQuery = true)
-    int getByStateAndRestaurantArea(Long areaId);
+    Integer getByStateAndRestaurantArea(Long areaId);
+
+    /**
+     * 根据卓类型id获取匹配的桌子数量
+     * @param id
+     * @return
+     */
+    @Query(value = "select count(id) from table_number as t where t.table_type_id=?1",nativeQuery = true)
+    Integer getNumbersByTableType(Long id);
 
 }
