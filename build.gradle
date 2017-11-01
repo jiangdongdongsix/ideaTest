@@ -26,14 +26,14 @@ repositories {
     mavenCentral()
 }
 dependencies {
+    // https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+    compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.1'
     compile group: 'org.springside', name: 'springside-core', version:'4.2.2.GA'
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version:'4.3.1.Final'
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version:'1.4.4.RELEASE'
     compile group: 'org.aspectj', name: 'aspectjrt', version:'1.7.4'
     compile group: 'org.springframework', name: 'spring-webmvc', version:'4.0.2.RELEASE'
     compile group: 'javax.servlet', name: 'jstl', version:'1.2'
-    compile group: 'com.google.guava', name: 'guava', version: '23.0'
-    provided group: 'org.projectlombok', name: 'lombok', version: '1.16.16'
     compile group: 'org.apache.shiro', name: 'shiro-spring', version:'1.2.2'
     compile group: 'org.apache.shiro', name: 'shiro-ehcache', version:'1.2.2'
     compile group: 'org.hibernate', name: 'hibernate-validator', version:'5.0.3.Final'
