@@ -4,7 +4,9 @@ import javax.persistence.*;
 
 /**
  * 桌类型
+ * @author 54312
  */
+
 @Table(name = "TABLE_TYPE")
 @Entity
 public class TableType extends IdEntity{
@@ -29,6 +31,20 @@ public class TableType extends IdEntity{
      * 餐桌描述
      */
     private String describe;
+
+    /**
+     *
+     * 提前推送桌数
+     */
+    private Integer pushNumbers;
+
+    public Integer getPushNumbers() {
+        return pushNumbers;
+    }
+
+    public void setPushNumbers(Integer pushNumbers) {
+        this.pushNumbers = pushNumbers;
+    }
 
     public String getTableTypeName() {
         return tableTypeName;
