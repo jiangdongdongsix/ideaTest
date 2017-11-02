@@ -3,7 +3,11 @@ package com.iqes.service.restaurant;
 import com.iqes.entity.RestaurantArea;
 import com.iqes.entity.TableNumber;
 import com.iqes.entity.TableType;
+import com.iqes.entity.dto.TableNumberDTO;
+import com.iqes.repository.restaurant.RestaurantAreaDao;
 import com.iqes.repository.restaurant.TableNumberDao;
+import com.iqes.repository.restaurant.TableTypeDao;
+import com.iqes.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,9 +31,35 @@ public class TableNumberService {
     @Autowired
     private TableNumberDao tableNumberDao;
 
-    public void saveOne(TableNumber tableNumber){
-        tableNumberDao.save(tableNumber);
-    }
+    @Autowired
+    private TableTypeDao tableTypeDao;
+
+    @Autowired
+    private RestaurantAreaDao restaurantAreaDao;
+
+   public void saveOne(TableNumberDTO tableNumberDTO){
+
+       System.out.println(tableNumberDTO);
+
+       TableType tableType=tableTypeDao.getByDescribe(tableNumberDTO.getTableTypeDescribe());
+       if (tableType==null){
+           throw new ServiceException("无此桌类型");
+       }
+
+       RestaurantArea restaurantArea=restaurantAreaDao.findByAreaName(tableNumberDTO.getArea());
+       if (restaurantArea==null){
+           throw new ServiceException("无此区域");
+       }
+
+       TableNumber tableNumber=new TableNumber();
+       tableNumber.setName(tableNumberDTO.getTableName());
+       tableNumber.setState("0");
+       tableNumber.setRestaurantArea(restaurantArea);
+       tableNumber.setTableType(tableType);
+
+       tableNumberDao.save(tableNumber);
+   }
+
 
     public String deleteOne(Long id){
         TableNumber tableNumber=tableNumberDao.findOne(id);

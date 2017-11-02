@@ -1,5 +1,7 @@
 package com.iqes.entity;
 
+import com.iqes.entity.dto.MenuDTO;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -25,6 +27,19 @@ public class Menu extends IdEntity{
      * true：可售
      */
     private boolean available;
+
+     public Menu(){
+    }
+
+    public Menu(MenuDTO menuDTO){
+
+         this.available=false;
+         this.describe=menuDTO.getDescribe();
+         this.memberMenuPrice=menuDTO.getMemberMenuPrice();
+         this.menuName=menuDTO.getMenuName();
+         this.menuType=menuDTO.getMenuType();
+         this.menuPrice=menuDTO.getMenuPrice();
+    }
 
     public boolean isAvailable() {
         return available;

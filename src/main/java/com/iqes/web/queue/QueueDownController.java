@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 /**
  * 抽号服务和叫号服务
@@ -194,5 +195,28 @@ public class QueueDownController {
         return jsonObject.toJSONString();
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/tableTypeDescribe",method = RequestMethod.GET)
+    public String shareTable(@RequestParam(value = "tableTypeDescribe")String tableTypeDescribe){
+        JSONObject jsonObject=new JSONObject();
+        List<QueueInfo> queueInfos;
+        try {
+            if (tableTypeDescribe==null){
+                throw  new RuntimeException("传输内容为空！");
+            }
+            queueInfos=extractNumberService.getQueueInfosByTableTypeDescribe(tableTypeDescribe);
+            jsonObject.put("queueInfos",queueInfos);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+            jsonObject.put("ErrorMessage", "");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
+        }
+
+        return jsonObject.toJSONString();
+    }
 
 }

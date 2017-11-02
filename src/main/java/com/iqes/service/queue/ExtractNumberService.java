@@ -8,6 +8,7 @@ import com.iqes.repository.queue.QueueManagerDao;
 import com.iqes.repository.restaurant.ConfigInfoDao;
 import com.iqes.repository.restaurant.TableNumberDao;
 import com.iqes.repository.restaurant.TableTypeDao;
+import com.iqes.service.ServiceException;
 import com.iqes.utils.TimeFormatTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
@@ -237,7 +239,7 @@ public class ExtractNumberService {
      *
      * @param pageNo
      * @param pageSize
-     * @param tableTypeName
+     * @param tableTypeDescribe
      * @return
      */
     public Page<QueueInfo> pageQuery(int pageNo, int pageSize, final String tableTypeDescribe){
@@ -301,6 +303,22 @@ public class ExtractNumberService {
         }
         queueInfo.setTableNumber(tableNumberDao.findOne(tableIds[0]));
         queueManagerDao.save(queueInfo);
+    }
+
+    /**
+     * 根据桌描述获取所有排队号
+     * @param describe
+     * @return
+     */
+    public List<QueueInfo> getQueueInfosByTableTypeDescribe(String describe){
+        TableType tableType=tableTypeDao.getByDescribe(describe);
+        List<QueueInfo> queueInfoList;
+        if (tableType!=null){
+            queueInfoList=queueManagerDao.getByTableType(tableType.getId());
+        }else {
+            throw new ServiceException("无此桌型");
+        }
+        return queueInfoList;
     }
 
 }

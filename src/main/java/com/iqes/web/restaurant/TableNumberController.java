@@ -2,11 +2,14 @@ package com.iqes.web.restaurant;
 
 import com.alibaba.fastjson.JSONObject;
 import com.iqes.entity.TableNumber;
+import com.iqes.entity.dto.TableNumberDTO;
 import com.iqes.service.restaurant.TableNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/restaurant/tableNumber")
@@ -17,11 +20,11 @@ public class TableNumberController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public String save(@RequestBody TableNumber tableNumber){
+    public String save(@RequestBody TableNumberDTO tableNumberDTO){
 
         JSONObject jsonObject=new JSONObject();
         try {
-            tableNumberService.saveOne(tableNumber);
+            tableNumberService.saveOne(tableNumberDTO);
             jsonObject.put("Version","1.0");
             jsonObject.put("ErrorMessage","");
         }catch (Exception e){
@@ -132,6 +135,26 @@ public class TableNumberController {
         JSONObject jsonObject=new JSONObject();
         try {
             tableNumberService.updateTbleState(id,state);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/all",method = RequestMethod.GET)
+    public String getAllTableNumber(){
+
+        JSONObject jsonObject=new JSONObject();
+        List<TableNumber> tableNumberList=null;
+        try {
+            tableNumberList=tableNumberService.findAll();
+            jsonObject.put("tableNumbers",tableNumberList);
             jsonObject.put("Version","1.0");
             jsonObject.put("ErrorMessage","");
         }catch (Exception e){

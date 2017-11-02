@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
  * @author 54312
  */
 public interface RestaurantAreaDao extends CrudRepository<RestaurantArea,Long> {
+
+    RestaurantArea findByAreaName(String areaName);
 }

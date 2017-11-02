@@ -30,9 +30,9 @@ public class MenuController {
 
         System.out.println("菜单上传！！！！！！！");
         JSONObject jsonObject=new JSONObject();
-        Menu menu=new Menu();
-        menu.setAvailable(false);
-        menu.setMenuName(menuDTO.getMenuName());
+
+        Menu menu=new Menu(menuDTO);
+
         if (menuDTO.getPhoto()!=null) {
             String localPath = request.getSession().getServletContext().getRealPath("/menuPhotos");
             String fileName = System.currentTimeMillis() + "_" + menuDTO.getPhoto().getOriginalFilename();

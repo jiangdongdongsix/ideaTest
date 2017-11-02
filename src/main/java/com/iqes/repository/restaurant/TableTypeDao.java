@@ -29,4 +29,6 @@ public interface TableTypeDao extends PagingAndSortingRepository<TableType, Long
 
       @Query(value = "select id from TableType")
       List<Long> getAllTableTypeId();
+
+      TableType getByDescribe(String describe);
 }
