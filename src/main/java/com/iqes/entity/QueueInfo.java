@@ -1,13 +1,15 @@
 package com.iqes.entity;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *排队管理队列实体表
+ * @author 54312
  * */
 @Entity
 @Table(name = "queue_info")
@@ -98,6 +100,22 @@ public class QueueInfo extends IdEntity{
      *抽号标志
      */
     private Boolean exFlag;
+
+    /**
+     *拼桌状态
+     * 0：不拼桌
+     * 1: 拼桌
+     */
+    private String shareTalbeState;
+
+
+    public String getShareTalbeState() {
+        return shareTalbeState;
+    }
+
+    public void setShareTalbeState(String shareTalbeState) {
+        this.shareTalbeState = shareTalbeState;
+    }
 
     public String getFirstExtractTime() {
         return firstExtractTime;

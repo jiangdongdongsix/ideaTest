@@ -24,6 +24,7 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/upload/** = anon
+				/test = anon
 				/login = authc
 				/logout = logout
 				/static/** = anon
