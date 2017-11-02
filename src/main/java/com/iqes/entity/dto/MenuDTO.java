@@ -1,11 +1,13 @@
-package com.iqes.entity;
+package com.iqes.entity.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.web.multipart.MultipartFile;
 
-@Entity
-@Table(name = "menu")
-public class Menu extends IdEntity{
+import java.io.File;
+
+/**
+ * @author 54312
+ */
+public class MenuDTO {
 
     private String menuName;
 
@@ -17,20 +19,20 @@ public class Menu extends IdEntity{
 
     private String describe;
 
-    private String photoUrl;
+    private MultipartFile photo;
 
     /**
      * 该字段表明菜品是否可售，可能由于售罄或其他问题而导致菜品不可售
-     * false：不可售
-     * true：可售
+     * 0：不可售
+     * 1：可售
      */
-    private boolean available;
+    private Boolean available;
 
-    public boolean isAvailable() {
+    public Boolean getAvailable() {
         return available;
     }
 
-    public void setAvailable(boolean available) {
+    public void setAvailable(Boolean available) {
         this.available = available;
     }
 
@@ -74,11 +76,23 @@ public class Menu extends IdEntity{
         this.describe = describe;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public MultipartFile getPhoto() {
+        return photo;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setPhoto(MultipartFile photo) {
+        this.photo = photo;
+    }
+
+    @Override
+    public String toString() {
+        return "MenuDTO{" +
+                "menuName='" + menuName + '\'' +
+                ", menuType='" + menuType + '\'' +
+                ", menuPrice=" + menuPrice +
+                ", memberMenuPrice=" + memberMenuPrice +
+                ", describe='" + describe + '\'' +
+                ", available='" + available + '\'' +
+                '}';
     }
 }

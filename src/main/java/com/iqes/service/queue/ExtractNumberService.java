@@ -242,7 +242,7 @@ public class ExtractNumberService {
      * @param tableTypeName
      * @return
      */
-    public Page<QueueInfo> pageQuery(int pageNo, int pageSize, final String tableTypeName){
+    public Page<QueueInfo> pageQuery(int pageNo, int pageSize, final String tableTypeDescribe){
 
         Sort.Order order=new Sort.Order(Sort.Direction.ASC,"id");
 
@@ -257,8 +257,8 @@ public class ExtractNumberService {
             @Override
             public Predicate toPredicate(Root<QueueInfo> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Join<QueueInfo,TableType> join=root.join("tableType",JoinType.INNER);
-                Path<String> exp4=join.get("tableTypeName");
-                return cb.like(exp4,tableTypeName);
+                Path<String> exp4=join.get("describe");
+                return cb.like(exp4,tableTypeDescribe);
 
             }
         };

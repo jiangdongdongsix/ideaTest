@@ -2,6 +2,11 @@ package com.iqes.entity;
 
 import javax.persistence.*;
 
+
+/**
+ * 餐桌
+ * @author 54312
+ */
 @Table(name = "TABLE_NUMBER")
 @Entity
 public class TableNumber extends IdEntity{
@@ -11,10 +16,37 @@ public class TableNumber extends IdEntity{
      */
     private String name;
     private TableType tableType;
+
     /**
-     * 桌子所在区域
+     * 桌子的状态 就餐中还是空桌
+     * 0:空桌
+     * 1：就餐中
      */
-    private String area;
+    private String state;
+
+    /**
+     *
+     * 桌子的区域
+     */
+    private RestaurantArea restaurantArea;
+
+    @JoinColumn(name = "area_id")
+    @ManyToOne
+    public RestaurantArea getRestaurantArea() {
+        return restaurantArea;
+    }
+
+    public void setRestaurantArea(RestaurantArea restaurantArea) {
+        this.restaurantArea = restaurantArea;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     @JoinColumn(name = "table_type_id")
     @ManyToOne
@@ -32,14 +64,6 @@ public class TableNumber extends IdEntity{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
     }
 
     @Override

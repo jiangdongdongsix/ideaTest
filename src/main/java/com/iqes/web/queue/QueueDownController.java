@@ -113,17 +113,17 @@ public class QueueDownController {
      *
      * @param pageNo
      * @param pageSize
-     * @param tableTypeName
+     * @param tableTypeDescribe
      * @return 返回一个page对象
      */
     @ResponseBody
-    @RequestMapping(value = "/page/queueNumbers/tableTypeName",method = RequestMethod.GET)
-    public String getPageOfNumber(@RequestParam ("pageNo") int pageNo ,@RequestParam("pageSize") int pageSize,@RequestParam("tableTypeName") String tableTypeName){
+    @RequestMapping(value = "/page/queueNumbers/tableTypeDescribe",method = RequestMethod.GET)
+    public String getPageOfNumber(@RequestParam ("pageNo") int pageNo ,@RequestParam("pageSize") int pageSize,@RequestParam("tableTypeDescribe") String tableTypeDescribe){
 
         JSONObject jsonObject=new JSONObject();
 
         try {
-            Page<QueueInfo> queueInfoList=extractNumberService.pageQuery(pageNo,pageSize,tableTypeName);
+            Page<QueueInfo> queueInfoList=extractNumberService.pageQuery(pageNo,pageSize,tableTypeDescribe);
             jsonObject.put("page",queueInfoList);
             jsonObject.put("Version", "1.0");
             jsonObject.put("ErrorCode", "0");

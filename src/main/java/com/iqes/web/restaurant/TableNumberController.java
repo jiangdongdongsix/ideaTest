@@ -6,10 +6,7 @@ import com.iqes.service.restaurant.TableNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping(value = "/restaurant/tableNumber")
@@ -18,9 +15,22 @@ public class TableNumberController {
     @Autowired
     private TableNumberService tableNumberService;
 
+    @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public void save(@RequestParam("tableNumber")TableNumber tableNumber){
-        tableNumberService.saveOne(tableNumber);
+    public String save(@RequestBody TableNumber tableNumber){
+
+        JSONObject jsonObject=new JSONObject();
+        try {
+            tableNumberService.saveOne(tableNumber);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
     }
 
     @ResponseBody
@@ -53,7 +63,7 @@ public class TableNumberController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/page/tableNumbers")
+    @RequestMapping(value = "/page",method = RequestMethod.GET)
     public String getPageOfAllTableNumbers(@RequestParam(value = "pageNo")int pageNo,@RequestParam(value = "pageSize")int pageSize){
 
         JSONObject jsonObject=new JSONObject();
@@ -74,7 +84,7 @@ public class TableNumberController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/page/tableNumbers/area")
+    @RequestMapping(value = "/page/area",method = RequestMethod.GET)
     public String getPageOfAllTableNumbersByarea(@RequestParam(value = "pageNo")int pageNo,@RequestParam(value = "pageSize")int pageSize,@RequestParam(value = "area")String area){
 
         JSONObject jsonObject=new JSONObject();
@@ -95,7 +105,7 @@ public class TableNumberController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/page/tableNumbers/tableTypeName")
+    @RequestMapping(value = "/page/tableTypeName",method = RequestMethod.GET)
     public String getPageOfAllTableNumbersByTabbleTypeName(@RequestParam(value = "pageNo")int pageNo,@RequestParam(value = "pageSize")int pageSize,@RequestParam(value = "tableTypeName")String tableTypeName){
 
         JSONObject jsonObject=new JSONObject();
@@ -111,6 +121,24 @@ public class TableNumberController {
             jsonObject.put("ErrorCode", "1");
             jsonObject.put("ErrorMessage", e.getMessage());
             e.printStackTrace();
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/state",method = RequestMethod.POST)
+    public String updateState(@RequestParam(value = "id")Long id,@RequestParam(value = "state")String state){
+
+        JSONObject jsonObject=new JSONObject();
+        try {
+            tableNumberService.updateTbleState(id,state);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
         }
         return jsonObject.toJSONString();
     }

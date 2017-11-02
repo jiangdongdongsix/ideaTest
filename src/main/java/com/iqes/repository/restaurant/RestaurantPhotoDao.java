@@ -19,4 +19,11 @@ public interface RestaurantPhotoDao extends CrudRepository<RestaurantPhoto,Long>
     @Override
     @Query("select rp from RestaurantPhoto rp")
     List<RestaurantPhoto> findAll();
+
+    /**
+     * 根据显示区域返回图片对象
+     * @param displayArea
+     * @return
+     */
+    List<RestaurantPhoto> getByDisplayArea(String displayArea);
 }

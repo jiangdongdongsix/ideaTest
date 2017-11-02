@@ -22,7 +22,8 @@ public class RestaurantPhotoService {
     @Autowired
     private RestaurantPhotoDao restaurantPhotoDao;
 
-    public void saveOne(MultipartFile file, HttpServletRequest request){
+    public void saveOne(MultipartFile file, HttpServletRequest request,String displayArea){
+
         String localPath = request.getSession().getServletContext().getRealPath("/upload");
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
@@ -38,7 +39,9 @@ public class RestaurantPhotoService {
             e.printStackTrace();
         }
         RestaurantPhoto photo=new RestaurantPhoto();
-        photo.setUrl("/iqes/upload/"+fileName);
+        photo.setUrl(request.getServletContext().getContextPath()+"/upload/"+fileName);
+        System.out.println(photo.getUrl());
+        photo.setDisplayArea(displayArea);
         restaurantPhotoDao.save(photo);
     }
 
@@ -48,5 +51,16 @@ public class RestaurantPhotoService {
 
     public void deleteOne(Long id){
         restaurantPhotoDao.delete(id);
+    }
+
+    public List<RestaurantPhoto> getPhotosByArea(String displayArea){
+        final String allArea="0";
+        List<RestaurantPhoto> restaurantPhotoList;
+        if (allArea.equals(displayArea)){
+            restaurantPhotoList = restaurantPhotoDao.findAll();
+        }else {
+            restaurantPhotoList = restaurantPhotoDao.getByDisplayArea(displayArea);
+        }
+        return  restaurantPhotoList;
     }
 }
