@@ -353,13 +353,17 @@ public class QueueUpController {
                     waitTime = eatCountById * eachTableTime;
                 }
 
-                //减去最后一近顾客就餐距离当前的差
-                if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < eachTableTime){
-                    waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());
-                }
+
+                if(null != queueHistoryService.getLastTime() && "".equals(queueHistoryService.getLastTime()) ){
+                    //减去最后一近顾客就餐距离当前的差
+                    if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < eachTableTime){
+                        waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());
+                    }
 //                else{
 //                    waitTime = waitTime - eachTableTime;
 //                }
+                }
+
                 //将单位换算成分钟
                 waitTime = waitTime /(1000 *60);
             }
