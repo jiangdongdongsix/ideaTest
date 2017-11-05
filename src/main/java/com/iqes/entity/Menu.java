@@ -5,6 +5,9 @@ import com.iqes.entity.dto.MenuDTO;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * @author 54312
+ */
 @Entity
 @Table(name = "menu")
 public class Menu extends IdEntity{
@@ -33,6 +36,9 @@ public class Menu extends IdEntity{
 
     public Menu(MenuDTO menuDTO){
 
+         if (menuDTO.getId()!=null){
+             this.id=menuDTO.getId();
+         }
          this.available=false;
          this.describe=menuDTO.getDescribe();
          this.memberMenuPrice=menuDTO.getMemberMenuPrice();

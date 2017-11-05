@@ -1,5 +1,6 @@
 package com.iqes.entity.dto;
 
+import com.iqes.entity.IdEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -7,7 +8,7 @@ import java.io.File;
 /**
  * @author 54312
  */
-public class MenuDTO {
+public class MenuDTO extends IdEntity{
 
     private String menuName;
 

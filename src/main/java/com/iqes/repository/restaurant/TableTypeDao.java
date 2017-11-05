@@ -18,8 +18,9 @@ public interface TableTypeDao extends PagingAndSortingRepository<TableType, Long
       Integer getTableCountByType(long tableTypeId);
 
       @Override
-      @Query("select t from TableType t")
+      @Query(value = "select t from TableType t")
       List<TableType> findAll();
+
 
       @Query(value = "select eat_time from table_type where id = ?1",nativeQuery = true)
       long findEatTimeById(long id);

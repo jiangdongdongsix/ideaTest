@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Table(name = "TABLE_TYPE")
 @Entity
-public class TableType extends IdEntity{
+public class TableType extends IdEntity implements Comparable<TableType>{
 
     /**
      * 桌型名称如“A”、“B”
@@ -95,5 +95,15 @@ public class TableType extends IdEntity{
                 ", eatTime=" + eatTime +
                 ", describe='" + describe + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(TableType o) {
+        if (o == null)
+            return 1;
+        int value = this.eatMaxNumber - o.eatMaxNumber;
+        if (value == 0)
+            value=this.eatMinNumber-o.eatMinNumber;
+        return value;
     }
 }

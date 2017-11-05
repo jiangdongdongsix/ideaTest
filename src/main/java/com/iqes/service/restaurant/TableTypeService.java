@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -58,7 +60,10 @@ public class TableTypeService {
     }
 
     public List<TableType> findAll(){
-        return tableTypeDao.findAll();
+        List<TableType> tableTypes=tableTypeDao.findAll();
+        Collections.sort(tableTypes);
+
+        return tableTypes;
     }
 
     public String updateEatTime(Long id,Integer eatTime){

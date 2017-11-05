@@ -39,4 +39,7 @@ public interface QueueManagerDao extends PagingAndSortingRepository<QueueInfo, L
 
     @Query("select q from QueueInfo q where q.tableType.id=?1")
     List<QueueInfo> getByTableType(Long tableTypeId);
+
+    @Query("select q from QueueInfo q where q.tableNumber.id=?1")
+    List<QueueInfo> getByTableNumber(Long tableNumberId);
 }

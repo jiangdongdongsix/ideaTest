@@ -1,9 +1,11 @@
 package com.iqes.entity.dto;
 
+import com.iqes.entity.IdEntity;
+
 /**
  * @author 54312
  */
-public class TableNumberDTO {
+public class TableNumberDTO extends IdEntity {
 
     private String tableName;
 
@@ -12,6 +14,16 @@ public class TableNumberDTO {
     private String area;
 
     private Integer eatMaxNumber;
+
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public String getTableName() {
         return tableName;

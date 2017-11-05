@@ -1,5 +1,6 @@
 package com.iqes.entity.dto;
 
+import com.iqes.entity.IdEntity;
 import com.iqes.entity.QueueInfo;
 import com.iqes.entity.TableType;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * @author 54312
  * 返回桌类型的基本信息和此类型的排队情况
  */
-public class TableTypeDTO {
+public class TableTypeDTO{
 
     /**
      *桌型名称 A B
