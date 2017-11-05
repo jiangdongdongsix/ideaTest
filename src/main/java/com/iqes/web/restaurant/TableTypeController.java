@@ -4,7 +4,9 @@ package com.iqes.web.restaurant;
  * @author huqili
  */
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.iqes.entity.TableType;
 import com.iqes.entity.dto.TableTypeDTO;
 import com.iqes.service.restaurant.TableTypeService;
@@ -91,7 +93,9 @@ public class TableTypeController {
             jsonObject.put("ErrorMessage", e.getMessage());
             e.printStackTrace();
         }
-        return jsonObject.toJSONString();
+
+        String json= JSON.toJSONString(jsonObject, SerializerFeature.WRITE_MAP_NULL_FEATURES);
+        return json;
     }
 
     @ResponseBody

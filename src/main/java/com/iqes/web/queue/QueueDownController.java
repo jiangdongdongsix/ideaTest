@@ -1,6 +1,8 @@
 package com.iqes.web.queue;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.iqes.entity.QueueInfo;
 import com.iqes.service.queue.ExtractNumberService;
 import com.iqes.service.queue.QueryNumberService;
@@ -216,7 +218,8 @@ public class QueueDownController {
             e.printStackTrace();
         }
 
-        return jsonObject.toJSONString();
+        String json= JSON.toJSONString(jsonObject, SerializerFeature.WRITE_MAP_NULL_FEATURES);
+        return json;
     }
 
 }
