@@ -1,9 +1,11 @@
 package com.iqes.service.restaurant;
 
+import com.iqes.entity.QueueInfo;
 import com.iqes.entity.RestaurantArea;
 import com.iqes.entity.TableNumber;
 import com.iqes.entity.TableType;
 import com.iqes.entity.dto.TableNumberDTO;
+import com.iqes.repository.queue.QueueManagerDao;
 import com.iqes.repository.restaurant.RestaurantAreaDao;
 import com.iqes.repository.restaurant.TableNumberDao;
 import com.iqes.repository.restaurant.TableTypeDao;
@@ -17,7 +19,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * @author 54312
@@ -37,6 +41,9 @@ public class TableNumberService {
     @Autowired
     private RestaurantAreaDao restaurantAreaDao;
 
+    @Autowired
+    private QueueManagerDao queueManagerDao;
+
    public void saveOne(TableNumberDTO tableNumberDTO){
 
        System.out.println(tableNumberDTO);
@@ -52,6 +59,11 @@ public class TableNumberService {
        }
 
        TableNumber tableNumber=new TableNumber();
+
+       if (tableNumberDTO.getId()!=null) {
+           tableNumber.setId(tableNumberDTO.getId());
+       }
+
        tableNumber.setName(tableNumberDTO.getTableName());
        tableNumber.setState("0");
        tableNumber.setRestaurantArea(restaurantArea);
@@ -61,16 +73,17 @@ public class TableNumberService {
    }
 
 
-    public String deleteOne(Long id){
+    public void deleteOne(Long id){
         TableNumber tableNumber=tableNumberDao.findOne(id);
-        String msg="删除成功";
+        List<QueueInfo> queueInfoList=queueManagerDao.getByTableNumber(id);
+        System.out.println(queueInfoList.size());
 
-        if (tableNumber!=null) {
-            tableNumberDao.delete(id);
-        }else{
-            msg="删除失败";
+        if (tableNumber==null) {
+            throw new RuntimeException("删除失败，因为就没有这个桌子呀！");
+        }else if(queueInfoList.size()!=0){
+            throw new RuntimeException("删除失败，因为有顾客要坐在这个桌子就餐！");
         }
-        return msg;
+        tableNumberDao.delete(id);
     }
 
     public TableNumber findById(Long id){
@@ -85,8 +98,22 @@ public class TableNumberService {
         return  tableNumberDao.findTableNumbersByTableType(tableType);
     }
 
-    public List<TableNumber> findAll(){
-        return tableNumberDao.findAll();
+    public List<TableNumberDTO> findAll(){
+        List<TableNumberDTO> tableNumberDTOS=new ArrayList<TableNumberDTO>();
+        List<TableNumber> tableNumberList=tableNumberDao.findAll();
+        for (TableNumber t:tableNumberList){
+            TableNumberDTO tableNumberDTO=new TableNumberDTO();
+
+            tableNumberDTO.setArea(t.getRestaurantArea().getAreaName());
+            tableNumberDTO.setEatMaxNumber(t.getTableType().getEatMaxNumber());
+            tableNumberDTO.setTableName(t.getName());
+            tableNumberDTO.setTableTypeDescribe(t.getTableType().getDescribe());
+            tableNumberDTO.setState(t.getState());
+            tableNumberDTO.setId(t.getId());
+
+            tableNumberDTOS.add(tableNumberDTO);
+        }
+        return tableNumberDTOS;
     }
 
     /**

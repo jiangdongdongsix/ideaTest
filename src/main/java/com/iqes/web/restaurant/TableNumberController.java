@@ -1,6 +1,8 @@
 package com.iqes.web.restaurant;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.iqes.entity.TableNumber;
 import com.iqes.entity.dto.TableNumberDTO;
 import com.iqes.service.restaurant.TableNumberService;
@@ -11,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author 54312
+ */
 @Controller
 @RequestMapping(value = "/restaurant/tableNumber")
 public class TableNumberController {
@@ -58,11 +63,18 @@ public class TableNumberController {
     @RequestMapping(method = RequestMethod.DELETE)
     public String deleteOne(@RequestParam("id")Long id){
         JSONObject jsonObject=new JSONObject();
-        String msg=tableNumberService.deleteOne(id);
-
-        jsonObject.put("msg",msg);
-
-        return  jsonObject.toJSONString();
+        try {
+            tableNumberService.deleteOne(id);
+            jsonObject.put("msg","删除成功！");
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
+        }
+        return jsonObject.toJSONString();
     }
 
     @ResponseBody
@@ -151,7 +163,7 @@ public class TableNumberController {
     public String getAllTableNumber(){
 
         JSONObject jsonObject=new JSONObject();
-        List<TableNumber> tableNumberList=null;
+        List<TableNumberDTO> tableNumberList=null;
         try {
             tableNumberList=tableNumberService.findAll();
             jsonObject.put("tableNumbers",tableNumberList);
@@ -163,6 +175,7 @@ public class TableNumberController {
             jsonObject.put("ErrorCode","1");
             jsonObject.put("ErrorMessage",e.getMessage());
         }
-        return jsonObject.toJSONString();
+        String json=JSON.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect);
+        return json;
     }
 }

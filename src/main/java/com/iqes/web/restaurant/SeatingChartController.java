@@ -28,6 +28,7 @@ public class SeatingChartController {
     @RequestMapping(method = RequestMethod.POST)
     public String save(@RequestParam(value = "file", required = false)MultipartFile file, HttpServletRequest request){
         JSONObject jsonObject=new JSONObject();
+        System.out.println("餐厅座位图上传！！！");
 
         try{
            seatingChartService.saveOne(file,request);
@@ -65,7 +66,7 @@ public class SeatingChartController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/seatingCharts",method = RequestMethod.GET)
+    @RequestMapping(value = "/all",method = RequestMethod.GET)
     public String find(){
         JSONObject jsonObject=new JSONObject();
         List<SeatingChart> seatingCharts;
