@@ -31,8 +31,9 @@ public class SeatingChartController {
         System.out.println("餐厅座位图上传！！！");
 
         try{
-           seatingChartService.saveOne(file,request);
-            jsonObject.put("Version","1.0");
+           String url=seatingChartService.saveOne(file,request);
+           jsonObject.put("url",url);
+           jsonObject.put("Version","1.0");
             jsonObject.put("ErrorCode","0");
             jsonObject.put("ErrorMessage","");
         }catch (Exception e){

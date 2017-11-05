@@ -21,7 +21,7 @@ public class SeatingChartService {
     @Autowired
     private SeatingChartDao seatingChartDao;
 
-    public void saveOne(MultipartFile file, HttpServletRequest request){
+    public String saveOne(MultipartFile file, HttpServletRequest request){
         String localPath = request.getSession().getServletContext().getRealPath("/seating");
         String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
@@ -37,6 +37,7 @@ public class SeatingChartService {
         SeatingChart chart=new SeatingChart();
         chart.setUrl(request.getServletContext().getContextPath()+"/seating/"+fileName);
         seatingChartDao.save(chart);
+        return chart.getUrl();
     }
 
     public SeatingChart findOne(Long chartId){
