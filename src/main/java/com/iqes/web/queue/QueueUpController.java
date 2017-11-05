@@ -113,11 +113,12 @@ public class QueueUpController {
             //根据桌型id获得排队人数
 //            eatCountById= queueQueryService.getWaitCountById(queueInfo.getId(),tableTypeList.get(0).getId());
             //根据座位号获取餐桌信息
-            if(!"".equals(queueInfo.getSeatNum()) && queueInfo.getSeatNum() != null){
+            if(!"".equals(queueInfo.getSeatNum()) && null != queueInfo.getSeatNum()){
                 TableNumber tableNumber = tableService.getByTableName(queueInfo.getSeatNum());
                 queueInfo.setTableNumber(tableNumber);
             }
             queueInfo.setTableType(tableTypeList.get(0));
+            queueInfo.setQueueId(tableTypeList.get(0).getTableTypeName()+queueInfo.getId());
             queueInfo.setQueueState("0");
             queueInfo.setExtractFlag("0");
             queueInfo.setExtractCount(0);
@@ -223,12 +224,14 @@ public class QueueUpController {
             waitTimeModel.setTableType(queueInfo.getTableType());
             waitTimeModel.setExtractFlag(queueInfo.getExtractFlag());
 
+
             jsonObject.put("Version", "1.0");
             jsonObject.put("ErrorCode", "0");
             jsonObject.put("ErrorMessage", "");
             jsonObject.put("queueInfo", waitTimeModel);
             jsonObject.put("exflag",queueInfo.getExFlag());
             jsonObject.put("extractFlag",queueInfo.getExtractFlag());
+            jsonObject.put("tableNumber",queueInfo.getTableNumber().getName());
             System.out.println(jsonObject.toJSONString());
 
         } catch (Exception e) {
@@ -307,10 +310,13 @@ public class QueueUpController {
                 waitTime = eatCountById * eachTableTime;
             }
 
-            //减去最后一近顾客就餐距离当前的差
-            if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < eachTableTime){
-                waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());
+            if(null != queueHistoryService.getLastTime() && "".equals(queueHistoryService.getLastTime()) ){
+                //减去最后一近顾客就餐距离当前的差
+                if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < eachTableTime){
+                    waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());
+                }
             }
+
 //            else{
 //                waitTime = waitTime - eachTableTime;
 //            }
