@@ -3,10 +3,12 @@ package com.iqes.web.queue;
 import com.alibaba.fastjson.JSONObject;
 import com.iqes.entity.*;
 import com.iqes.entity.vo.WaitTimeModel;
+import com.iqes.service.ServiceException;
 import com.iqes.service.queue.ExtractNumberService;
 import com.iqes.service.queue.QueueHistoryService;
 import com.iqes.service.queue.QueueQueryService;
 import com.iqes.service.queue.TableService;
+import com.iqes.service.restaurant.ConfigInfoService;
 import com.iqes.utils.TimeFormatTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,9 @@ public class QueueUpController {
     private QueueHistoryService queueHistoryService;
     @Autowired
     private ExtractNumberService extractNumberService;
+
+    @Autowired
+    private ConfigInfoService configInfoService;
 
 
     /**
@@ -77,9 +82,12 @@ public class QueueUpController {
     @RequestMapping(value = "/virtualqueue", method = RequestMethod.POST)
     public String virtualQueue(@RequestBody QueueInfo queueInfo){
         System.out.println(queueInfo);
-        System.out.println("以连接诶");
+        System.out.println("虚拟排队");
         JSONObject jsonObject = new JSONObject();
         try{
+            if (configInfoService.findPauseQueue()){
+                throw new ServiceException("抱歉，本店已暂停抽号");
+            }
             queueInfo.setQueueStartTime(TimeFormatTool.getCurrentTime());
             long id = queueQueryService.save(queueInfo);
             jsonObject.put("Version","1.0");
