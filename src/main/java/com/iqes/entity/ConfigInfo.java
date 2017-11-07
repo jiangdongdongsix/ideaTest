@@ -3,6 +3,9 @@ package com.iqes.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * @author 54312
+ */
 @Entity
 @Table(name = "config_info")
 public class ConfigInfo extends IdEntity {
@@ -20,6 +23,21 @@ public class ConfigInfo extends IdEntity {
      * 邻桌取号，例如8人桌可以取6人桌，4人桌里的排队号
      */
     private Boolean nextTableExtractFlag;
+
+    /**
+     * 暂停抽号
+     * false:不暂停
+     * true:暂停
+     */
+    private  Boolean pauseQueue;
+
+    public Boolean getPauseQueue() {
+        return pauseQueue;
+    }
+
+    public void setPauseQueue(Boolean pauseQueue) {
+        this.pauseQueue = pauseQueue;
+    }
 
     public Boolean getNextTableExtractFlag() {
         return nextTableExtractFlag;

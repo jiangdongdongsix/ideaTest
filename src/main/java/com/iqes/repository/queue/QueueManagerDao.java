@@ -15,7 +15,7 @@ public interface QueueManagerDao extends PagingAndSortingRepository<QueueInfo, L
 
 
     //根据桌类型id获取同桌类型的排队顾客
-    @Query(value = "select * from queue_info as q where q.table_type_id = ?1 and q.queue_state='1'and q.extract_flag='0' ORDER BY q.id",nativeQuery = true )
+    @Query(value = "select * from queue_info as q where q.table_type_id = ?1 and q.queue_state='1'ORDER BY q.id",nativeQuery = true )
     List<QueueInfo> getSameTypeNumbersByTableTypeId(Long id);
 
 

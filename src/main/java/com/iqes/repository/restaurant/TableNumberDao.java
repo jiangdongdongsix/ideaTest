@@ -3,8 +3,6 @@ package com.iqes.repository.restaurant;
 /**
  * 桌子的dao层
  */
-
-import com.iqes.entity.RestaurantArea;
 import com.iqes.entity.TableNumber;
 import com.iqes.entity.TableType;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -22,8 +20,7 @@ public interface TableNumberDao extends PagingAndSortingRepository<TableNumber, 
 
     List<TableNumber> findTableNumbersByTableType(TableType tableType);
 
-    @Override
-    @Query("select t from TableNumber t")
+    @Query("select t from TableNumber t where t.state='0' order by t.id DESC ")
     List<TableNumber> findAll();
 
     /**

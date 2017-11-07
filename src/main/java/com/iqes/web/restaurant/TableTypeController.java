@@ -94,8 +94,9 @@ public class TableTypeController {
             e.printStackTrace();
         }
 
-        String json= JSON.toJSONString(jsonObject, SerializerFeature.WRITE_MAP_NULL_FEATURES);
-        return json;
+//        String json= JSON.toJSONString(jsonObject, SerializerFeature.WRITE_MAP_NULL_FEATURES);
+//        return json;
+        return jsonObject.toJSONString();
     }
 
     @ResponseBody

@@ -63,4 +63,41 @@ public class ConfigInfoController {
         return jsonObject.toJSONString();
     }
 
+    @RequestMapping(value = "/pause",method = RequestMethod.PATCH)
+    @ResponseBody
+    public String updatePauseQueue(@RequestParam("pause")boolean pause){
+        JSONObject jsonObject=new JSONObject();
+        try{
+            configInfoService.upadtePause(pause);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","0");
+            jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @RequestMapping(value = "/pause",method = RequestMethod.GET)
+    @ResponseBody
+    public String findPauseQueue(){
+        JSONObject jsonObject=new JSONObject();
+        try{
+            boolean pause=configInfoService.findPauseQueue();
+            jsonObject.put("pause",pause);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","0");
+            jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
+
 }

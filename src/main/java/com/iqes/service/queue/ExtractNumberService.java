@@ -91,7 +91,7 @@ public class ExtractNumberService {
 
         //按模式进行抽号
         if (PATTERN_ONE.equals(configInfo.getReservePattern())) {
-            queueInfo=patternOne(queueInfos,configInfo,tNumber,queueInfo);
+            queueInfo=patternOne(queueInfos,tNumber,queueInfo);
         }else if (PATTERN_TWO.equals(configInfo.getReservePattern())){
             queueInfo=patternTwo(queueInfos,configInfo,tNumber,queueInfo);
         }else if (PATTERN_THREE.equals(configInfo.getReservePattern())){
@@ -114,6 +114,7 @@ public class ExtractNumberService {
         for (QueueInfo q : queueInfos) {
             if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                 if ("0".equals(q.getExtractFlag())) {
+                    System.out.println("0".equals(q.getExtractFlag()));
                     q.setExtractFlag("1");
                     q.setExFlag(true);
                     q.setExtractCount(q.getExtractCount() + 1);
@@ -131,6 +132,7 @@ public class ExtractNumberService {
                         deleteNumber(q);
                     } else {
                         q.setExtractFlag("0");
+                        q.setTableNumber(null);
                         queueManagerDao.save(q);
                     }
                 }
@@ -152,6 +154,7 @@ public class ExtractNumberService {
         for (QueueInfo q : queueInfos) {
             if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                 if (q.getExtractCount() < configInfo.getExtractCount()) {
+                    System.out.println(q.getCustomerName());
                     //判断抽号标志
                     if ("0".equals(q.getExtractFlag())) {
                         q.setExtractFlag("1");
@@ -165,6 +168,7 @@ public class ExtractNumberService {
                         break;
                     } else {
                         q.setExtractFlag("0");
+                        q.setTableNumber(null);
                         queueManagerDao.save(q);
                     }
                 } else {
@@ -178,12 +182,11 @@ public class ExtractNumberService {
     /**
      *
      * @param queueInfos
-     * @param configInfo
      * @param tNumber
      * @param queueInfo
      * @return
      */
-    private QueueInfo patternOne(List<QueueInfo> queueInfos,ConfigInfo configInfo,TableNumber tNumber,QueueInfo queueInfo) {
+    private QueueInfo patternOne(List<QueueInfo> queueInfos,TableNumber tNumber,QueueInfo queueInfo) {
         for (QueueInfo q : queueInfos) {
             if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                     if ("0".equals(q.getExtractFlag())) {
@@ -218,7 +221,7 @@ public class ExtractNumberService {
     }
 
     /**
-     *
+     *删除排队号，如果有桌子，就置为就餐中
      * @param queueInfoid
      * @return
      */
@@ -227,11 +230,14 @@ public class ExtractNumberService {
         QueueInfo queueInfo=queueManagerDao.getById(queueInfoid);
         if(null!= queueInfo)
         {
+            if (queueInfo.getTableNumber()!=null){
+                queueInfo.getTableNumber().setState("1");
+                tableNumberDao.save(queueInfo.getTableNumber());
+            }
             deleteNumber(queueInfo);
             res="删除成功";
         }
         return res;
-
     }
 
 

@@ -18,6 +18,23 @@ public class ConfigInfoService {
     }
 
     public void saveOne(ConfigInfo configInfo){
+
         configInfoDao.save(configInfo);
     }
+
+    public void upadtePause(boolean pause){
+        ConfigInfo configInfo=configInfoDao.findOne((long)1);
+        configInfo.setPauseQueue(pause);
+    }
+
+    public boolean findPauseQueue(){
+        return configInfoDao.findOne((long)1).getPauseQueue();
+    }
+
+    /**
+     * 避免传入数据库的对象有空字段
+     * @param configInfo
+     * @return
+     */
+
 }
