@@ -7,6 +7,7 @@ package com.iqes.web.restaurant;
 import com.alibaba.fastjson.JSONObject;
 import com.iqes.entity.Menu;
 import com.iqes.entity.dto.MenuDTO;
+import com.iqes.service.ServiceException;
 import com.iqes.service.restaurant.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -199,13 +200,39 @@ public class MenuController {
     public String findMenu(){
 
         JSONObject jsonObject=new JSONObject();
-        List<Menu> menus=null;
+        List<MenuDTO> menus=null;
         try{
             menus=menuService.getAllMenu();
             jsonObject.put("menus",menus);
             jsonObject.put("Version","1.0");
             jsonObject.put("ErrorCode","0");
             jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/menuName",method = RequestMethod.GET)
+    public String findMenuByName(@RequestParam(value = "menuName")String menuName){
+
+        JSONObject jsonObject=new JSONObject();
+        MenuDTO menuDTO=null;
+        try{
+            menuDTO=menuService.findByMenuName(menuName);
+            jsonObject.put("menu",menuDTO);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","0");
+            jsonObject.put("ErrorMessage","");
+        }catch (ServiceException se){
+            se.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",se.getMessage());
         }catch (Exception e){
             e.printStackTrace();
             jsonObject.put("Version","1.0");

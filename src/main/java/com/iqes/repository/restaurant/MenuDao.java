@@ -16,4 +16,6 @@ public interface MenuDao extends PagingAndSortingRepository<Menu,Long>,JpaSpecif
     @Override
     @Query(value = "select Menu from Menu ")
     List<Menu> findAll();
+
+    Menu findByMenuName(String menuName);
 }

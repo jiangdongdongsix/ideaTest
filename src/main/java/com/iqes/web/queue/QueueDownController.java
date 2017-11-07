@@ -1,9 +1,8 @@
 package com.iqes.web.queue;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.iqes.entity.QueueInfo;
+import com.iqes.service.ServiceException;
 import com.iqes.service.queue.ExtractNumberService;
 import com.iqes.service.queue.QueryNumberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
 /**
  * 抽号服务和叫号服务
@@ -54,7 +52,12 @@ public class QueueDownController {
             jsonObject.put("ErrorCode","0");
             jsonObject.put("ErrorMessage","");
             jsonObject.put("extractNumber",queueInfo);
-        } catch (Exception e) {
+        }catch (ServiceException se){
+            se.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",se.getMessage());
+        }catch (Exception e) {
             e.printStackTrace();
             jsonObject.put("Version","1.0");
             jsonObject.put("ErrorCode","1");

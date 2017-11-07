@@ -34,10 +34,10 @@ public interface QueueManagerDao extends PagingAndSortingRepository<QueueInfo, L
      */
     QueueInfo getById(Long id);
 
-    @Query(value = "select count(id) from queue_info where table_type_id=?1",nativeQuery = true)
+    @Query(value = "select count(id) from queue_info AS q  where q.table_type_id=?1 AND q.queue_state='1'",nativeQuery = true)
     Integer getNumbersByTableTypeId(Long id);
 
-    @Query("select q from QueueInfo q where q.tableType.id=?1")
+    @Query("select q from QueueInfo q where q.tableType.id=?1 and q.queueState='1'")
     List<QueueInfo> getByTableType(Long tableTypeId);
 
     @Query("select q from QueueInfo q where q.tableNumber.id=?1")

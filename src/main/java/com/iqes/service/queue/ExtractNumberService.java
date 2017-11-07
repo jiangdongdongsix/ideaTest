@@ -97,6 +97,10 @@ public class ExtractNumberService {
         }else if (PATTERN_THREE.equals(configInfo.getReservePattern())){
             queueInfo=patternThree(queueInfos,configInfo,tNumber,queueInfo);
         }
+
+        if (queueInfo.getId()==null){
+            throw new ServiceException("没有合适的人选呦！");
+        }
         return queueInfo;
     }
 

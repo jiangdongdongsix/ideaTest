@@ -90,30 +90,60 @@ public class TableNumberService {
         return tableNumberDao.findOne(id);
     }
 
-    public TableNumber findByName(String tablename){
-        return tableNumberDao.findTableNumberByName(tablename);
-    }
+    /**
+     * 根据桌名去查找
+     * @param tablename
+     * @return
+     */
+    public TableNumberDTO findByName(String tablename){
 
-    public List<TableNumber> findByTableType(TableType tableType){
-        return  tableNumberDao.findTableNumbersByTableType(tableType);
-    }
-
-    public List<TableNumberDTO> findAll(){
-        List<TableNumberDTO> tableNumberDTOS=new ArrayList<TableNumberDTO>();
-        List<TableNumber> tableNumberList=tableNumberDao.findAll();
-        for (TableNumber t:tableNumberList){
-            TableNumberDTO tableNumberDTO=new TableNumberDTO();
-
-            tableNumberDTO.setArea(t.getRestaurantArea().getAreaName());
-            tableNumberDTO.setEatMaxNumber(t.getTableType().getEatMaxNumber());
-            tableNumberDTO.setTableName(t.getName());
-            tableNumberDTO.setTableTypeDescribe(t.getTableType().getDescribe());
-            tableNumberDTO.setState(t.getState());
-            tableNumberDTO.setId(t.getId());
-
-            tableNumberDTOS.add(tableNumberDTO);
+        TableNumber tableNumber=tableNumberDao.findTableNumberByName(tablename);
+        if (tableNumber==null){
+            throw new ServiceException("查无此桌！！");
         }
-        return tableNumberDTOS;
+        return convertDTO(tableNumber);
+    }
+
+    /**
+     * 根据桌子的状态查找
+     * @param state
+     * @return
+     */
+    public List<TableNumberDTO> findByState(String state){
+        List<TableNumber> tableNumberList=tableNumberDao.findByState(state);
+        return convertToDTOS(tableNumberList);
+    }
+
+    /**
+     * 根据区域返回
+     * @param areaName
+     * @return
+     */
+    public List<TableNumberDTO> findByArea(String areaName){
+        return convertToDTOS(tableNumberDao.findByRestaurantAreaName(areaName));
+    }
+
+
+    /**
+     * 根据桌型描述去查桌子
+     * 大桌 中桌 小桌
+     * @param tableTypeDesribe
+     * @return
+     */
+    public List<TableNumberDTO> findByTableType(String tableTypeDesribe){
+        TableType tableType=tableTypeDao.getByDescribe(tableTypeDesribe);
+        List<TableNumber> tableNumberList=tableNumberDao.findByTableTypeId(tableType.getId());
+
+        return convertToDTOS(tableNumberList);
+    }
+
+    /**
+     * 所有的桌子
+     * @return
+     */
+    public List<TableNumberDTO> findAll(){
+        List<TableNumber> tableNumberList=tableNumberDao.findAll();
+        return convertToDTOS(tableNumberList);
     }
 
     /**
@@ -206,5 +236,42 @@ public class TableNumberService {
 
     public Integer findTableNumbersByArea(RestaurantArea area){
         return tableNumberDao.getByStateAndRestaurantArea(area.getId());
+    }
+
+    /**
+     * 把查询出来的list数据封装到DTOs
+     * @param tableNumberList
+     * @return
+     */
+
+    private List<TableNumberDTO> convertToDTOS(List<TableNumber> tableNumberList){
+        List<TableNumberDTO> tableNumberDTOS=new ArrayList<TableNumberDTO>();
+
+        for (TableNumber t:tableNumberList){
+            TableNumberDTO tableNumberDTO=new TableNumberDTO();
+
+            tableNumberDTO.setArea(t.getRestaurantArea().getAreaName());
+            tableNumberDTO.setEatMaxNumber(t.getTableType().getEatMaxNumber());
+            tableNumberDTO.setTableName(t.getName());
+            tableNumberDTO.setTableTypeDescribe(t.getTableType().getDescribe());
+            tableNumberDTO.setState(t.getState());
+            tableNumberDTO.setId(t.getId());
+
+            tableNumberDTOS.add(tableNumberDTO);
+        }
+        return tableNumberDTOS;
+    }
+
+    private TableNumberDTO convertDTO(TableNumber t){
+        TableNumberDTO tableNumberDTO=new TableNumberDTO();
+
+        tableNumberDTO.setArea(t.getRestaurantArea().getAreaName());
+        tableNumberDTO.setEatMaxNumber(t.getTableType().getEatMaxNumber());
+        tableNumberDTO.setTableName(t.getName());
+        tableNumberDTO.setTableTypeDescribe(t.getTableType().getDescribe());
+        tableNumberDTO.setState(t.getState());
+        tableNumberDTO.setId(t.getId());
+
+        return tableNumberDTO;
     }
 }

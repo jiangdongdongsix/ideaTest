@@ -178,4 +178,84 @@ public class TableNumberController {
         String json=JSON.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect);
         return json;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/state",method = RequestMethod.GET)
+    public String getTableNumbersByState(@RequestParam(value = "state")String state){
+
+        JSONObject jsonObject=new JSONObject();
+        List<TableNumberDTO> tableNumberList=null;
+        try {
+            tableNumberList=tableNumberService.findByState(state);
+            jsonObject.put("tableNumbers",tableNumberList);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/area",method = RequestMethod.GET)
+    public String getByArea(@RequestParam(value = "areaName")String areaName){
+
+        JSONObject jsonObject=new JSONObject();
+        List<TableNumberDTO> tableNumberList=null;
+        try {
+            tableNumberList=tableNumberService.findByArea(areaName);
+            jsonObject.put("tableNumbers",tableNumberList);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/tableType",method = RequestMethod.GET)
+    public String getByTaleType(@RequestParam(value = "tableTypeDescribe")String tableTypeDescribe){
+
+        JSONObject jsonObject=new JSONObject();
+        List<TableNumberDTO> tableNumberList=null;
+        try {
+            tableNumberList=tableNumberService.findByTableType(tableTypeDescribe);
+            jsonObject.put("tableNumbers",tableNumberList);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/name",method = RequestMethod.GET)
+    public String getAllTableNumber(@RequestParam(value = "tableName")String tableName){
+
+        JSONObject jsonObject=new JSONObject();
+        TableNumberDTO tableNumberDTO=null;
+        try {
+            tableNumberDTO=tableNumberService.findByName(tableName);
+            jsonObject.put("tableNumber",tableNumberDTO);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
 }

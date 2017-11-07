@@ -16,11 +16,27 @@ public interface TableNumberDao extends PagingAndSortingRepository<TableNumber, 
     @Query("select t from TableNumber t where t.name=?1")
     TableNumber getByTableName(String tablename);
 
+    /**
+     * 根据桌区域名查桌子
+     * @param areaName
+     * @return
+     */
+    @Query("select t from TableNumber t where t.restaurantArea.areaName=?1")
+    List<TableNumber> findByRestaurantAreaName(String areaName);
+
+    /**
+     * 根据状态查
+     * @param state
+     * @return
+     */
+    List<TableNumber> findByState(String state);
+
     TableNumber findTableNumberByName(String name);
 
     List<TableNumber> findTableNumbersByTableType(TableType tableType);
 
-    @Query("select t from TableNumber t where t.state='0' order by t.id DESC ")
+    @Override
+    @Query("select t from TableNumber t  order by t.id DESC ")
     List<TableNumber> findAll();
 
     /**

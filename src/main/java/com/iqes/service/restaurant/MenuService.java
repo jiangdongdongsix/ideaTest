@@ -5,6 +5,7 @@ package com.iqes.service.restaurant;
  */
 
 import com.iqes.entity.Menu;
+import com.iqes.entity.dto.MenuDTO;
 import com.iqes.repository.restaurant.MenuDao;
 import com.iqes.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -74,8 +76,46 @@ public class MenuService {
         return msg;
     }
 
-    public List<Menu> getAllMenu(){
-        List<Menu> menus= (List<Menu>) menuDao.findAll();
-        return menus;
+    public List<MenuDTO> getAllMenu(){
+      return convertMenuDTOS(menuDao.findAll());
+    }
+
+    public MenuDTO findByMenuName(String menuName){
+        Menu menu=menuDao.findByMenuName(menuName);
+        if (menu==null){
+            throw new ServiceException("查无此菜哟~~");
+        }
+        return convertMenuDTO(menu);
+    }
+
+
+    private List<MenuDTO> convertMenuDTOS(List<Menu> menuList){
+        List<MenuDTO> menuDTOS=new ArrayList<MenuDTO>();
+        MenuDTO menuDTO=new MenuDTO();
+        for (Menu menu:menuList){
+            menuDTO.setAvailable(menu.isAvailable());
+            menuDTO.setDescribe(menu.getDescribe());
+            menuDTO.setMemberMenuPrice(menuDTO.getMemberMenuPrice());
+            menuDTO.setMenuName(menuDTO.getMenuName());
+            menuDTO.setMenuPrice(menu.getMenuPrice());
+            menuDTO.setMenuType(menu.getMenuType());
+
+            menuDTOS.add(menuDTO);
+        }
+        return menuDTOS;
+    }
+
+    private MenuDTO convertMenuDTO(Menu menu){
+
+        MenuDTO menuDTO=new MenuDTO();
+
+        menuDTO.setAvailable(menu.isAvailable());
+        menuDTO.setDescribe(menu.getDescribe());
+        menuDTO.setMemberMenuPrice(menuDTO.getMemberMenuPrice());
+        menuDTO.setMenuName(menuDTO.getMenuName());
+        menuDTO.setMenuPrice(menu.getMenuPrice());
+        menuDTO.setMenuType(menu.getMenuType());
+
+        return menuDTO;
     }
 }
