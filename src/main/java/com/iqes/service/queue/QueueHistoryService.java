@@ -11,8 +11,8 @@ public class QueueHistoryService {
     private QueueHistoryDao queueHistoryDao;
 
 
-    public String getLastTime() throws Exception{
-        return queueHistoryDao.getLastTime();
+    public String getLastTime(long id) throws Exception{
+        return queueHistoryDao.getLastTime(id);
     }
 
 }
