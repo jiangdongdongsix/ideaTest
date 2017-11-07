@@ -84,7 +84,7 @@ public class TableTypeService {
         Integer numbers;
         List<QueueInfo> queueInfos;
 
-        List<TableType> tableTypes=tableTypeDao.findAll();
+        List<TableType> tableTypes=findAll();
         for (TableType tableType:tableTypes){
             TableTypeDTO tableTypeDTO=new TableTypeDTO();
             System.out.println(tableType);

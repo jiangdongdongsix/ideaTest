@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @author 54312
+ * 配置信息
+ */
 @Service
 @Transactional
 public class ConfigInfoService {
@@ -18,7 +22,23 @@ public class ConfigInfoService {
     }
 
     public void saveOne(ConfigInfo configInfo){
+        ConfigInfo c=configInfoDao.findOne(configInfo.getId());
 
+        if (configInfo.getNextTableExtractFlag()==null){
+            if (c.getNextTableExtractFlag()!=null){
+                configInfo.setNextTableExtractFlag(c.getNextTableExtractFlag());
+            }else{
+                configInfo.setNextTableExtractFlag(false);
+            }
+        }
+
+        if (configInfo.getPauseQueue()==null){
+            if (c.getPauseQueue()!=null){
+                configInfo.setPauseQueue(c.getPauseQueue());
+            }else{
+                configInfo.setPauseQueue(false);
+            }
+        }
         configInfoDao.save(configInfo);
     }
 
@@ -30,11 +50,5 @@ public class ConfigInfoService {
     public boolean findPauseQueue(){
         return configInfoDao.findOne((long)1).getPauseQueue();
     }
-
-    /**
-     * 避免传入数据库的对象有空字段
-     * @param configInfo
-     * @return
-     */
 
 }
