@@ -318,10 +318,10 @@ public class QueueUpController {
                 waitTime = eatCountById * eachTableTime;
             }
 
-            if(null != queueHistoryService.getLastTime() && !"".equals(queueHistoryService.getLastTime()) ){
+            if(null != queueHistoryService.getLastTime(tableTypeId) && !"".equals(queueHistoryService.getLastTime(tableTypeId)) ){
                 //减去最后一近顾客就餐距离当前的差
-                if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < eachTableTime){
-                    waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());
+                if(TimeFormatTool.diffTime(queueHistoryService.getLastTime(tableTypeId)) < eachTableTime){
+                    waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime(tableTypeId));
                 }
             }
 
@@ -368,10 +368,10 @@ public class QueueUpController {
                 }
 
 
-                if(null != queueHistoryService.getLastTime() && !"".equals(queueHistoryService.getLastTime()) ){
+                if(null != queueHistoryService.getLastTime(tableTypeId) && !"".equals(queueHistoryService.getLastTime(tableTypeId)) ){
                     //减去最后一近顾客就餐距离当前的差
-                    if(TimeFormatTool.diffTime(queueHistoryService.getLastTime()) < eachTableTime){
-                        waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime());
+                    if(TimeFormatTool.diffTime(queueHistoryService.getLastTime(tableTypeId)) < eachTableTime){
+                        waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime(tableTypeId));
                     }
 //                else{
 //                    waitTime = waitTime - eachTableTime;
