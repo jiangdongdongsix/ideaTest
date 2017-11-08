@@ -27,7 +27,7 @@ public class TableTypeDTO{
     /**
      * 到号
      */
-    private List<String> arrivingQueueInfoList;
+    private String arrivingQueueInfo;
 
     public String getTableTypeDescribe() {
         return tableTypeDescribe;
@@ -61,11 +61,11 @@ public class TableTypeDTO{
         this.queueNumbers = queueNumbers;
     }
 
-    public List<String> getArrivingQueueInfoList() {
-        return arrivingQueueInfoList;
+    public String getArrivingQueueInfo() {
+        return arrivingQueueInfo;
     }
 
-    public void setArrivingQueueInfoList(List<String> arrivingQueueInfoList) {
-        this.arrivingQueueInfoList = arrivingQueueInfoList;
+    public void setArrivingQueueInfo(String arrivingQueueInfo) {
+        this.arrivingQueueInfo = arrivingQueueInfo;
     }
 }

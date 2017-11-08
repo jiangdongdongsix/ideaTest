@@ -108,6 +108,18 @@ public class QueueInfo extends IdEntity{
      */
     private String shareTalbeState;
 
+    /**
+     * 拼桌的
+     */
+    private String tables;
+
+    public String getTables() {
+        return tables;
+    }
+
+    public void setTables(String tables) {
+        this.tables = tables;
+    }
 
     public String getShareTalbeState() {
         return shareTalbeState;

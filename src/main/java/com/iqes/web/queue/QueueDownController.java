@@ -2,6 +2,7 @@ package com.iqes.web.queue;
 
 import com.alibaba.fastjson.JSONObject;
 import com.iqes.entity.QueueInfo;
+import com.iqes.entity.dto.ShareTableDTO;
 import com.iqes.service.ServiceException;
 import com.iqes.service.queue.ExtractNumberService;
 import com.iqes.service.queue.QueryNumberService;
@@ -150,43 +151,18 @@ public class QueueDownController {
         return "/testAPI";
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/shareTable",method = RequestMethod.PATCH)
-    public String shareTable(@RequestParam(value = "tableId")Long tableId,@RequestParam(value = "queueInfoIds")Long[] queueInfoIds){
-
-        System.out.println("0000000000000");
-        System.out.println(tableId);
-        System.out.println(queueInfoIds);
-        JSONObject jsonObject=new JSONObject();
-
-        try {
-            if (tableId==null||queueInfoIds==null){
-                throw  new RuntimeException("传输内容为空！");
-            }
-            extractNumberService.shareTable(tableId,queueInfoIds);
-            jsonObject.put("Version", "1.0");
-            jsonObject.put("ErrorCode", "0");
-            jsonObject.put("ErrorMessage", "");
-        }catch (Exception e){
-            jsonObject.put("Version", "1.0");
-            jsonObject.put("ErrorCode", "1");
-            jsonObject.put("ErrorMessage", e.getMessage());
-            e.printStackTrace();
-        }
-
-        return jsonObject.toJSONString();
-    }
 
     @ResponseBody
-    @RequestMapping(value = "/groupTable",method = RequestMethod.PATCH)
-    public String shareTable(@RequestParam(value = "tableIds")Long[] tableIds,@RequestParam(value = "queueInfoId")Long queueInfoId){
+    @RequestMapping(value = "/shareTable",method = RequestMethod.GET)
+    public String shareTable(@RequestParam(value = "tables")String tables,@RequestParam(value = "queueInfos")String queueInfos){
         JSONObject jsonObject=new JSONObject();
-
+        ShareTableDTO shareTableDTO=null;
         try {
-            if (tableIds==null||queueInfoId==null){
-                throw  new RuntimeException("传输内容为空！");
+            if (tables==null||queueInfos==null){
+                throw  new RuntimeException("传输内容有空呀！");
             }
-            extractNumberService.groupTable(tableIds,queueInfoId);
+           shareTableDTO=extractNumberService.shareTable(tables,queueInfos);
+            jsonObject.put("shareTableData",shareTableDTO);
             jsonObject.put("Version", "1.0");
             jsonObject.put("ErrorCode", "0");
             jsonObject.put("ErrorMessage", "");
@@ -223,6 +199,26 @@ public class QueueDownController {
 
 //        String json= JSON.toJSONString(jsonObject, SerializerFeature.WRITE_MAP_NULL_FEATURES);
 //        return json;
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/arriving",method = RequestMethod.GET)
+    public String callNumber(){
+        JSONObject jsonObject=new JSONObject();
+        ShareTableDTO shareTableDTO=null;
+        try {
+            shareTableDTO=queryNumberService.queryNumber();
+            jsonObject.put("QueueInfo",shareTableDTO);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+            jsonObject.put("ErrorMessage", "");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
+        }
         return jsonObject.toJSONString();
     }
 

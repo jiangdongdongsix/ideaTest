@@ -2,6 +2,7 @@ package com.iqes.service.restaurant;
 
 import com.iqes.entity.SeatingChart;
 import com.iqes.repository.restaurant.SeatingChartDao;
+import com.iqes.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,13 +36,21 @@ public class SeatingChartService {
             e.printStackTrace();
         }
         SeatingChart chart=new SeatingChart();
+
         chart.setUrl(request.getServletContext().getContextPath()+"/seating/"+fileName);
+        chart.setId((long)1);
+
         seatingChartDao.save(chart);
         return chart.getUrl();
     }
 
-    public SeatingChart findOne(Long chartId){
-        return seatingChartDao.findOne(chartId);
+    public String findOne(){
+
+        SeatingChart seatingChart= seatingChartDao.findOne((long)1);
+        if (seatingChart.getUrl()==null){
+            throw new ServiceException("没有图片！");
+        }
+        return seatingChart.getUrl();
     }
 
     public List<SeatingChart> findAll(){

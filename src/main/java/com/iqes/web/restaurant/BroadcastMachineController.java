@@ -2,6 +2,7 @@ package com.iqes.web.restaurant;
 
 import com.alibaba.fastjson.JSONObject;
 import com.iqes.entity.BroadcastMachine;
+import com.iqes.entity.dto.BroadcastHomePageDTO;
 import com.iqes.service.restaurant.BroadcastMachineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,6 +48,25 @@ public class BroadcastMachineController {
         try {
             BroadcastMachine broadcastMachine=broadcastMachineService.find();
             jsonObject.put("broadcastMachine",broadcastMachine);
+            jsonObject.put("Vesison","1.0");
+        }catch (Exception e){
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/homePage",method = RequestMethod.GET)
+    public String getAllthingAboutBroadcast(){
+
+        JSONObject jsonObject=new JSONObject();
+        BroadcastHomePageDTO broadcastHomePage=null;
+        try {
+            broadcastHomePage=broadcastMachineService.getAllThingOfHomePage();
+            jsonObject.put("broadcastHomePage",broadcastHomePage);
+            jsonObject.put("ErrorCode","0");
             jsonObject.put("Vesison","1.0");
         }catch (Exception e){
             jsonObject.put("Version","1.0");

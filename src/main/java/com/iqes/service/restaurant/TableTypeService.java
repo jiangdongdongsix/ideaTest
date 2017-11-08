@@ -96,13 +96,14 @@ public class TableTypeService {
             numbers=queueManagerDao.getNumbersByTableTypeId(tableType.getId());
             tableTypeDTO.setQueueNumbers(numbers);
 
-            queueInfos=queueManagerDao.getByExtractFlagAndAndTableType(tableType.getId());
+            queueInfos=queueManagerDao.getSameTypeNumbersByTableTypeId(tableType.getId());
+            String arrivingQueueId=null;
             if (queueInfos!=null) {
-                List<String> arrivingQueueId=new ArrayList<String>();
-                for (QueueInfo queueInfo:queueInfos){
-                    arrivingQueueId.add(queueInfo.getQueueId());
+                for (QueueInfo q:queueInfos){
+                   arrivingQueueId=q.getQueueId();
+                    break;
                 }
-                tableTypeDTO.setArrivingQueueInfoList(arrivingQueueId);
+                tableTypeDTO.setArrivingQueueInfo(arrivingQueueId);
             }
             tableTypeDTOS.add(tableTypeDTO);
         }

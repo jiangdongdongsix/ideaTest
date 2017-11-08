@@ -3,6 +3,7 @@ package com.iqes.service.queue;
 
 
 import com.iqes.entity.*;
+import com.iqes.entity.dto.ShareTableDTO;
 import com.iqes.repository.queue.QueueHistoryDao;
 import com.iqes.repository.queue.QueueManagerDao;
 import com.iqes.repository.restaurant.ConfigInfoDao;
@@ -216,6 +217,20 @@ public class ExtractNumberService {
      */
     private void deleteNumber(QueueInfo q){
         System.out.println("111111"+TimeFormatTool.getCurrentTime());
+        final String shareTableFalg="1";
+
+        if (shareTableFalg.equals(q.getShareTalbeState())){
+            List<QueueInfo> queueInfos=queueManagerDao.getByTables(q.getTables());
+            for (QueueInfo queueInfo:queueInfos){
+                    saveToHistory(queueInfo);
+            }
+            System.out.println("删除拼桌的号~~~");
+        }else {
+            saveToHistory(q);
+        }
+    }
+
+    private void saveToHistory(QueueInfo q){
         q.setQueueEndTime(TimeFormatTool.getCurrentTime());
         q.setQueueState("3");
         q.setId(null);
@@ -279,43 +294,6 @@ public class ExtractNumberService {
     }
 
     /**
-     *
-     * 多个排队号拼一个桌
-     * @param tableId
-     * @param queueInfoIds
-     */
-    public void shareTable(Long tableId,Long[] queueInfoIds){
-
-        TableNumber tableNumber=tableNumberDao.findOne(tableId);
-        for (Long id:queueInfoIds){
-            QueueInfo queueInfo=queueManagerDao.findOne(id);
-            queueInfo.setTableNumber(tableNumber);
-            queueInfo.setExtractFlag("1");
-            queueManagerDao.save(queueInfo);
-        }
-        tableNumber.setState("1");
-        tableNumberDao.save(tableNumber);
-    }
-
-    /**
-     * 多个桌子给一个号
-     * @param tableIds
-     * @param queueInfoId
-     */
-    public void groupTable(Long[] tableIds,Long queueInfoId){
-        QueueInfo queueInfo=queueManagerDao.findOne(queueInfoId);
-        for(Long tableId:tableIds){
-            TableNumber tableNumer=tableNumberDao.findOne(tableId);
-            if (tableNumer.getState()!="0"){
-                tableNumer.setState("0");
-            }
-            tableNumberDao.save(tableNumer);
-        }
-        queueInfo.setTableNumber(tableNumberDao.findOne(tableIds[0]));
-        queueManagerDao.save(queueInfo);
-    }
-
-    /**
      * 根据桌描述获取所有排队号
      * @param describe
      * @return
@@ -331,4 +309,50 @@ public class ExtractNumberService {
         return queueInfoList;
     }
 
+
+    /**
+     * 拼桌
+     * @param tables
+     * @param queueInfos
+     * @return
+     */
+    public ShareTableDTO shareTable(String tables,String queueInfos){
+
+        String[] tableStr=tables.split(",");
+        String[] queueStr=queueInfos.split(",");
+
+        TableNumber tableNumber=null;
+        QueueInfo queueInfo=null;
+
+        for (int j=0;j<queueStr.length;j++){
+            StringBuilder sb=new StringBuilder();
+            queueInfo=queueManagerDao.getByQueueId(queueStr[j]);
+
+            if (queueInfo==null){
+                throw new ServiceException("没有"+queueStr[j]+"这个号呀！");
+                }
+            for (int i=0;i<tableStr.length;i++){
+                tableNumber=tableNumberDao.getByTableName(tableStr[i]);
+                if (tableNumber==null){
+                    throw new ServiceException("没有"+tableStr[i]+"这个桌子呀！");
+                }
+                sb.append(tableNumber.getId());
+                if ((i + 1)<tableStr.length) {
+                    sb.append(",");
+                }
+            }
+
+            queueInfo.setShareTalbeState("1");
+            queueInfo.setExtractFlag("1");
+            queueInfo.setTables(sb.toString());
+        }
+
+        ShareTableDTO shareTableDTO=new ShareTableDTO();
+        shareTableDTO.setQueueInfos(queueInfos);
+        shareTableDTO.setTables(tables);
+
+        return shareTableDTO;
+    }
 }
+
+

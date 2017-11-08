@@ -132,6 +132,7 @@ public class QueueUpController {
             queueInfo.setExtractCount(0);
             queueInfo.setCallCount(0);
             queueInfo.setExFlag(false);
+            queueInfo.setShareTalbeState("0");
 
             queueInfo.setQueueStartTime(TimeFormatTool.getCurrentTime());
             //更新排队

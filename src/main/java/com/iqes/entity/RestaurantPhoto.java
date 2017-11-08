@@ -14,6 +14,11 @@ import javax.persistence.Table;
 public class RestaurantPhoto extends  IdEntity{
 
     private String url;
+
+    /**
+     * 0:直立机
+     * 1：App
+     */
     private String displayArea;
 
     public String getUrl() {

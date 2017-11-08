@@ -47,13 +47,12 @@ public class SeatingChartController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
-    public String find(@RequestParam(value = "chartId") Long chartId){
+    public String find(){
         JSONObject jsonObject=new JSONObject();
-        SeatingChart seatingChart;
 
         try{
-            seatingChart=seatingChartService.findOne(chartId);
-            jsonObject.put("seatingChart",seatingChart);
+            String chartUrl=seatingChartService.findOne();
+            jsonObject.put("chartUrl",chartUrl);
             jsonObject.put("Version","1.0");
             jsonObject.put("ErrorCode","0");
             jsonObject.put("ErrorMessage","");
@@ -68,7 +67,7 @@ public class SeatingChartController {
 
     @ResponseBody
     @RequestMapping(value = "/all",method = RequestMethod.GET)
-    public String find(){
+    public String findAll(){
         JSONObject jsonObject=new JSONObject();
         List<SeatingChart> seatingCharts;
 

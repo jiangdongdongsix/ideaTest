@@ -7,8 +7,10 @@ package com.iqes.service.queue;
 
 import com.iqes.entity.QueueInfo;
 import com.iqes.entity.TableType;
+import com.iqes.entity.dto.ShareTableDTO;
 import com.iqes.repository.queue.QueueManagerDao;
 import com.iqes.repository.restaurant.TableTypeDao;
+import com.iqes.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,21 +28,38 @@ public class QueryNumberService {
     @Autowired
     private TableTypeDao tableTypeDao;
 
-    public QueueInfo queryNumber(){
+    public ShareTableDTO queryNumber(){
         List<QueueInfo> queueInfos=queueManagerDao.getArrivingNumbers();
-        QueueInfo queueInfo=new QueueInfo();
+        final String shareTalbeFlag="1";
+        if (queueInfos.size()==0){
+            throw new ServiceException("当前无需要被叫号的！");
+        }
+
+        ShareTableDTO shareTableDTO=new ShareTableDTO();
 
         for (QueueInfo q:queueInfos){
-            //判断叫号次数
-            if(q.getCallCount()<3){
-                q.setCallCount(q.getCallCount()+1);
-                queueManagerDao.save(q);
-                queueInfo=q;
+            /** 判断是否有拼桌的*/
+            if(shareTalbeFlag.equals(q.getShareTalbeState())){
+                List<QueueInfo> shareTableQueues=queueManagerDao.getByTables(q.getTables());
+                StringBuilder stringBuilder=new StringBuilder();
+
+                for (QueueInfo queueInfo1:shareTableQueues){
+                    stringBuilder.append(queueInfo1.getQueueId());
+                    stringBuilder.append(",");
+                }
+                stringBuilder.deleteCharAt(stringBuilder.length()-1);
+                shareTableDTO.setTables(q.getTables());
+                shareTableDTO.setQueueInfos(stringBuilder.toString());
+                break;
+            }else {
+                shareTableDTO.setQueueInfos(q.getQueueId());
+                shareTableDTO.setTables(q.getTableNumber().getName());
                 break;
             }
+            }
+            return shareTableDTO;
         }
-        return queueInfo;
-    }
+
 
     public  Map<String,List<QueueInfo>> getArrivingNumberByTableType(){
 
