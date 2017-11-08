@@ -6,6 +6,7 @@ package com.iqes.service.restaurant;
 
 import com.iqes.entity.RestaurantPhoto;
 import com.iqes.repository.restaurant.RestaurantPhotoDao;
+import com.iqes.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +51,13 @@ public class RestaurantPhotoService {
     }
 
     public void deleteOne(Long id){
+//        String photoName=restaurantPhotoDao.findOne(id).getUrl();
+//        File file=new File(photoName);
+//        if (!file.exists()){
+//            throw new ServiceException("文件不存在");
+//        }else{
+//            file.delete();
+//        }
         restaurantPhotoDao.delete(id);
     }
 

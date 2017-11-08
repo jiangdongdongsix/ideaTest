@@ -217,17 +217,20 @@ public class ExtractNumberService {
      */
     private void deleteNumber(QueueInfo q){
         System.out.println("111111"+TimeFormatTool.getCurrentTime());
-        final String shareTableFalg="1";
 
-        if (shareTableFalg.equals(q.getShareTalbeState())){
-            List<QueueInfo> queueInfos=queueManagerDao.getByTables(q.getTables());
-            for (QueueInfo queueInfo:queueInfos){
-                    saveToHistory(queueInfo);
-            }
-            System.out.println("删除拼桌的号~~~");
-        }else {
-            saveToHistory(q);
-        }
+//        final String shareTableFalg="1";
+//        if (shareTableFalg.equals(q.getShareTalbeState())){
+//            List<QueueInfo> queueInfos=queueManagerDao.getByTables(q.getTables());
+//            for (QueueInfo queueInfo:queueInfos){
+//                    saveToHistory(queueInfo);
+//            }
+//            System.out.println("删除拼桌的号~~~");
+//        }else {
+//            saveToHistory(q);
+//        }
+
+        saveToHistory(q);
+
     }
 
     private void saveToHistory(QueueInfo q){
@@ -353,6 +356,8 @@ public class ExtractNumberService {
 
         return shareTableDTO;
     }
+
+
 }
 
 

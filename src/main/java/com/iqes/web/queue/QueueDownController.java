@@ -1,6 +1,8 @@
 package com.iqes.web.queue;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.iqes.entity.QueueInfo;
 import com.iqes.entity.dto.ShareTableDTO;
 import com.iqes.service.ServiceException;
@@ -212,7 +214,6 @@ public class QueueDownController {
             jsonObject.put("QueueInfo",shareTableDTO);
             jsonObject.put("Version", "1.0");
             jsonObject.put("ErrorCode", "0");
-            jsonObject.put("ErrorMessage", "");
         }catch (Exception e){
             jsonObject.put("Version", "1.0");
             jsonObject.put("ErrorCode", "1");
@@ -220,6 +221,26 @@ public class QueueDownController {
             e.printStackTrace();
         }
         return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/all",method = RequestMethod.GET)
+    public String getAllQueueInfos(){
+        JSONObject jsonObject=new JSONObject();
+        List<QueueInfo> queueInfos=null;
+        try {
+            queueInfos=queryNumberService.findAllQueueInfos();
+            jsonObject.put("QueueInfos",queueInfos);
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "0");
+        }catch (Exception e){
+            jsonObject.put("Version", "1.0");
+            jsonObject.put("ErrorCode", "1");
+            jsonObject.put("ErrorMessage", e.getMessage());
+            e.printStackTrace();
+        }
+        String json= JSON.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect);
+        return json;
     }
 
 }

@@ -91,12 +91,14 @@ public class MenuService {
 
     private List<MenuDTO> convertMenuDTOS(List<Menu> menuList){
         List<MenuDTO> menuDTOS=new ArrayList<MenuDTO>();
-        MenuDTO menuDTO=new MenuDTO();
         for (Menu menu:menuList){
+            MenuDTO menuDTO=new MenuDTO();
+
+            menuDTO.setId(menu.getId());
             menuDTO.setAvailable(menu.isAvailable());
             menuDTO.setDescribe(menu.getDescribe());
-            menuDTO.setMemberMenuPrice(menuDTO.getMemberMenuPrice());
-            menuDTO.setMenuName(menuDTO.getMenuName());
+            menuDTO.setMemberMenuPrice(menu.getMemberMenuPrice());
+            menuDTO.setMenuName(menu.getMenuName());
             menuDTO.setMenuPrice(menu.getMenuPrice());
             menuDTO.setMenuType(menu.getMenuType());
 
@@ -109,10 +111,11 @@ public class MenuService {
 
         MenuDTO menuDTO=new MenuDTO();
 
+        menuDTO.setId(menu.getId());
         menuDTO.setAvailable(menu.isAvailable());
         menuDTO.setDescribe(menu.getDescribe());
-        menuDTO.setMemberMenuPrice(menuDTO.getMemberMenuPrice());
-        menuDTO.setMenuName(menuDTO.getMenuName());
+        menuDTO.setMemberMenuPrice(menu.getMemberMenuPrice());
+        menuDTO.setMenuName(menu.getMenuName());
         menuDTO.setMenuPrice(menu.getMenuPrice());
         menuDTO.setMenuType(menu.getMenuType());
 

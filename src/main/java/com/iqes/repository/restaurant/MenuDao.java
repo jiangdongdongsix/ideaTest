@@ -14,7 +14,7 @@ import java.util.List;
 public interface MenuDao extends PagingAndSortingRepository<Menu,Long>,JpaSpecificationExecutor<Menu> {
 
     @Override
-    @Query(value = "select Menu from Menu ")
+    @Query(value = "select Menu from Menu")
     List<Menu> findAll();
 
     Menu findByMenuName(String menuName);
