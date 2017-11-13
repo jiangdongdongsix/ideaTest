@@ -1,6 +1,7 @@
 package com.iqes.entity;
 
 import com.iqes.entity.dto.MenuDTO;
+import jdk.nashorn.internal.objects.annotations.Getter;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;

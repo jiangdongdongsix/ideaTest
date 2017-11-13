@@ -51,6 +51,9 @@ public class QueueDownController {
         QueueInfo queueInfo= null;
         try {
             queueInfo = extractNumberService.extractNumber(tableName);
+            if (queueInfo.getId()==null){
+                throw new ServiceException("没有合适的人选呦！");
+            }
             jsonObject.put("Version","1.0");
             jsonObject.put("ErrorCode","0");
             jsonObject.put("ErrorMessage","");

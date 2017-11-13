@@ -15,7 +15,15 @@ public class RestaurantArea extends IdEntity{
 
     private String areaName;
 
-    private TableNumber tableNumber;
+    private String areaDescribe;
+
+    public String getAreaDescribe() {
+        return areaDescribe;
+    }
+
+    public void setAreaDescribe(String areaDescribe) {
+        this.areaDescribe = areaDescribe;
+    }
 
     public String getAreaName() {
         return areaName;
