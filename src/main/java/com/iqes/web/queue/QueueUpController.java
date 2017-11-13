@@ -238,9 +238,7 @@ public class QueueUpController {
             jsonObject.put("ErrorCode", "0");
             jsonObject.put("ErrorMessage", "");
             jsonObject.put("queueInfo", waitTimeModel);
-            jsonObject.put("exflag",queueInfo.getExFlag());
             jsonObject.put("extractFlag",queueInfo.getExtractFlag());
-            jsonObject.put("tableNumber",queueInfo.getTableNumber().getName());
             System.out.println(jsonObject.toJSONString());
 
         } catch (Exception e) {
