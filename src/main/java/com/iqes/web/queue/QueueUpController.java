@@ -305,6 +305,8 @@ public class QueueUpController {
             long chooseCount = queueQueryService.chooseSeatCountById(queueId,tableTypeId);
             //根据桌型id拿出该桌型下桌子的数量
             Integer seatCount = tableService.getTableCountByType(tableTypeId);
+            long eachTableTimeBySeatCount = eachTableTime/seatCount;
+
             if(seatCount >0){
                 //判断顾客是否选坐
                 if(seatFlag){
@@ -321,7 +323,7 @@ public class QueueUpController {
 
             if(null != queueHistoryService.getLastTime(tableTypeId) && !"".equals(queueHistoryService.getLastTime(tableTypeId)) ){
                 //减去最后一近顾客就餐距离当前的差
-                if(TimeFormatTool.diffTime(queueHistoryService.getLastTime(tableTypeId)) < eachTableTime){
+                if(TimeFormatTool.diffTime(queueHistoryService.getLastTime(tableTypeId)) < eachTableTimeBySeatCount){
                     waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime(tableTypeId));
                 }
             }
@@ -357,9 +359,13 @@ public class QueueUpController {
             //根据桌型id获得排队人数
             long eatCountById= queueQueryService.getWaitCount(tableTypeId);
             long chooseCount = queueQueryService.chooseSeatCountByTableTypeId(tableTypeId);
+            //根据桌型id拿出该桌型下桌子的数量
+            Integer seatCount = tableService.getTableCountByType(tableTypeId);
+            long eachTableTimeBySeatCount = eachTableTime/seatCount;
+
+
             if(eatCountById > 0){
-                //根据桌型id拿出该桌型下桌子的数量
-                Integer seatCount = tableService.getTableCountByType(tableTypeId);
+
                 System.out.println(seatCount);
                 if(seatCount >0){
                     waitTime = chooseCount*eachTableTime +(eatCountById -chooseCount)*eachTableTime/seatCount;
@@ -371,7 +377,7 @@ public class QueueUpController {
 
                 if(null != queueHistoryService.getLastTime(tableTypeId) && !"".equals(queueHistoryService.getLastTime(tableTypeId)) ){
                     //减去最后一近顾客就餐距离当前的差
-                    if(TimeFormatTool.diffTime(queueHistoryService.getLastTime(tableTypeId)) < eachTableTime){
+                    if(TimeFormatTool.diffTime(queueHistoryService.getLastTime(tableTypeId)) < eachTableTimeBySeatCount){
                         waitTime = waitTime - TimeFormatTool.diffTime(queueHistoryService.getLastTime(tableTypeId));
                     }
 //                else{
