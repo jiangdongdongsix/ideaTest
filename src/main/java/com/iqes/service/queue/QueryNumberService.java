@@ -6,9 +6,12 @@ package com.iqes.service.queue;
  */
 
 import com.iqes.entity.QueueInfo;
+import com.iqes.entity.TableNumber;
 import com.iqes.entity.TableType;
 import com.iqes.entity.dto.ShareTableDTO;
+import com.iqes.entity.dto.TableNumberDTO;
 import com.iqes.repository.queue.QueueManagerDao;
+import com.iqes.repository.restaurant.TableNumberDao;
 import com.iqes.repository.restaurant.TableTypeDao;
 import com.iqes.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,9 @@ public class QueryNumberService {
     @Autowired
     private TableTypeDao tableTypeDao;
 
+    @Autowired
+    private TableNumberDao tableNumberDao;
+
     public ShareTableDTO queryNumber(){
         List<QueueInfo> queueInfos=queueManagerDao.getArrivingNumbers();
         final String shareTalbeFlag="1";
@@ -42,14 +48,27 @@ public class QueryNumberService {
             if(shareTalbeFlag.equals(q.getShareTalbeState())){
                 List<QueueInfo> shareTableQueues=queueManagerDao.getByTables(q.getTables());
                 StringBuilder stringBuilder=new StringBuilder();
+                StringBuilder sb=new StringBuilder();
 
                 for (QueueInfo queueInfo1:shareTableQueues){
                     stringBuilder.append(queueInfo1.getQueueId());
                     stringBuilder.append(",");
                 }
                 stringBuilder.deleteCharAt(stringBuilder.length()-1);
-                shareTableDTO.setTables(q.getTables());
+
+
+                String[] tableStr=q.getTables().split(",");
+                for (int i=0;i<tableStr.length;i++){
+                    TableNumber tableNumber=tableNumberDao.findOne(Long.valueOf(tableStr[i]));
+                    sb.append(tableNumber.getName());
+                    sb.append(",");
+                }
+                sb.deleteCharAt(sb.length()-1);
+
+                /** 保存*/
                 shareTableDTO.setQueueInfos(stringBuilder.toString());
+                shareTableDTO.setTables(sb.toString());
+
                 break;
             }else {
                 shareTableDTO.setQueueInfos(q.getQueueId());
@@ -73,5 +92,13 @@ public class QueryNumberService {
             listMap.put(name,queueInfoList);
         }
         return listMap;
+    }
+
+    public List<QueueInfo> findAllQueueInfos(){
+        List<QueueInfo> queueInfos=queueManagerDao.getAllByQueueState("1");
+        if (queueInfos.size()==0){
+            throw new ServiceException("是不是没有人排队呀~");
+        }
+        return queueInfos;
     }
 }

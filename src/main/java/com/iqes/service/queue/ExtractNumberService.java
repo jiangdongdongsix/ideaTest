@@ -99,9 +99,6 @@ public class ExtractNumberService {
             queueInfo=patternThree(queueInfos,configInfo,tNumber,queueInfo);
         }
 
-        if (queueInfo.getId()==null){
-            throw new ServiceException("没有合适的人选呦！");
-        }
         return queueInfo;
     }
 
@@ -133,6 +130,7 @@ public class ExtractNumberService {
                     break;
                 } else {
                     Long diffTime = TimeFormatTool.diffTime(q.getFirstExtractTime());
+                    System.out.println(diffTime);
                     if (configInfo.getReserveTime() < diffTime / 60000) {
                         deleteNumber(q);
                     } else {
@@ -216,28 +214,18 @@ public class ExtractNumberService {
      * @param q
      */
     private void deleteNumber(QueueInfo q){
-        System.out.println("111111"+TimeFormatTool.getCurrentTime());
-        final String shareTableFalg="1";
+        queueManagerDao.delete(q);
 
-        if (shareTableFalg.equals(q.getShareTalbeState())){
-            List<QueueInfo> queueInfos=queueManagerDao.getByTables(q.getTables());
-            for (QueueInfo queueInfo:queueInfos){
-                    saveToHistory(queueInfo);
-            }
-            System.out.println("删除拼桌的号~~~");
-        }else {
-            saveToHistory(q);
-        }
-    }
-
-    private void saveToHistory(QueueInfo q){
         q.setQueueEndTime(TimeFormatTool.getCurrentTime());
         q.setQueueState("3");
         q.setId(null);
+
         QueueHistory qH=new QueueHistory(q);
         queueHistoryDao.save(qH);
-        queueManagerDao.delete(q);
+
+        System.out.println("已删除！！");
     }
+
 
     /**
      *删除排队号，如果有桌子，就置为就餐中
@@ -247,8 +235,7 @@ public class ExtractNumberService {
     public String deleteNumberById(Long queueInfoid){
         String res = "该号码已删除";
         QueueInfo queueInfo=queueManagerDao.getById(queueInfoid);
-        if(null!= queueInfo)
-        {
+        if(null!= queueInfo) {
             if (queueInfo.getTableNumber()!=null){
                 queueInfo.getTableNumber().setState("1");
                 tableNumberDao.save(queueInfo.getTableNumber());
@@ -353,6 +340,8 @@ public class ExtractNumberService {
 
         return shareTableDTO;
     }
+
+
 }
 
 

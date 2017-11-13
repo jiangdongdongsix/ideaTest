@@ -99,11 +99,13 @@ public class TableType extends IdEntity implements Comparable<TableType>{
 
     @Override
     public int compareTo(TableType o) {
-        if (o == null)
+        if (o == null) {
             return 1;
+        }
         int value = this.eatMaxNumber - o.eatMaxNumber;
-        if (value == 0)
-            value=this.eatMinNumber-o.eatMinNumber;
+        if (value == 0) {
+            value = this.eatMinNumber - o.eatMinNumber;
+        }
         return value;
     }
 }

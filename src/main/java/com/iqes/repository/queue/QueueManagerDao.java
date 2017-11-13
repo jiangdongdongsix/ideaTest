@@ -46,4 +46,6 @@ public interface QueueManagerDao extends PagingAndSortingRepository<QueueInfo, L
     QueueInfo getByQueueId(String queueId);
 
     List<QueueInfo> getByTables(String tables);
+
+    List<QueueInfo> getAllByQueueState(String queueState);
 }

@@ -196,7 +196,8 @@ public class TableNumberController {
             jsonObject.put("ErrorCode","1");
             jsonObject.put("ErrorMessage",e.getMessage());
         }
-        return jsonObject.toJSONString();
+        String json=JSON.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect);
+        return json;
     }
 
     @ResponseBody
@@ -216,7 +217,8 @@ public class TableNumberController {
             jsonObject.put("ErrorCode","1");
             jsonObject.put("ErrorMessage",e.getMessage());
         }
-        return jsonObject.toJSONString();
+        String json=JSON.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect);
+        return json;
     }
 
     @ResponseBody
@@ -236,7 +238,8 @@ public class TableNumberController {
             jsonObject.put("ErrorCode","1");
             jsonObject.put("ErrorMessage",e.getMessage());
         }
-        return jsonObject.toJSONString();
+        String json=JSON.toJSONString(jsonObject, SerializerFeature.DisableCircularReferenceDetect);
+        return json;
     }
 
     @ResponseBody
