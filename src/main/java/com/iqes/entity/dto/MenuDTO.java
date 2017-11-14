@@ -20,7 +20,7 @@ public class MenuDTO extends IdEntity{
 
     private String describe;
 
-    private MultipartFile photo;
+    private String photoUrl;
 
     /**
      * 该字段表明菜品是否可售，可能由于售罄或其他问题而导致菜品不可售
@@ -77,12 +77,12 @@ public class MenuDTO extends IdEntity{
         this.describe = describe;
     }
 
-    public MultipartFile getPhoto() {
-        return photo;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhoto(MultipartFile photo) {
-        this.photo = photo;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     @Override

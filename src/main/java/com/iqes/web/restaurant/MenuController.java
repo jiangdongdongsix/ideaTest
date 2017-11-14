@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
@@ -27,33 +28,45 @@ public class MenuController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public String saveMenu(@RequestBody MenuDTO menuDTO, HttpServletRequest request){
+    public String saveMenu(@RequestParam(value = "menuName")String menuName,
+                             @RequestParam(value = "menuType",defaultValue = "nothing")String menuType,
+                             @RequestParam(value = "menuPrice")Integer menuPrice,
+                             @RequestParam(value = "menuMemberPrice")Integer menuMemberPrice,
+                             @RequestParam(value = "menuDescribe",defaultValue = "nothing")String menuDescribe,
+                             @RequestParam(value = "available",defaultValue = "false")boolean available,
+                             @RequestParam(value = "menuPhoto", required = false) MultipartFile menuPhoto,
+                             HttpServletRequest request){
 
-        System.out.println("菜单上传！！！！！！！");
         JSONObject jsonObject=new JSONObject();
+        Menu menu=new Menu();
 
-        Menu menu=new Menu(menuDTO);
-
-        if (menuDTO.getPhoto()!=null) {
-            String localPath = request.getSession().getServletContext().getRealPath("/menuPhotos");
-            String fileName = System.currentTimeMillis() + "_" + menuDTO.getPhoto().getOriginalFilename();
-
-            File dir = new File(localPath);
-            if (!dir.exists()) {
-                dir.mkdir();
-            }
-            try {
-                menuDTO.getPhoto().transferTo(new File(localPath+"\\"+fileName));
-            }catch (Exception e){
-                e.printStackTrace();
-                jsonObject.put("fileUploadException",e);
-            }
-            menu.setPhotoUrl(request.getServletContext().getContextPath() + "/menuPhotos/" + fileName);
-        }
         try{
+            menu.setMenuType(menuType);
+            menu.setMenuPrice(menuPrice);
+            menu.setMemberMenuPrice(menuMemberPrice);
+            menu.setDescribe(menuDescribe);
+            menu.setMenuName(menuName);
+            menu.setAvailable(available);
+
+            if (menuPhoto!=null){
+                String localPath = request.getSession().getServletContext().getRealPath("/menu");
+                String fileName = System.currentTimeMillis() + "_" + menuPhoto.getOriginalFilename();
+
+                File dir = new File(localPath);
+                if(!dir.exists()) {
+                    dir.mkdir();
+                }
+                try {
+                    menuPhoto.transferTo(new File(localPath+"\\"+fileName));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String photoUrl=request.getServletContext().getContextPath()+"/menu/"+fileName;
+                menu.setPhotoUrl(photoUrl);
+            }
+
             menuService.saveOne(menu);
-            System.out.println(menu.getMenuName());
-            jsonObject.put("menu",menu);
+
             jsonObject.put("Version","1.0");
             jsonObject.put("ErrorCode","0");
             jsonObject.put("ErrorMessage","");
@@ -66,51 +79,7 @@ public class MenuController {
         return jsonObject.toJSONString();
     }
 
-//    @ResponseBody
-//    @RequestMapping(value = "/testUpload",method = RequestMethod.POST)
-//    public String saveMenu(@RequestBody MenuDTO menuDTO, HttpServletRequest request){
-//
-//        String server_ip= ServerIpUtil.getLocalIP();
-//        System.out.println("服务器IP:"+server_ip);
-//        int localPort=request.getLocalPort();
-//        System.out.println("端口号："+localPort);
-//
-//
-//        JSONObject jsonObject=new JSONObject();
-//        Menu menu=new Menu();
-//        menu.setAvailable(false);
-//        menu.setMenuName(menuDTO.getMenuName());
-//        if (menuDTO.getPhoto()!=null) {
-//            String localPath = request.getSession().getServletContext().getRealPath("/menuPhotos");
-//            String fileName = System.currentTimeMillis() + "_" + menuDTO.getPhoto().getOriginalFilename();
-//
-//            File dir = new File(localPath);
-//            if (!dir.exists()) {
-//                dir.mkdir();
-//            }
-//            try {
-//                menuDTO.getPhoto().transferTo(new File(localPath+"\\"+fileName));
-//            }catch (Exception e){
-//                e.printStackTrace();
-//                jsonObject.put("fileUploadException",e);
-//            }
-//            menu.setPhotoUrl(server_ip+":"+localPort+"/"+request.getServletContext().getContextPath() + "/menuPhotos/" + fileName);
-//        }
-//        try{
-//            menuService.saveOne(menu);
-//            System.out.println(menu.getMenuName());
-//            jsonObject.put("menu",menu);
-//            jsonObject.put("Version","1.0");
-//            jsonObject.put("ErrorCode","0");
-//            jsonObject.put("ErrorMessage","");
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            jsonObject.put("Version","1.0");
-//            jsonObject.put("ErrorCode","1");
-//            jsonObject.put("ErrorMessage",e.getMessage());
-//        }
-//        return jsonObject.toJSONString();
-//    }
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.DELETE)
     public String deleteMenu(@RequestParam(value = "id")Long id){

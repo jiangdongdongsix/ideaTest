@@ -46,6 +46,7 @@ public class Menu extends IdEntity{
          this.menuName=menuDTO.getMenuName();
          this.menuType=menuDTO.getMenuType();
          this.menuPrice=menuDTO.getMenuPrice();
+         this.photoUrl=menuDTO.getPhotoUrl();
     }
 
     public boolean isAvailable() {

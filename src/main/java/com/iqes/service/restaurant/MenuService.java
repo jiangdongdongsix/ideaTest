@@ -101,6 +101,7 @@ public class MenuService {
             menuDTO.setMenuName(menu.getMenuName());
             menuDTO.setMenuPrice(menu.getMenuPrice());
             menuDTO.setMenuType(menu.getMenuType());
+            menuDTO.setPhotoUrl(menu.getPhotoUrl());
 
             menuDTOS.add(menuDTO);
         }
@@ -118,6 +119,7 @@ public class MenuService {
         menuDTO.setMenuName(menu.getMenuName());
         menuDTO.setMenuPrice(menu.getMenuPrice());
         menuDTO.setMenuType(menu.getMenuType());
+        menuDTO.setPhotoUrl(menu.getPhotoUrl());
 
         return menuDTO;
     }
