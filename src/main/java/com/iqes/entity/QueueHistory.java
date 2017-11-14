@@ -17,10 +17,7 @@ public class QueueHistory extends IdEntity{
      *排队状态
      * */
     private String queueState;
-    /**
-     * 记录生成时间
-     */
-    private String createTime;
+
     /**
      *
      *联系方式
@@ -93,20 +90,22 @@ public class QueueHistory extends IdEntity{
     }
 
     public QueueHistory(QueueInfo queueInfo){
-        this.callCount=queueInfo.getCallCount();
-        this.createTime=queueInfo.getQueueEndTime();
+
         this.customerName=queueInfo.getCustomerName();
         this.customerTel=queueInfo.getCustomerTel();
         this.eatNumber=queueInfo.getEatNumber();
-        this.extractCount=queueInfo.getExtractCount();
         this.queueId=queueInfo.getId();
-        this.queueStartTime=queueInfo.getQueueStartTime();
+        this.extractCount=queueInfo.getExtractCount();
         this.queueState=queueInfo.getQueueState();
         this.extractFlag=queueInfo.getExtractFlag();
         this.seatFlag=queueInfo.getSeatFlag();
         this.tableNumber=queueInfo.getTableNumber();
         this.tableType=queueInfo.getTableType();
         this.seatNum=queueInfo.getSeatNum();
+        this.callCount=queueInfo.getCallCount();
+        this.queueStartTime=queueInfo.getQueueStartTime();
+        this.queueEndTime=queueInfo.getQueueEndTime();
+        this.firstExtractTime=queueInfo.getFirstExtractTime();
     }
 
 
@@ -156,14 +155,6 @@ public class QueueHistory extends IdEntity{
 
     public void setEatNumber(Integer eatNumber) {
         this.eatNumber = eatNumber;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
     }
 
     @JoinColumn(name = "table_number_id")

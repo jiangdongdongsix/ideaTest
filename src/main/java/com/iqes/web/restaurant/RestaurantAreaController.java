@@ -85,7 +85,7 @@ public class RestaurantAreaController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/areas",method = RequestMethod.GET)
+    @RequestMapping(value = "/all",method = RequestMethod.GET)
     public String findAll(){
 
         JSONObject jsonObject=new JSONObject();

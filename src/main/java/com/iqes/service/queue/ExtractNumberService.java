@@ -48,6 +48,11 @@ public class ExtractNumberService {
     @Autowired
     private TableTypeDao tableTypeDao;
 
+    /**
+     * 未抽号状态
+     */
+    private static final String NO_EXTRACT="0";
+
     private static final Integer PATTERN_ONE=1;
 
     private static final Integer PATTERN_TWO=2;
@@ -116,17 +121,7 @@ public class ExtractNumberService {
         for (QueueInfo q : queueInfos) {
             if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                 if ("0".equals(q.getExtractFlag())) {
-                    System.out.println("0".equals(q.getExtractFlag()));
-                    q.setExtractFlag("1");
-                    q.setExFlag(true);
-                    q.setExtractCount(q.getExtractCount() + 1);
-                    if (q.getExtractCount() == 1) {
-                        q.setFirstExtractTime(TimeFormatTool.getCurrentTime());
-                    }
-                    if (q.getTableNumber() == null) {
-                        q.setTableNumber(tNumber);
-                    }
-                    queueInfo = q;
+                    queueInfo=extracting(q,tNumber);
                     break;
                 } else {
                     Long diffTime = TimeFormatTool.diffTime(q.getFirstExtractTime());
@@ -153,21 +148,11 @@ public class ExtractNumberService {
      * @return
      */
     private QueueInfo patternTwo(List<QueueInfo> queueInfos, ConfigInfo configInfo, TableNumber tNumber,QueueInfo queueInfo) {
-      // int exchangeFlag=0;
         for (QueueInfo q : queueInfos) {
             if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                 if (q.getExtractCount() < configInfo.getExtractCount()) {
-                    System.out.println(q.getCustomerName());
-                    //判断抽号标志
-                    if ("0".equals(q.getExtractFlag())) {
-                        q.setExtractFlag("1");
-                        q.setExFlag(true);
-                        q.setExtractCount(q.getExtractCount() + 1);
-                        if (q.getTableNumber() == null) {
-                            q.setTableNumber(tNumber);
-                        }
-                        queueManagerDao.save(q);
-                        queueInfo = q;
+                    if (NO_EXTRACT.equals(q.getExtractFlag())) {
+                        queueInfo=extracting(q,tNumber);
                         break;
                     } else {
                         q.setExtractFlag("0");
@@ -193,13 +178,7 @@ public class ExtractNumberService {
         for (QueueInfo q : queueInfos) {
             if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                     if ("0".equals(q.getExtractFlag())) {
-                        q.setExtractFlag("1");
-                        q.setExFlag(true);
-                        q.setExtractCount(q.getExtractCount() + 1);
-                        if (q.getTableNumber() == null) {
-                            q.setTableNumber(tNumber);
-                        }
-                        queueInfo=q;
+                        queueInfo=extracting(q,tNumber);
                         break;
                     } else {
                         deleteNumber(q);
@@ -207,6 +186,26 @@ public class ExtractNumberService {
                 }
             }
         return queueInfo;
+    }
+
+    /**
+     * 抽号
+     * @param q
+     * @param tNumber
+     * @return
+     */
+    private QueueInfo extracting(QueueInfo q,TableNumber tNumber){
+            q.setExtractFlag("1");
+            q.setExFlag(true);
+            q.setExtractCount(q.getExtractCount() + 1);
+            if (q.getExtractCount() == 1) {
+                q.setFirstExtractTime(TimeFormatTool.getCurrentTime());
+            }
+            if (q.getTableNumber() == null) {
+                q.setTableNumber(tNumber);
+            }
+            queueManagerDao.save(q);
+            return q;
     }
 
     /**
@@ -340,8 +339,6 @@ public class ExtractNumberService {
 
         return shareTableDTO;
     }
-
-
 }
 
 
