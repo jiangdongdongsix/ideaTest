@@ -101,6 +101,43 @@ public class MenuController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/testSave",method = RequestMethod.POST)
+    public String deleteMenu(@RequestBody MenuDTO menuDTO,HttpServletRequest request){
+
+        JSONObject jsonObject=new JSONObject();
+        Menu menu=new Menu(menuDTO);
+        try{
+            if (menuDTO.getMenuPhoto()!=null){
+                String localPath = request.getSession().getServletContext().getRealPath("/menu");
+                String fileName = System.currentTimeMillis() + "_" + menuDTO.getMenuPhoto().getOriginalFilename();
+
+                File dir = new File(localPath);
+                if(!dir.exists()) {
+                    dir.mkdir();
+                }
+                try {
+                    menuDTO.getMenuPhoto().transferTo(new File(localPath+"\\"+fileName));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String photoUrl=request.getServletContext().getContextPath()+"/menu/"+fileName;
+                menu.setPhotoUrl(photoUrl);
+                System.out.println("菜单图片上传成功！");
+            }
+            menuService.saveOne(menu);
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","0");
+            jsonObject.put("ErrorMessage","");
+        }catch (Exception e){
+            e.printStackTrace();
+            jsonObject.put("Version","1.0");
+            jsonObject.put("ErrorCode","1");
+            jsonObject.put("ErrorMessage",e.getMessage());
+        }
+        return jsonObject.toJSONString();
+    }
+
+    @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public String findMenu(@RequestParam(value = "id")Long id){
 

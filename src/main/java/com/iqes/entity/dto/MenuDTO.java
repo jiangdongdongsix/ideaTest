@@ -29,6 +29,16 @@ public class MenuDTO extends IdEntity{
      */
     private Boolean available;
 
+    private MultipartFile menuPhoto;
+
+    public MultipartFile getMenuPhoto() {
+        return menuPhoto;
+    }
+
+    public void setMenuPhoto(MultipartFile menuPhoto) {
+        this.menuPhoto = menuPhoto;
+    }
+
     public Boolean getAvailable() {
         return available;
     }

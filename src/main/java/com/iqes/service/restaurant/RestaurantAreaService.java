@@ -37,7 +37,7 @@ public class RestaurantAreaService {
     }
 
     public List<RestaurantArea> findAll(){
-      return (List<RestaurantArea>) restaurantAreaDao.findAll();
+      return  restaurantAreaDao.findAll();
     }
 
     public RestaurantArea findOne(Long id){

@@ -1,7 +1,5 @@
 package com.iqes.entity;
 
-import com.iqes.entity.IdEntity;
-import com.iqes.entity.TableNumber;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
