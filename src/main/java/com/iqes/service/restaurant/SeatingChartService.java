@@ -56,4 +56,5 @@ public class SeatingChartService {
     public List<SeatingChart> findAll(){
         return seatingChartDao.findAll();
     }
+
 }

@@ -36,9 +36,6 @@ public class QueueUpController {
     @Autowired
     private QueueHistoryService queueHistoryService;
     @Autowired
-    private ExtractNumberService extractNumberService;
-
-    @Autowired
     private ConfigInfoService configInfoService;
 
 
@@ -173,6 +170,7 @@ public class QueueUpController {
             WaitTimeModel waitTimeModel = calculateWaitTime(queueId,queueInfo.getTableType().getId(),queueInfo.getSeatFlag());
             waitTimeModel.setTableType(queueInfo.getTableType());
             waitTimeModel.setQueueId(queueId);
+            waitTimeModel.setQueueStartTime(queueInfo.getQueueStartTime());
             jsonObject.put("Version","1.0");
             jsonObject.put("ErrorCode","0");
             jsonObject.put("ErrorMessage","");
@@ -257,6 +255,7 @@ public class QueueUpController {
     @ResponseBody
     @RequestMapping(value = "/allqueueinfo",method = RequestMethod.GET)
     public String checkAllQueueInfo(){
+        System.out.println("进入checkAllQueueInfo");
         List<WaitTimeModel> waitTimeModelList = new ArrayList<WaitTimeModel>();
         JSONObject jsonObject = new JSONObject();
        try{

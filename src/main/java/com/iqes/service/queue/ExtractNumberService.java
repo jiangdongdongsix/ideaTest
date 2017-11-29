@@ -43,7 +43,7 @@ public class ExtractNumberService {
     private ConfigInfoDao configInfoDao;
 
     @Autowired
-    private QueueHistoryDao queueHistoryDao;
+    private QueueHistoryService queueHistoryService;
 
     @Autowired
     private TableTypeDao tableTypeDao;
@@ -213,15 +213,7 @@ public class ExtractNumberService {
      * @param q
      */
     private void deleteNumber(QueueInfo q){
-        queueManagerDao.delete(q);
-
-        q.setQueueEndTime(TimeFormatTool.getCurrentTime());
-        q.setQueueState("3");
-        q.setId(null);
-
-        QueueHistory qH=new QueueHistory(q);
-        queueHistoryDao.save(qH);
-
+        queueHistoryService.saveAndAddToCloud(q);
         System.out.println("已删除！！");
     }
 

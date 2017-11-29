@@ -6,6 +6,7 @@ package com.iqes.service.restaurant;
 
 import com.iqes.entity.Menu;
 import com.iqes.entity.dto.MenuDTO;
+import com.iqes.rabbitmq.RPCClient;
 import com.iqes.repository.restaurant.MenuDao;
 import com.iqes.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 @Service
 @Transactional
@@ -122,5 +125,15 @@ public class MenuService {
         menuDTO.setPhotoUrl(menu.getPhotoUrl());
 
         return menuDTO;
+    }
+
+    public String testRPCsend() throws IOException, TimeoutException {
+        RPCClient rpcClient=new RPCClient();
+        return rpcClient.testSend("menuService,testRPC");
+    }
+
+    public List<MenuDTO> getMenusAvailableIsTrue(){
+        List<Menu> menuList=menuDao.findByAvailable(true);
+        return convertMenuDTOS(menuList);
     }
 }

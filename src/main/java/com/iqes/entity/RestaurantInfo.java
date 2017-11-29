@@ -19,6 +19,15 @@ public class RestaurantInfo extends IdEntity {
     private String openTime;
     private String endTime;
     private String telephone;
+    private Long cloudId;
+
+    public Long getCloudId() {
+        return cloudId;
+    }
+
+    public void setCloudId(Long cloudId) {
+        this.cloudId = cloudId;
+    }
 
     public String getTelephone() {
         return telephone;
