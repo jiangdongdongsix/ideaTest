@@ -12,6 +12,9 @@ import com.iqes.utils.TimeFormatTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.util.List;
+
 /**
  * @author 54312
  */
@@ -29,14 +32,13 @@ public class QueueHistoryService {
         return queueHistoryDao.getLastTime(id);
     }
 
-    public void saveAndAddToCloud(QueueInfo q){
+    public void saveAndAddToCloud(QueueInfo q) throws ParseException {
         /**
          * 从正在排队的表里删除
          */
         queueManagerDao.delete(q);
 
         q.setQueueEndTime(TimeFormatTool.getCurrentTime());
-        q.setQueueState("3");
         q.setId(null);
 
         /**
@@ -49,18 +51,20 @@ public class QueueHistoryService {
          * 再转换一次格式，将桌位和桌型转换后为id,存储到云端
          */
         QueueInfoDTO queueInfoDTO=new QueueInfoDTO(qH);
-        JSONObject jsonObject=new JSONObject();
-        jsonObject.put("queueInfoDTO",queueInfoDTO);
 
         RabbitCarrier rabbitCarrier=new RabbitCarrier();
         rabbitCarrier.setServiceName("QueueService");
         rabbitCarrier.setMethodName("saveQueueHistory");
-        rabbitCarrier.setParameter(JSONObject.toJSONString(jsonObject));
+        rabbitCarrier.setParameter(JSONObject.toJSONString(queueInfoDTO));
 
         try {
             new EmitLog().send(JSONObject.toJSONString(rabbitCarrier));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List<QueueHistory> getByName(String name){
+        return queueHistoryDao.getByCustomerName(name);
     }
 }

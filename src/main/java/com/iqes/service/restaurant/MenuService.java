@@ -6,6 +6,7 @@ package com.iqes.service.restaurant;
 
 import com.iqes.entity.Menu;
 import com.iqes.entity.dto.MenuDTO;
+import com.iqes.entity.dto.MenuWithTypeDTO;
 import com.iqes.rabbitmq.RPCClient;
 import com.iqes.repository.restaurant.MenuDao;
 import com.iqes.service.ServiceException;
@@ -17,8 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeoutException;
 
 @Service
@@ -135,5 +135,21 @@ public class MenuService {
     public List<MenuDTO> getMenusAvailableIsTrue(){
         List<Menu> menuList=menuDao.findByAvailable(true);
         return convertMenuDTOS(menuList);
+    }
+
+    /**
+     * 根据类型把菜单分好类,装载到map里
+     */
+    public List<MenuWithTypeDTO> getMenusContainKind(){
+        Set<String> menuKinds=menuDao.findALlKinds();
+        List<MenuWithTypeDTO> menusWithKinds = new ArrayList<>();
+        for (String kind:menuKinds){
+            List<Menu> menus= menuDao.findByMenuType(kind);
+            MenuWithTypeDTO menuWithTypeDTO=new MenuWithTypeDTO();
+            menuWithTypeDTO.setMenuType(kind);
+            menuWithTypeDTO.setMenuList(menus);
+            menusWithKinds.add(menuWithTypeDTO);
+        }
+        return menusWithKinds;
     }
 }

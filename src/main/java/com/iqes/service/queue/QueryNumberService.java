@@ -51,7 +51,7 @@ public class QueryNumberService {
                 StringBuilder sb=new StringBuilder();
 
                 for (QueueInfo queueInfo1:shareTableQueues){
-                    stringBuilder.append(queueInfo1.getQueueId());
+                    stringBuilder.append(queueInfo1.getQueueNumber());
                     stringBuilder.append(",");
                 }
                 stringBuilder.deleteCharAt(stringBuilder.length()-1);
@@ -71,7 +71,7 @@ public class QueryNumberService {
 
                 break;
             }else {
-                shareTableDTO.setQueueInfos(q.getQueueId());
+                shareTableDTO.setQueueInfos(q.getQueueNumber());
                 shareTableDTO.setTables(q.getTableNumber().getName());
                 break;
             }

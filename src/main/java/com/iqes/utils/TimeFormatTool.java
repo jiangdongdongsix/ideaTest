@@ -1,5 +1,6 @@
 package com.iqes.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -8,7 +9,7 @@ import java.util.Date;
  */
 public class TimeFormatTool {
 
-    private static  final  SimpleDateFormat SIM = new SimpleDateFormat("yyyyMMddHHmmss");
+    private static  final  SimpleDateFormat SIM = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      *  按规定的格式返回当前时间
@@ -34,5 +35,15 @@ public class TimeFormatTool {
         return diffTime;
     }
 
+    public static Integer diffTime(String date1,String date2) throws ParseException {
+
+        long date1Time=SIM.parse(date1).getTime();
+        long date2Time=SIM.parse(date2).getTime();
+        long diffTime;
+
+        diffTime=(date1Time>date2Time?date1Time-date2Time:date2Time-date1Time);
+        Integer minutes=(int) diffTime/(1000*60);
+        return minutes;
+    }
 
 }

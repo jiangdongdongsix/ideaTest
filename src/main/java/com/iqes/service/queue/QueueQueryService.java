@@ -5,6 +5,8 @@ import com.iqes.repository.queue.QueueQueryDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class QueueQueryService {
@@ -25,8 +27,8 @@ public class QueueQueryService {
         return  queueQueryDao.getWaitCountById(id,tableTypeId);
     }
 
-    public void updateStateAndTel(long id,String tel,String state){
-        queueQueryDao.updateStateAndTel(id,tel,state);
+    public void updateStateAndTel(long id,String tel,String state,String customerName){
+        queueQueryDao.updateStateAndTel(id,tel,state,customerName);
     }
 
     public QueueInfo findById(long id) throws Exception{
@@ -56,5 +58,8 @@ public class QueueQueryService {
         return queueQueryDao.chooseSeatCountByTableTypeId(tableTypeId);
     }
 
+    public List<QueueInfo> getByCustomerName(String name){
+        return queueQueryDao.getByCustomerName(name);
+    }
 
 }

@@ -2,9 +2,13 @@ package com.iqes.rabbitmq;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.iqes.entity.QueueHistory;
 import com.iqes.entity.QueueInfo;
 import com.iqes.entity.TableNumber;
 import com.iqes.entity.TableType;
+import com.iqes.entity.dto.OrderQueueHistoryDTO;
+import com.iqes.entity.dto.OrderQueueInfoDTO;
+import com.iqes.entity.dto.QueueInfoDTO;
 import com.iqes.entity.vo.WaitTimeModel;
 import com.iqes.service.queue.QueueHistoryService;
 import com.iqes.service.queue.QueueQueryService;
@@ -15,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -75,7 +80,7 @@ public class QueueService {
             }
 
             queueInfo.setTableType(tableTypeList.get(0));
-            queueInfo.setQueueId(tableTypeList.get(0).getTableTypeName()+queueInfo.getId());
+            queueInfo.setQueueNumber(tableTypeList.get(0).getTableTypeName()+queueInfo.getId());
             queueInfo.setQueueState("0");
             queueInfo.setExtractFlag("0");
             queueInfo.setExtractCount(0);
@@ -104,15 +109,17 @@ public class QueueService {
         try{
             JSONObject jsonDataObject = JSON.parseObject(jsonData);
             //利用键值对的方式获取到值
-           //long queueId= (long) jsonDataObject.get("queueId");
             long queueId= Long.valueOf(jsonDataObject.get("queueId").toString());
             String tel= (String) jsonDataObject.get("tel");
+            String customerName=(String)jsonDataObject.get("userName");
 
-            queueQueryService.updateStateAndTel(queueId,tel,"1");
+            queueQueryService.updateStateAndTel(queueId,tel,"1",customerName);
             QueueInfo queueInfo = queueQueryService.findById(queueId);
             WaitTimeModel waitTimeModel = calculateWaitTime(queueId,queueInfo.getTableType().getId(),queueInfo.getSeatFlag());
             waitTimeModel.setTableType(queueInfo.getTableType());
             waitTimeModel.setQueueId(queueId);
+            waitTimeModel.setQueueStartTime(queueInfo.getQueueStartTime());
+            waitTimeModel.setQueueNumber(queueInfo.getQueueNumber());
             jsonObject.put("queueInfo",waitTimeModel);
         }catch (Exception e){
             e.printStackTrace();
@@ -159,11 +166,53 @@ public class QueueService {
         return jsonObject;
     }
 
+    public JSONObject checkOrder(String jsonData){
+
+
+        JSONObject jsonDataObject =JSONObject.parseObject(jsonData);
+        String customerName= (String) jsonDataObject.get("customerName");
+
+        List<OrderQueueInfoDTO> unused=new ArrayList<>();
+        List<OrderQueueHistoryDTO> queueHistoryDTOS=new ArrayList<>();
+
+        /**
+         * 获取未完成订单
+         */
+        List<QueueInfo> queueInfos=queueQueryService.getByCustomerName(customerName);
+        for (QueueInfo q:queueInfos){
+
+            WaitTimeModel waitTimeModel = calculateWaitTime(q.getId(), q.getTableType().getId(), q.getSeatFlag());
+            waitTimeModel.setTableType(q.getTableType());
+            waitTimeModel.setQueueNumber(q.getQueueNumber());
+            waitTimeModel.setQueueStartTime(q.getQueueStartTime());
+
+            OrderQueueInfoDTO orderQueueInfoDTO=new OrderQueueInfoDTO(waitTimeModel);
+            orderQueueInfoDTO.setExtractFlag(q.getExtractFlag());
+            orderQueueInfoDTO.setQueueStartTime(q.getQueueStartTime());
+            unused.add(orderQueueInfoDTO);
+        }
+        /**
+         * 获取完成订单
+         */
+        List<QueueHistory> queueHistories=queueHistoryService.getByName(customerName);
+        for (QueueHistory qH:queueHistories){
+            OrderQueueHistoryDTO orderQueueHistoryDTO=new OrderQueueHistoryDTO(qH);
+            queueHistoryDTOS.add(orderQueueHistoryDTO);
+        }
+
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("unused",unused);
+        jsonObject.put("history",queueHistoryDTOS);
+
+        return jsonObject;
+    }
+
     public JSONObject checkAllQueueInfo(){
         List<WaitTimeModel> waitTimeModelList = new ArrayList<WaitTimeModel>();
         JSONObject jsonObject = new JSONObject();
         try{
             List<TableType> tableTypeList = tableService.findAll();
+            Collections.sort(tableTypeList);
             for(TableType tableType:tableTypeList){
 
                 WaitTimeModel waitTimeModel = new WaitTimeModel();

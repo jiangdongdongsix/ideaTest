@@ -1,6 +1,9 @@
 package com.iqes.entity.dto;
 
 import com.iqes.entity.QueueHistory;
+import com.iqes.utils.TimeFormatTool;
+
+import java.text.ParseException;
 
 /**
  * @author 54312
@@ -41,6 +44,10 @@ public class QueueInfoDTO {
      * */
     private Long tableTypeId;
     /**
+     * 桌型描述
+     */
+    private String tableTypeDescribe;
+    /**
      *
      *排队开始时间
      * */
@@ -50,11 +57,16 @@ public class QueueInfoDTO {
      *排队结束时间
      * */
     private String queueEndTime;
+
+    /**
+     * 排队时间
+     */
+    private Integer queueTime;
     /**
      *
      *排队号
      * */
-    private Long queueId;
+    private String queueNumber;
     /**
      *
      *抽号次数
@@ -78,15 +90,27 @@ public class QueueInfoDTO {
 
     private String queueState;
 
+    private String tableNumber;
+
+    public String getTableNumber() {
+        return tableNumber;
+    }
+
+    public void setTableNumber(String tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+
     public QueueInfoDTO(){
 
     }
 
-    public QueueInfoDTO(QueueHistory queueInfo){
+    public QueueInfoDTO(QueueHistory queueInfo) throws ParseException {
+        this.tableTypeDescribe=queueInfo.getTableType().getDescribe();
+        this.queueTime= TimeFormatTool.diffTime(queueInfo.getQueueStartTime(),queueInfo.getQueueEndTime());
         this.customerName=queueInfo.getCustomerName();
         this.customerTel=queueInfo.getCustomerTel();
         this.eatNumber=queueInfo.getEatNumber();
-        this.queueId=queueInfo.getId();
+        this.queueNumber=queueInfo.getQueueNumber();
         this.extractCount=queueInfo.getExtractCount();
         this.queueState=queueInfo.getQueueState();
         this.extractFlag=queueInfo.getExtractFlag();
@@ -100,6 +124,23 @@ public class QueueInfoDTO {
         this.queueStartTime=queueInfo.getQueueStartTime();
         this.queueEndTime=queueInfo.getQueueEndTime();
         this.firstExtractTime=queueInfo.getFirstExtractTime();
+        this.tableNumber=queueInfo.getTableNumber().getName();
+    }
+
+    public String getTableTypeDescribe() {
+        return tableTypeDescribe;
+    }
+
+    public void setTableTypeDescribe(String tableTypeDescribe) {
+        this.tableTypeDescribe = tableTypeDescribe;
+    }
+
+    public Integer getQueueTime() {
+        return queueTime;
+    }
+
+    public void setQueueTime(Integer queueTime) {
+        this.queueTime = queueTime;
     }
 
     public String getQueueState() {
@@ -182,12 +223,20 @@ public class QueueInfoDTO {
         this.queueEndTime = queueEndTime;
     }
 
-    public Long getQueueId() {
-        return queueId;
+    public void setTableId(Long tableId) {
+        this.tableId = tableId;
     }
 
-    public void setQueueId(Long queueId) {
-        this.queueId = queueId;
+    public void setTableTypeId(Long tableTypeId) {
+        this.tableTypeId = tableTypeId;
+    }
+
+    public String getQueueNumber() {
+        return queueNumber;
+    }
+
+    public void setQueueNumber(String queueNumber) {
+        this.queueNumber = queueNumber;
     }
 
     public Integer getExtractCount() {
@@ -234,7 +283,7 @@ public class QueueInfoDTO {
                 ", tableTypeId=" + tableTypeId +
                 ", queueStartTime='" + queueStartTime + '\'' +
                 ", queueEndTime='" + queueEndTime + '\'' +
-                ", queueId=" + queueId +
+                ", queueId=" + queueNumber +
                 ", extractCount=" + extractCount +
                 ", callCount=" + callCount +
                 ", seatFlag=" + seatFlag +

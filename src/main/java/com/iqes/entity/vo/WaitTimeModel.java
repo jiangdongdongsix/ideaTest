@@ -28,6 +28,23 @@ public class WaitTimeModel {
      * 是否抽号标志
      * */
     private String extractFlag;
+    /**
+     * 排队开始时间
+     * */
+    private String queueStartTime;
+
+    /**
+     *排队号
+     */
+    private String queueNumber;
+
+    public String getQueueNumber() {
+        return queueNumber;
+    }
+
+    public void setQueueNumber(String queueNumber) {
+        this.queueNumber = queueNumber;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -71,5 +88,13 @@ public class WaitTimeModel {
 
     public void setExtractFlag(String extractFlag) {
         this.extractFlag = extractFlag;
+    }
+
+    public String getQueueStartTime() {
+        return queueStartTime;
+    }
+
+    public void setQueueStartTime(String queueStartTime) {
+        this.queueStartTime = queueStartTime;
     }
 }

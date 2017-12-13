@@ -75,7 +75,7 @@ public class QueueInfo extends IdEntity{
      *
      *排队号
      * */
-    private String queueId;
+    private String queueNumber;
     /**
      *
      *抽号次数
@@ -112,6 +112,7 @@ public class QueueInfo extends IdEntity{
      * 拼桌的
      */
     private String tables;
+
 
     public String getTables() {
         return tables;
@@ -221,12 +222,13 @@ public class QueueInfo extends IdEntity{
         this.queueEndTime = queueEndTime;
     }
 
-    public String getQueueId() {
-        return queueId;
+
+    public String getQueueNumber() {
+        return queueNumber;
     }
 
-    public void setQueueId(String queueId) {
-        this.queueId = queueId;
+    public void setQueueNumber(String queueNumber) {
+        this.queueNumber = queueNumber;
     }
 
     public Integer getExtractCount() {
@@ -275,7 +277,7 @@ public class QueueInfo extends IdEntity{
                 ", tableType=" + tableType +
                 ", queueStartTime='" + queueStartTime + '\'' +
                 ", queueEndTime='" + queueEndTime + '\'' +
-                ", queueId='" + queueId + '\'' +
+                ", queueId='" + queueNumber + '\'' +
                 ", extractCount=" + extractCount +
                 ", callCount=" + callCount +
                 ", seatFlag=" + seatFlag +

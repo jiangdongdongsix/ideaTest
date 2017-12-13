@@ -1,6 +1,5 @@
 package com.iqes.rabbitmq;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,6 +35,7 @@ public class Dispatcher {
                 switch (methodName){
                     case "checkRestaurantInfoAndAllQueueInfo":return appShowService.checkRestaurantInfoAndAllQueueInfo();
                     case "getMenus":return appShowService.getMenus();
+                    case "getMenusContainKinds":return appShowService.getMenusContainKinds();
                     default:
                         System.out.println("method-no-matching");
                 }
@@ -48,6 +48,7 @@ public class Dispatcher {
                     case "cancleQueue":return queueService.cancelQueue(data);
                     case "checkPersonQueue":return queueService.checkPersonalQueueInfo(data);
                     case "checkAllQueue" :return queueService.checkAllQueueInfo();
+                    case "checkOrder":return queueService.checkOrder(data);
                     default:
                         System.out.println("method-no-matching");
                 }

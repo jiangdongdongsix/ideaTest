@@ -2,7 +2,7 @@ package com.iqes.entity.dto;
 
  public class SimpleRestaurantInfo{
     private String name;
-    private String address;
+    private String detailAddress;
      private String openTime;
      private String endTime;
 
@@ -14,7 +14,7 @@ package com.iqes.entity.dto;
 
     public SimpleRestaurantInfo(String name,String address,String opentime,String endTime){
         this.name=name;
-        this.address=address;
+        this.detailAddress=address;
         this.openTime=opentime;
         this.endTime=endTime;
     }
@@ -43,11 +43,11 @@ package com.iqes.entity.dto;
         this.name = name;
     }
 
-    public String getAddress() {
-        return address;
-    }
+     public String getDetailAddress() {
+         return detailAddress;
+     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-}
+     public void setDetailAddress(String detailAddress) {
+         this.detailAddress = detailAddress;
+     }
+ }

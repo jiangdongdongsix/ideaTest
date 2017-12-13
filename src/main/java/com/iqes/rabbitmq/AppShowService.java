@@ -2,8 +2,10 @@ package com.iqes.rabbitmq;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.iqes.entity.Menu;
 import com.iqes.entity.TableType;
 import com.iqes.entity.dto.MenuDTO;
+import com.iqes.entity.dto.MenuWithTypeDTO;
 import com.iqes.entity.dto.SimpleRestaurantInfo;
 import com.iqes.entity.vo.WaitTimeModel;
 import com.iqes.service.queue.QueueHistoryService;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 54312
@@ -63,6 +66,13 @@ public class AppShowService {
         JSONObject jsonObject=new JSONObject();
         List<MenuDTO> menuDTOS=menuService.getMenusAvailableIsTrue();
         jsonObject.put("menus",menuDTOS);
+        return jsonObject;
+    }
+
+    public JSONObject getMenusContainKinds(){
+        JSONObject jsonObject=new JSONObject();
+        List<MenuWithTypeDTO> menuWithTypeDTOS=menuService.getMenusContainKind();
+        jsonObject.put("menus",menuWithTypeDTOS);
         return jsonObject;
     }
 }

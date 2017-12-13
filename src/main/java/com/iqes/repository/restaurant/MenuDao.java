@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Set;
 
 public interface MenuDao extends PagingAndSortingRepository<Menu,Long>,JpaSpecificationExecutor<Menu> {
 
@@ -18,4 +19,11 @@ public interface MenuDao extends PagingAndSortingRepository<Menu,Long>,JpaSpecif
     List<Menu> findAll();
 
     Menu findByMenuName(String menuName);
+
+    List<Menu> findByAvailable(boolean available);
+
+    @Query(value = "select m.menuType from Menu m")
+    Set<String> findALlKinds();
+
+    List<Menu> findByMenuType(String menuType);
 }

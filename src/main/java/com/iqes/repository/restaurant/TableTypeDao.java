@@ -1,6 +1,7 @@
 package com.iqes.repository.restaurant;
 
 import com.iqes.entity.TableType;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,7 +19,7 @@ public interface TableTypeDao extends PagingAndSortingRepository<TableType, Long
       Integer getTableCountByType(long tableTypeId);
 
       @Override
-      @Query(value = "select t from TableType t")
+      @Query(value = "select t from TableType t order by t.id")
       List<TableType> findAll();
 
 

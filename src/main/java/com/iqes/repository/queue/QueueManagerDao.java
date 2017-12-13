@@ -14,16 +14,16 @@ import java.util.Queue;
 public interface QueueManagerDao extends PagingAndSortingRepository<QueueInfo, Long>,JpaSpecificationExecutor<QueueInfo> {
 
 
-    //根据桌类型id获取同桌类型的排队顾客
+    /**根据桌类型id获取同桌类型的排队顾客 */
     @Query(value = "select * from queue_info as q where q.table_type_id = ?1 and q.queue_state='1'ORDER BY q.id",nativeQuery = true )
     List<QueueInfo> getSameTypeNumbersByTableTypeId(Long id);
 
 
-    //获取有抽号标志的排队顾客
+    /**获取有抽号标志的排队顾客*/
     @Query("select q from QueueInfo q where q.extractFlag='1'")
     List<QueueInfo> getArrivingNumbers();
 
-    //根据抽号标志和桌类型返回
+    /**根据抽号标志和桌类型返回*/
     @Query("select q from QueueInfo q where q.extractFlag='1' and q.tableType.id=?1")
     List<QueueInfo> getByExtractFlagAndAndTableType(Long tableTypeId);
 
@@ -43,7 +43,7 @@ public interface QueueManagerDao extends PagingAndSortingRepository<QueueInfo, L
     @Query("select q from QueueInfo q where q.tableNumber.id=?1")
     List<QueueInfo> getByTableNumber(Long tableNumberId);
 
-    QueueInfo getByQueueId(String queueId);
+    QueueInfo getByQueueNumber(String queueNumber);
 
     List<QueueInfo> getByTables(String tables);
 

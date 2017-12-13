@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  *  排队信息管理Dao层
  * Created by jiangdongdong.tp on 2017/2/6.
@@ -15,9 +17,9 @@ public interface QueueQueryDao extends JpaRepository<QueueInfo,Long> {
 
     //确认排队，更新排队状态和手机号
     @Modifying
-    @Query(value = "update queue_info set queue_state = ?3,customer_tel=?2 where id = ?1",nativeQuery = true)
+    @Query(value = "update queue_info set customer_name = ?4, queue_state = ?3,customer_tel=?2 where id = ?1",nativeQuery = true)
     @Transactional
-    void updateStateAndTel(long id,String tel,String state);
+    void updateStateAndTel(long id,String tel,String state,String name);
 
     //根据排队id和桌型id来获取排队人数
     @Query(value = "select count(id) from queue_info as q where q.table_type_id = ?2 and q.id<?1",nativeQuery = true)
@@ -39,5 +41,6 @@ public interface QueueQueryDao extends JpaRepository<QueueInfo,Long> {
     @Query(value = "select count(id) from queue_info as q where q.table_type_id = ?2 and q.id<?1 and q.seat_flag = false",nativeQuery = true)
     long nochooseCountById(Long id,Long tableTypeId);
 
+    List<QueueInfo> getByCustomerName(String name);
 
 }

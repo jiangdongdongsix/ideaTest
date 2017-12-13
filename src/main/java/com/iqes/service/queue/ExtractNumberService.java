@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -127,6 +128,7 @@ public class ExtractNumberService {
                     Long diffTime = TimeFormatTool.diffTime(q.getFirstExtractTime());
                     System.out.println(diffTime);
                     if (configInfo.getReserveTime() < diffTime / 60000) {
+                        q.setQueueState("3");
                         deleteNumber(q);
                     } else {
                         q.setExtractFlag("0");
@@ -147,7 +149,7 @@ public class ExtractNumberService {
      * @param queueInfo
      * @return
      */
-    private QueueInfo patternTwo(List<QueueInfo> queueInfos, ConfigInfo configInfo, TableNumber tNumber,QueueInfo queueInfo) {
+    private QueueInfo patternTwo(List<QueueInfo> queueInfos, ConfigInfo configInfo, TableNumber tNumber,QueueInfo queueInfo) throws ParseException {
         for (QueueInfo q : queueInfos) {
             if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                 if (q.getExtractCount() < configInfo.getExtractCount()) {
@@ -160,6 +162,7 @@ public class ExtractNumberService {
                         queueManagerDao.save(q);
                     }
                 } else {
+                    q.setQueueState("3");
                     deleteNumber(q);
                 }
             }
@@ -174,13 +177,14 @@ public class ExtractNumberService {
      * @param queueInfo
      * @return
      */
-    private QueueInfo patternOne(List<QueueInfo> queueInfos,TableNumber tNumber,QueueInfo queueInfo) {
+    private QueueInfo patternOne(List<QueueInfo> queueInfos,TableNumber tNumber,QueueInfo queueInfo) throws ParseException {
         for (QueueInfo q : queueInfos) {
             if ((!q.getSeatFlag()) || (tNumber.equals(q.getTableNumber()))) {
                     if ("0".equals(q.getExtractFlag())) {
                         queueInfo=extracting(q,tNumber);
                         break;
                     } else {
+                        q.setQueueState("3");
                         deleteNumber(q);
                     }
                 }
@@ -212,7 +216,7 @@ public class ExtractNumberService {
      *
      * @param q
      */
-    private void deleteNumber(QueueInfo q){
+    private void deleteNumber(QueueInfo q) throws ParseException {
         queueHistoryService.saveAndAddToCloud(q);
         System.out.println("已删除！！");
     }
@@ -223,7 +227,7 @@ public class ExtractNumberService {
      * @param queueInfoid
      * @return
      */
-    public String deleteNumberById(Long queueInfoid){
+    public String deleteNumberById(Long queueInfoid) throws ParseException {
         String res = "该号码已删除";
         QueueInfo queueInfo=queueManagerDao.getById(queueInfoid);
         if(null!= queueInfo) {
@@ -231,6 +235,7 @@ public class ExtractNumberService {
                 queueInfo.getTableNumber().setState("1");
                 tableNumberDao.save(queueInfo.getTableNumber());
             }
+            queueInfo.setQueueState("2");
             deleteNumber(queueInfo);
             res="删除成功";
         }
@@ -304,7 +309,7 @@ public class ExtractNumberService {
 
         for (int j=0;j<queueStr.length;j++){
             StringBuilder sb=new StringBuilder();
-            queueInfo=queueManagerDao.getByQueueId(queueStr[j]);
+            queueInfo=queueManagerDao.getByQueueNumber(queueStr[j]);
 
             if (queueInfo==null){
                 throw new ServiceException("没有"+queueStr[j]+"这个号呀！");

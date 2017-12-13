@@ -100,7 +100,7 @@ public class TableTypeService {
             String arrivingQueueId=null;
             if (queueInfos!=null) {
                 for (QueueInfo q:queueInfos){
-                   arrivingQueueId=q.getQueueId();
+                   arrivingQueueId=q.getQueueNumber();
                     break;
                 }
                 tableTypeDTO.setArrivingQueueInfo(arrivingQueueId);

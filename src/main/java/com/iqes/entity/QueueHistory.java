@@ -63,7 +63,7 @@ public class QueueHistory extends IdEntity{
      *
      *排队号
      * */
-    private Long queueId;
+    private String queueNumber;
     /**
      *
      *抽号次数
@@ -86,6 +86,20 @@ public class QueueHistory extends IdEntity{
      */
     private String firstExtractTime;
 
+    /**
+     * 创建时间
+     */
+
+    private String createTime;
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
     public QueueHistory(){
     }
 
@@ -94,7 +108,7 @@ public class QueueHistory extends IdEntity{
         this.customerName=queueInfo.getCustomerName();
         this.customerTel=queueInfo.getCustomerTel();
         this.eatNumber=queueInfo.getEatNumber();
-        this.queueId=queueInfo.getId();
+        this.queueNumber=queueInfo.getQueueNumber();
         this.extractCount=queueInfo.getExtractCount();
         this.queueState=queueInfo.getQueueState();
         this.extractFlag=queueInfo.getExtractFlag();
@@ -109,12 +123,12 @@ public class QueueHistory extends IdEntity{
     }
 
 
-    public Long getQueueId() {
-        return queueId;
+    public String getQueueNumber() {
+        return queueNumber;
     }
 
-    public void setQueueId(Long queueId) {
-        this.queueId = queueId;
+    public void setQueueNumber(String queueNumber) {
+        this.queueNumber = queueNumber;
     }
 
     public String getFirstExtractTime() {

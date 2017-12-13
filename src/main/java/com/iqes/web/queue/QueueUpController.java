@@ -123,7 +123,7 @@ public class QueueUpController {
                 queueInfo.setTableNumber(tableNumber);
             }
             queueInfo.setTableType(tableTypeList.get(0));
-            queueInfo.setQueueId(tableTypeList.get(0).getTableTypeName()+queueInfo.getId());
+            queueInfo.setQueueNumber(tableTypeList.get(0).getTableTypeName()+queueInfo.getId());
             queueInfo.setQueueState("0");
             queueInfo.setExtractFlag("0");
             queueInfo.setExtractCount(0);
@@ -165,7 +165,8 @@ public class QueueUpController {
                           @RequestParam(value = "tel", defaultValue = "")String tel){
         JSONObject jsonObject = new JSONObject();
         try{
-            queueQueryService.updateStateAndTel(queueId,tel,"1");
+            String tempName="unnamed";
+            queueQueryService.updateStateAndTel(queueId,tel,"1",tempName);
             QueueInfo queueInfo = queueQueryService.findById(queueId);
             WaitTimeModel waitTimeModel = calculateWaitTime(queueId,queueInfo.getTableType().getId(),queueInfo.getSeatFlag());
             waitTimeModel.setTableType(queueInfo.getTableType());
